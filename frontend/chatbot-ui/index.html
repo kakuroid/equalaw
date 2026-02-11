@@ -40,7 +40,7 @@
             <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center shrink-0 text-white font-bold text-xs shadow-md">AI</div>
             <div class="bg-white border border-slate-200 p-4 md:p-5 rounded-2xl rounded-tl-none shadow-sm text-slate-700 leading-relaxed text-sm md:text-base">
                 Hello. I am the Equalaw AI Assistant. I can help guide you through common legal processes or connect you with a professional. <br><br>
-                I see you asked: <strong class="text-slate-900">"I was in a car accident and the other driver left..."</strong> <br><br>
+                I see you asked: <strong id="user-query-display" class="text-slate-900">"I was in a car accident and the other driver left..."</strong> <br><br>
                 I can certainly help you understand the next steps for a hit-and-run incident. What would you like to focus on first?
             </div>
         </div>
@@ -89,6 +89,17 @@
              <p class="text-[10px] md:text-[11px] text-slate-400">Equalaw AI can make mistakes. Consider verifying critical information.</p>
         </div>
     </footer>
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check the URL for the "?query=" parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const userQuery = urlParams.get('query');
 
+            // If a query exists, inject it into our designated span
+            if (userQuery) {
+                document.getElementById('user-query-display').textContent = `"${userQuery}"`;
+            }
+        });
+    </script>
 </body>
 </html>
