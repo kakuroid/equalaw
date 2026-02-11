@@ -29,7 +29,7 @@
         </div>
     </header>
 
-    <main class="flex-1 overflow-y-auto p-4 md:p-6 flex flex-col gap-5 max-w-4xl mx-auto w-full pb-8">
+    <main id="chat-container" class="flex-1 overflow-y-auto p-4 md:p-6 flex flex-col gap-5 max-w-4xl mx-auto w-full pb-8">
         
         <div class="bg-amber-50 border border-amber-200 text-amber-800 text-xs md:text-sm p-4 rounded-xl flex items-start gap-3 mb-2 shadow-sm" role="alert">
             <svg class="w-5 h-5 shrink-0 mt-0.5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -45,29 +45,21 @@
             </div>
         </div>
 
-        <div id="quick-replies-container" class="flex flex-wrap gap-2 ml-11 mt-1">
+        <div id="quick-replies-container" class="flex flex-wrap gap-2 ml-11 mt-1 transition-all duration-300">
             </div>
-        </div>
 
-        <div class="flex flex-wrap gap-2 ml-11 mt-1">
-            <button class="bg-white border border-blue-200 text-blue-700 hover:bg-blue-50 hover:border-blue-300 px-4 py-2 rounded-full text-sm font-medium transition shadow-sm">Understand my rights</button>
-            <button class="bg-white border border-blue-200 text-blue-700 hover:bg-blue-50 hover:border-blue-300 px-4 py-2 rounded-full text-sm font-medium transition shadow-sm">Get an accident report template</button>
-            <button class="bg-blue-600 text-white hover:bg-blue-700 px-4 py-2 rounded-full text-sm font-medium transition shadow-sm">Talk to a lawyer</button>
-        </div>
-
-        <div class="flex gap-3 max-w-[90%] md:max-w-[80%] self-end flex-row-reverse mt-6">
+        <div id="user-response-block" class="hidden flex gap-3 max-w-[90%] md:max-w-[80%] self-end flex-row-reverse mt-2 transition-all duration-300">
             <div class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center shrink-0 text-slate-500 shadow-inner">
                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
             </div>
-            <div class="bg-slate-800 text-white p-4 rounded-2xl rounded-tr-none shadow-md leading-relaxed text-sm md:text-base">
-                Talk to a lawyer
-            </div>
+            <div id="simulated-user-text" class="bg-slate-800 text-white p-4 rounded-2xl rounded-tr-none shadow-md leading-relaxed text-sm md:text-base">
+                </div>
         </div>
 
-        <div class="flex gap-3 max-w-[90%] md:max-w-[80%] mt-2">
+        <div id="lead-capture-block" class="hidden flex gap-3 max-w-[90%] md:max-w-[80%] mt-2 transition-all duration-300">
             <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center shrink-0 text-white font-bold text-xs shadow-md">AI</div>
             <div class="bg-white border border-slate-200 p-5 rounded-2xl rounded-tl-none shadow-sm text-slate-700 w-full">
-                <p class="mb-4 text-sm md:text-base">Connecting you with a legal professional is the best next step. To securely save our conversation and have an attorney review your case, please provide your email.</p>
+                <p class="mb-4 text-sm md:text-base">Connecting you with a legal professional is the best next step for that. To securely save our conversation and have an attorney review your case, please provide your email.</p>
                 
                 <form class="flex flex-col gap-3">
                     <input type="email" placeholder="Enter your email address" required class="w-full bg-slate-50 border border-slate-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white transition text-sm md:text-base" />
@@ -85,7 +77,7 @@
     <footer class="bg-white border-t border-slate-200 p-3 md:p-4 shrink-0 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
         <div class="max-w-4xl mx-auto flex items-end gap-2 bg-slate-50 border border-slate-300 rounded-2xl p-1.5 focus-within:ring-2 focus-within:ring-blue-500 focus-within:bg-white transition-all shadow-inner">
             <textarea rows="1" placeholder="Type your message here..." class="w-full bg-transparent border-none outline-none resize-none px-4 py-3 text-slate-700 max-h-32 text-sm md:text-base" style="min-height: 48px;" aria-label="Chat input"></textarea>
-            <button class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-xl shrink-0 transition-colors shadow-sm" aria-label="Send message">
+            <button class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-xl shrink-0 transition-colors shadow-sm">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
             </button>
         </div>
@@ -93,7 +85,8 @@
              <p class="text-[10px] md:text-[11px] text-slate-400">Equalaw AI can make mistakes. Consider verifying critical information.</p>
         </div>
     </footer>
-<script>
+
+    <script>
         document.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
             const userQuery = urlParams.get('query');
@@ -101,47 +94,60 @@
             const queryDisplay = document.getElementById('user-query-display');
             const followUpText = document.getElementById('ai-follow-up');
             const repliesContainer = document.getElementById('quick-replies-container');
+            
+            // Elements to reveal later
+            const userResponseBlock = document.getElementById('user-response-block');
+            const simulatedUserText = document.getElementById('simulated-user-text');
+            const leadCaptureBlock = document.getElementById('lead-capture-block');
+            const chatContainer = document.getElementById('chat-container');
 
             if (userQuery) {
-                // 1. Display the user's query
                 queryDisplay.textContent = `"${userQuery}"`;
-
-                // 2. Dynamic Contextual Logic (Keyword Matching)
                 const lowerQuery = userQuery.toLowerCase();
                 let suggestions = [];
 
                 if (lowerQuery.includes('accident') || lowerQuery.includes('car') || lowerQuery.includes('crash')) {
                     followUpText.textContent = "I can help you understand the next steps for a vehicle incident. What is your priority right now?";
                     suggestions = ["Understand fault and liability", "Insurance claim steps", "Talk to a traffic lawyer"];
-                } 
-                else if (lowerQuery.includes('business') || lowerQuery.includes('llc') || lowerQuery.includes('company')) {
+                } else if (lowerQuery.includes('business') || lowerQuery.includes('llc') || lowerQuery.includes('company')) {
                     followUpText.textContent = "Starting or managing a business involves specific legal steps. How can I assist you with your company?";
                     suggestions = ["Steps to form an LLC", "Contract templates", "Talk to a business lawyer"];
-                } 
-                else if (lowerQuery.includes('divorce') || lowerQuery.includes('child') || lowerQuery.includes('family')) {
+                } else if (lowerQuery.includes('divorce') || lowerQuery.includes('child') || lowerQuery.includes('family')) {
                     followUpText.textContent = "Family law matters can be highly sensitive. I am here to guide you. What information do you need?";
                     suggestions = ["Understand custody rights", "Filing for separation", "Talk to a family lawyer"];
-                } 
-                else {
-                    // Default fallback for any other queries
+                } else {
                     followUpText.textContent = "I can certainly help you understand the next steps. What would you like to focus on first?";
                     suggestions = ["Understand my legal rights", "What are my next steps?", "Talk to a lawyer"];
                 }
 
-                // 3. Inject the dynamic buttons into the HTML
-                repliesContainer.innerHTML = ''; // Clear out any existing buttons
+                repliesContainer.innerHTML = ''; 
                 
                 suggestions.forEach(suggestion => {
                     const btn = document.createElement('button');
-                    
-                    // Make the "Talk to a lawyer" button stand out visually (Primary action)
                     if (suggestion.includes('lawyer')) {
                         btn.className = "bg-blue-600 text-white hover:bg-blue-700 px-4 py-2 rounded-full text-sm font-medium transition shadow-sm";
                     } else {
                         btn.className = "bg-white border border-blue-200 text-blue-700 hover:bg-blue-50 hover:border-blue-300 px-4 py-2 rounded-full text-sm font-medium transition shadow-sm";
                     }
-                    
                     btn.textContent = suggestion;
+                    
+                    // --- THE NEW CLICK EVENT ---
+                    btn.addEventListener('click', () => {
+                        // 1. Hide the buttons
+                        repliesContainer.classList.add('hidden');
+                        
+                        // 2. Show what the user clicked
+                        simulatedUserText.textContent = suggestion;
+                        userResponseBlock.classList.remove('hidden');
+                        
+                        // 3. Wait half a second for realism, then show the email capture form
+                        setTimeout(() => {
+                            leadCaptureBlock.classList.remove('hidden');
+                            // Scroll to the bottom automatically
+                            chatContainer.scrollTo({ top: chatContainer.scrollHeight, behavior: 'smooth' });
+                        }, 600);
+                    });
+
                     repliesContainer.appendChild(btn);
                 });
             }
