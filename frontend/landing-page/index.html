@@ -45,26 +45,26 @@
             const inputField = document.getElementById('legal-query');
             const helpButton = document.getElementById('get-help-btn');
 
+            // --- FIX 1: THE FRESH START ---
+            // The 'pageshow' event fires even when the user clicks the browser Back button
+            window.addEventListener('pageshow', () => {
+                inputField.value = ''; // Force the input box to empty
+            });
+
             function submitQuery() {
                 const query = inputField.value.trim();
                 
                 if (query !== "") {
-                    // encodeURIComponent ensures spaces and symbols are safe for URLs
                     window.location.href = '../chatbot-ui/index.html?query=' + encodeURIComponent(query);
                 } else {
-                    // If they type nothing, just send them to the chat anyway
                     window.location.href = '../chatbot-ui/index.html';
                 }
             }
 
-            // Trigger when the button is clicked
             helpButton.addEventListener('click', submitQuery);
-            
-            // Trigger when the user presses "Enter" on their keyboard
             inputField.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') submitQuery();
             });
         });
-    </script>
-</body>
+    </script></body>
 </html>
