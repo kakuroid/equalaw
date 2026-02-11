@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Equalaw | AI Legal Assistant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 flex flex-col h-screen antialiased font-sans">
+
+    <header class="bg-white border-b border-slate-200 px-4 py-3 flex justify-between items-center shrink-0 z-10 shadow-sm">
+        <div class="flex items-center gap-3">
+            <a href="../landing-page/index.html" class="text-slate-400 hover:text-slate-800 transition" aria-label="Go back">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            </a>
+            <div class="text-lg md:text-xl font-bold tracking-tighter text-slate-900 flex items-center">
+                ⚖️ EQUALAW 
+                <span class="ml-2 text-[10px] md:text-xs font-semibold text-blue-700 bg-blue-100 px-2 py-1 rounded-full uppercase tracking-wide">AI Assistant</span>
+            </div>
+        </div>
+        
+        <div class="flex items-center">
+            <select class="bg-slate-100 hover:bg-slate-200 transition border-none text-slate-700 text-sm rounded-lg focus:ring-2 focus:ring-blue-500 cursor-pointer py-1.5 pl-3 pr-8 appearance-none font-medium" aria-label="Select Language">
+                <option value="en">🇺🇸 English</option>
+                <option value="es">🇪🇸 Español</option>
+                <option value="fr">🇫🇷 Français</option>
+                <option value="hi">🇮🇳 हिन्दी</option>
+            </select>
+        </div>
+    </header>
+
+    <main class="flex-1 overflow-y-auto p-4 md:p-6 flex flex-col gap-5 max-w-4xl mx-auto w-full pb-8">
+        
+        <div class="bg-amber-50 border border-amber-200 text-amber-800 text-xs md:text-sm p-4 rounded-xl flex items-start gap-3 mb-2 shadow-sm" role="alert">
+            <svg class="w-5 h-5 shrink-0 mt-0.5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <p><strong>Disclaimer:</strong> I am an AI, not a lawyer. This information is for educational purposes and does not constitute official legal advice. You will be given the option to connect with a verified attorney.</p>
+        </div>
+
+        <div class="flex gap-3 max-w-[90%] md:max-w-[80%]">
+            <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center shrink-0 text-white font-bold text-xs shadow-md">AI</div>
+            <div class="bg-white border border-slate-200 p-4 md:p-5 rounded-2xl rounded-tl-none shadow-sm text-slate-700 leading-relaxed text-sm md:text-base">
+                Hello. I am the Equalaw AI Assistant. I can help guide you through common legal processes or connect you with a professional. <br><br>
+                I see you asked: <strong class="text-slate-900">"I was in a car accident and the other driver left..."</strong> <br><br>
+                I can certainly help you understand the next steps for a hit-and-run incident. What would you like to focus on first?
+            </div>
+        </div>
+
+        <div class="flex flex-wrap gap-2 ml-11 mt-1">
+            <button class="bg-white border border-blue-200 text-blue-700 hover:bg-blue-50 hover:border-blue-300 px-4 py-2 rounded-full text-sm font-medium transition shadow-sm">Understand my rights</button>
+            <button class="bg-white border border-blue-200 text-blue-700 hover:bg-blue-50 hover:border-blue-300 px-4 py-2 rounded-full text-sm font-medium transition shadow-sm">Get an accident report template</button>
+            <button class="bg-blue-600 text-white hover:bg-blue-700 px-4 py-2 rounded-full text-sm font-medium transition shadow-sm">Talk to a lawyer</button>
+        </div>
+
+        <div class="flex gap-3 max-w-[90%] md:max-w-[80%] self-end flex-row-reverse mt-6">
+            <div class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center shrink-0 text-slate-500 shadow-inner">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
+            </div>
+            <div class="bg-slate-800 text-white p-4 rounded-2xl rounded-tr-none shadow-md leading-relaxed text-sm md:text-base">
+                Talk to a lawyer
+            </div>
+        </div>
+
+        <div class="flex gap-3 max-w-[90%] md:max-w-[80%] mt-2">
+            <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center shrink-0 text-white font-bold text-xs shadow-md">AI</div>
+            <div class="bg-white border border-slate-200 p-5 rounded-2xl rounded-tl-none shadow-sm text-slate-700 w-full">
+                <p class="mb-4 text-sm md:text-base">Connecting you with a legal professional is the best next step. To securely save our conversation and have an attorney review your case, please provide your email.</p>
+                
+                <form class="flex flex-col gap-3">
+                    <input type="email" placeholder="Enter your email address" required class="w-full bg-slate-50 border border-slate-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white transition text-sm md:text-base" />
+                    <button type="button" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold py-3 rounded-lg transition shadow-md flex justify-center items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                        Secure My Case
+                    </button>
+                </form>
+                <p class="text-[11px] text-slate-400 mt-3 text-center leading-tight">Your data is encrypted and strictly protected under our client confidentiality policy.</p>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="bg-white border-t border-slate-200 p-3 md:p-4 shrink-0 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+        <div class="max-w-4xl mx-auto flex items-end gap-2 bg-slate-50 border border-slate-300 rounded-2xl p-1.5 focus-within:ring-2 focus-within:ring-blue-500 focus-within:bg-white transition-all shadow-inner">
+            <textarea rows="1" placeholder="Type your message here..." class="w-full bg-transparent border-none outline-none resize-none px-4 py-3 text-slate-700 max-h-32 text-sm md:text-base" style="min-height: 48px;" aria-label="Chat input"></textarea>
+            <button class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-xl shrink-0 transition-colors shadow-sm" aria-label="Send message">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+            </button>
+        </div>
+        <div class="text-center mt-2 pb-1">
+             <p class="text-[10px] md:text-[11px] text-slate-400">Equalaw AI can make mistakes. Consider verifying critical information.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
