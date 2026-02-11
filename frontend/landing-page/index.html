@@ -24,11 +24,12 @@
 
         <div class="w-full max-w-3xl bg-white p-2 rounded-full shadow-lg flex flex-col md:flex-row items-center border border-slate-200 focus-within:ring-2 focus-within:ring-blue-500 transition-all">
             <input 
+                id="legal-query"
                 type="text" 
                 placeholder="e.g., I was in a car accident and the other driver left..." 
                 class="flex-grow w-full py-4 px-6 rounded-full md:rounded-l-full outline-none text-slate-700 bg-transparent text-lg" 
             />
-            <button class="w-full md:w-auto mt-2 md:mt-0 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-8 rounded-full transition-colors whitespace-nowrap text-lg">
+            <button id="get-help-btn" class="w-full md:w-auto mt-2 md:mt-0 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-8 rounded-full transition-colors whitespace-nowrap text-lg">
                 Get Help Now
             </button>
         </div>
@@ -39,5 +40,31 @@
         </p>
     </main>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const inputField = document.getElementById('legal-query');
+            const helpButton = document.getElementById('get-help-btn');
+
+            function submitQuery() {
+                const query = inputField.value.trim();
+                
+                if (query !== "") {
+                    // encodeURIComponent ensures spaces and symbols are safe for URLs
+                    window.location.href = '../chatbot-ui/index.html?query=' + encodeURIComponent(query);
+                } else {
+                    // If they type nothing, just send them to the chat anyway
+                    window.location.href = '../chatbot-ui/index.html';
+                }
+            }
+
+            // Trigger when the button is clicked
+            helpButton.addEventListener('click', submitQuery);
+            
+            // Trigger when the user presses "Enter" on their keyboard
+            inputField.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') submitQuery();
+            });
+        });
+    </script>
 </body>
 </html>
