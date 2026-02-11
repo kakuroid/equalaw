@@ -40,8 +40,12 @@
             <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center shrink-0 text-white font-bold text-xs shadow-md">AI</div>
             <div class="bg-white border border-slate-200 p-4 md:p-5 rounded-2xl rounded-tl-none shadow-sm text-slate-700 leading-relaxed text-sm md:text-base">
                 Hello. I am the Equalaw AI Assistant. I can help guide you through common legal processes or connect you with a professional. <br><br>
-                I see you asked: <strong id="user-query-display" class="text-slate-900">"I was in a car accident and the other driver left..."</strong> <br><br>
-                I can certainly help you understand the next steps for a hit-and-run incident. What would you like to focus on first?
+                I see you asked: <strong id="user-query-display" class="text-slate-900">""</strong> <br><br>
+                <span id="ai-follow-up">I can certainly help you understand the next steps. What would you like to focus on first?</span>
+            </div>
+        </div>
+
+        <div id="quick-replies-container" class="flex flex-wrap gap-2 ml-11 mt-1">
             </div>
         </div>
 
@@ -91,13 +95,55 @@
     </footer>
 <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Check the URL for the "?query=" parameter
             const urlParams = new URLSearchParams(window.location.search);
             const userQuery = urlParams.get('query');
 
-            // If a query exists, inject it into our designated span
+            const queryDisplay = document.getElementById('user-query-display');
+            const followUpText = document.getElementById('ai-follow-up');
+            const repliesContainer = document.getElementById('quick-replies-container');
+
             if (userQuery) {
-                document.getElementById('user-query-display').textContent = `"${userQuery}"`;
+                // 1. Display the user's query
+                queryDisplay.textContent = `"${userQuery}"`;
+
+                // 2. Dynamic Contextual Logic (Keyword Matching)
+                const lowerQuery = userQuery.toLowerCase();
+                let suggestions = [];
+
+                if (lowerQuery.includes('accident') || lowerQuery.includes('car') || lowerQuery.includes('crash')) {
+                    followUpText.textContent = "I can help you understand the next steps for a vehicle incident. What is your priority right now?";
+                    suggestions = ["Understand fault and liability", "Insurance claim steps", "Talk to a traffic lawyer"];
+                } 
+                else if (lowerQuery.includes('business') || lowerQuery.includes('llc') || lowerQuery.includes('company')) {
+                    followUpText.textContent = "Starting or managing a business involves specific legal steps. How can I assist you with your company?";
+                    suggestions = ["Steps to form an LLC", "Contract templates", "Talk to a business lawyer"];
+                } 
+                else if (lowerQuery.includes('divorce') || lowerQuery.includes('child') || lowerQuery.includes('family')) {
+                    followUpText.textContent = "Family law matters can be highly sensitive. I am here to guide you. What information do you need?";
+                    suggestions = ["Understand custody rights", "Filing for separation", "Talk to a family lawyer"];
+                } 
+                else {
+                    // Default fallback for any other queries
+                    followUpText.textContent = "I can certainly help you understand the next steps. What would you like to focus on first?";
+                    suggestions = ["Understand my legal rights", "What are my next steps?", "Talk to a lawyer"];
+                }
+
+                // 3. Inject the dynamic buttons into the HTML
+                repliesContainer.innerHTML = ''; // Clear out any existing buttons
+                
+                suggestions.forEach(suggestion => {
+                    const btn = document.createElement('button');
+                    
+                    // Make the "Talk to a lawyer" button stand out visually (Primary action)
+                    if (suggestion.includes('lawyer')) {
+                        btn.className = "bg-blue-600 text-white hover:bg-blue-700 px-4 py-2 rounded-full text-sm font-medium transition shadow-sm";
+                    } else {
+                        btn.className = "bg-white border border-blue-200 text-blue-700 hover:bg-blue-50 hover:border-blue-300 px-4 py-2 rounded-full text-sm font-medium transition shadow-sm";
+                    }
+                    
+                    btn.textContent = suggestion;
+                    repliesContainer.appendChild(btn);
+                });
             }
         });
     </script>
