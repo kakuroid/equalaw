@@ -11,7 +11,14 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+                        sans: ['Outfit', 'system-ui', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff', 100: '#e0efff', 200: '#badbff',
+                            300: '#7cc0ff', 400: '#389fff', 500: '#007bff',
+                            600: '#0061cc', 700: '#004da3', 800: '#004185', 900: '#00376e',
+                        }
                     }
                 }
             }
@@ -20,166 +27,172 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Outfit', sans-serif; }
-        .hero-gradient { background: linear-gradient(135deg, #f0f4f8 0%, #e1e8ed 100%); }
-        .text-gradient {
-            background: linear-gradient(90deg, #2563eb, #3b82f6);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
+
+        /* Morphing text animation */
+        .morph-line {
+            display: inline-block;
+            overflow: hidden;
+            position: relative;
         }
-        .btn-hover-fx { transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
-        .btn-hover-fx:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 20px 30px -10px rgba(37, 99, 235, 0.4); }
+        .morph-text {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(100%);
+            animation: morphIn 0.6s ease forwards;
+        }
+        .morph-text.exit {
+            animation: morphOut 0.4s ease forwards;
+        }
+        @keyframes morphIn {
+            0%   { opacity: 0; transform: translateY(100%); filter: blur(4px); }
+            100% { opacity: 1; transform: translateY(0);    filter: blur(0); }
+        }
+        @keyframes morphOut {
+            0%   { opacity: 1; transform: translateY(0);    filter: blur(0); }
+            100% { opacity: 0; transform: translateY(-100%); filter: blur(4px); }
+        }
+
         .glass-card {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
         }
+
+        .pulse-ring {
+            animation: pulseRing 2s ease-out infinite;
+        }
+        @keyframes pulseRing {
+            0%   { transform: scale(1); opacity: 0.6; }
+            100% { transform: scale(2.5); opacity: 0; }
+        }
+
+        /* Prevent any scroll — single screen funnel */
+        html, body { overflow: hidden; height: 100%; }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col">
-    
-    <nav class="p-6 md:p-8 flex justify-between items-center max-w-7xl w-full mx-auto shrink-0 relative z-10">
-        <div class="text-2xl font-extrabold tracking-tight text-blue-600">Equalaw</div>
-        <div class="hidden md:flex items-center gap-8 text-slate-500 font-medium">
-            <a href="#services" class="hover:text-slate-900 transition font-semibold">Services</a>
-            <a href="#about" class="hover:text-slate-900 transition font-semibold">About</a>
-            <a href="#contact" class="hover:text-slate-900 transition font-semibold">Contact</a>
+<body class="bg-slate-50 text-slate-800 antialiased h-screen flex flex-col">
+
+    <!-- Subtle background -->
+    <div class="fixed inset-0 pointer-events-none z-0">
+        <div class="absolute inset-0" style="background: radial-gradient(ellipse at 50% 30%, rgba(0,123,255,0.08) 0%, transparent 60%);"></div>
+        <div class="absolute bottom-0 left-0 right-0 h-1/2" style="background: radial-gradient(ellipse at 50% 100%, rgba(0,123,255,0.04) 0%, transparent 50%);"></div>
+    </div>
+
+    <!-- Minimal header — NO nav links, no escape routes -->
+    <header class="relative z-10 p-5 md:p-6 flex justify-between items-center max-w-5xl w-full mx-auto shrink-0">
+        <div class="text-xl font-extrabold tracking-tight text-brand-600">Equalaw</div>
+        <div class="flex items-center gap-2 text-xs font-bold text-slate-400 uppercase tracking-widest">
+            <span class="relative flex h-2 w-2">
+                <span class="pulse-ring absolute inline-flex h-full w-full rounded-full bg-green-400"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+            </span>
+            AI Active
         </div>
-    </nav>
+    </header>
 
-    <main class="flex-grow flex flex-col items-center justify-center text-center px-4 w-full relative z-10 -mt-10 md:mt-0">
-        <div class="absolute inset-0 z-[-1] pointer-events-none" style="background: radial-gradient(circle at center, rgba(59, 130, 246, 0.1) 0%, transparent 60%);"></div>
-        <div class="absolute top-0 left-0 right-0 h-full w-full pointer-events-none opacity-40 mix-blend-multiply filter blur-[100px] bg-gradient-to-br from-blue-100 via-transparent to-blue-50"></div>
+    <!-- Hero — single-purpose: morph text + search bar -->
+    <main class="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-4 -mt-6">
 
-        <h1 class="text-5xl md:text-7xl lg:text-[5rem] font-extrabold text-slate-900 mb-4 tracking-tight leading-[1.1] max-w-4xl">
-            Understand your legal <br/>
-            options. <br class="md:hidden"/>
-            <span class="text-blue-600">Without the jargon.</span>
-        </h1>
-        
-        <p class="text-lg md:text-xl text-slate-500 mb-12 max-w-2xl leading-relaxed mt-4 font-medium px-4">
-            Describe your problem in your own words. Our AI assistant will guide you through your fundamental rights and next steps for free.
+        <!-- Morphing multilingual headline -->
+        <div class="mb-3">
+            <h1 id="morph-container" class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-tight max-w-4xl mx-auto min-h-[3.5em] sm:min-h-[3em] flex items-center justify-center">
+                <span id="morph-target" class="morph-line"></span>
+            </h1>
+        </div>
+
+        <!-- Static subtitle -->
+        <p class="text-base sm:text-lg md:text-xl text-slate-500 mb-8 md:mb-10 max-w-2xl leading-relaxed font-medium px-4">
+            Describe your situation to our AI assistant and get clear, actionable next steps in seconds.
+            <span class="text-slate-900 font-semibold">No appointments. No high fees.</span>
         </p>
 
-        <form id="inquiry-form" class="w-full max-w-3xl glass-card p-2 rounded-2xl md:rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.08)] flex flex-col md:flex-row items-center border border-white focus-within:ring-4 focus-within:ring-blue-500/20 transition-all relative z-20">
-            <input 
+        <!-- Search bar — the ONE action -->
+        <form id="inquiry-form" class="w-full max-w-2xl glass-card p-2 rounded-2xl md:rounded-full shadow-[0_8px_40px_rgb(0,0,0,0.08)] flex flex-col md:flex-row items-center border border-white/60 focus-within:ring-4 focus-within:ring-brand-400/20 focus-within:border-brand-300 transition-all">
+            <input
                 id="legal-query"
-                type="text" 
-                placeholder="I need help with a contract dispute..." 
-                class="flex-grow w-full py-4 px-6 rounded-t-xl md:rounded-l-full outline-none text-slate-800 bg-transparent text-lg md:text-xl font-medium placeholder-slate-400" 
+                type="text"
+                placeholder="My landlord is refusing to return my deposit..."
+                class="flex-grow w-full py-4 px-5 md:px-6 rounded-xl md:rounded-l-full outline-none text-slate-800 bg-transparent text-base md:text-lg font-medium placeholder-slate-400"
                 required
+                autocomplete="off"
             />
-            <button type="submit" class="w-full md:w-auto mt-2 md:mt-0 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 md:py-3.5 px-8 md:px-10 rounded-xl md:rounded-full transition-all flex items-center justify-center gap-2 whitespace-nowrap text-lg shadow-lg hover:shadow-blue-600/30 btn-hover-fx">
-                Get Guidance
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+            <button type="submit" class="w-full md:w-auto mt-2 md:mt-0 bg-brand-600 hover:bg-brand-700 active:scale-[0.98] text-white font-bold py-3.5 md:py-3.5 px-8 md:px-10 rounded-xl md:rounded-full transition-all flex items-center justify-center gap-2 whitespace-nowrap text-base md:text-lg shadow-lg hover:shadow-brand-500/30">
+                Get Free Guidance
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
             </button>
         </form>
-        
-        <div class="flex items-center gap-6 mt-10">
-            <p class="text-sm font-medium text-slate-500 flex items-center gap-2 bg-white/50 px-4 py-2 rounded-full border border-slate-200">
-                <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                100% Free Analysis
-            </p>
-            <p class="text-sm font-medium text-slate-500 flex items-center gap-2 bg-white/50 px-4 py-2 rounded-full border border-slate-200">
-                <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-                Secure & Private
-            </p>
+
+        <!-- Trust signals -->
+        <div class="flex flex-wrap items-center justify-center gap-4 mt-8">
+            <span class="text-xs font-semibold text-slate-400 flex items-center gap-1.5 bg-white/60 px-3 py-1.5 rounded-full border border-slate-200/60">
+                <svg class="w-3.5 h-3.5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                100% Free
+            </span>
+            <span class="text-xs font-semibold text-slate-400 flex items-center gap-1.5 bg-white/60 px-3 py-1.5 rounded-full border border-slate-200/60">
+                <svg class="w-3.5 h-3.5 text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                Private & Secure
+            </span>
+            <span class="text-xs font-semibold text-slate-400 flex items-center gap-1.5 bg-white/60 px-3 py-1.5 rounded-full border border-slate-200/60">
+                <svg class="w-3.5 h-3.5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                Instant Results
+            </span>
         </div>
     </main>
 
-    <section id="services" class="w-full max-w-7xl mx-auto px-6 py-20 mt-10 relative z-10">
-        <div class="text-center mb-12">
-            <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4 tracking-tight">Our Focus Areas</h2>
-            <p class="text-lg text-slate-500 max-w-2xl mx-auto font-medium">We provide AI-driven preliminary legal guidance securely across various common domains.</p>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 hover:shadow-lg hover:-translate-y-1 transition duration-300">
-                <div class="w-14 h-14 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-6 shadow-sm border border-blue-100">
-                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
-                </div>
-                <h3 class="text-xl font-bold text-slate-900 mb-3">Family Law</h3>
-                <p class="text-slate-500 leading-relaxed font-medium">Divorce, custody, and family dispute guidance focusing on de-escalation, asset protection, and clarity.</p>
-            </div>
-            <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 hover:shadow-lg hover:-translate-y-1 transition duration-300">
-                <div class="w-14 h-14 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-6 shadow-sm border border-blue-100">
-                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                </div>
-                <h3 class="text-xl font-bold text-slate-900 mb-3">Personal Injury</h3>
-                <p class="text-slate-500 leading-relaxed font-medium">Step-by-step action plans for auto accidents, medical incidents, evidence gathering, and negligence claims.</p>
-            </div>
-            <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 hover:shadow-lg hover:-translate-y-1 transition duration-300">
-                <div class="w-14 h-14 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-6 shadow-sm border border-blue-100">
-                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
-                </div>
-                <h3 class="text-xl font-bold text-slate-900 mb-3">Business Logic</h3>
-                <p class="text-slate-500 leading-relaxed font-medium">LLC formation checklists, contract interpretation, and sole proprietorship transition steps.</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="about" class="w-full max-w-7xl mx-auto px-6 py-20 mt-12 bg-white rounded-3xl shadow-[0_4px_20px_rgb(0,0,0,0.04)] border border-slate-100 mb-16 relative z-10 overflow-hidden">
-        <div class="absolute -top-24 -right-24 w-96 h-96 bg-blue-50 rounded-full blur-3xl opacity-50 pointer-events-none"></div>
-        <div class="text-center max-w-4xl mx-auto relative z-10">
-            <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6 tracking-tight">Access to Justice, Simplified.</h2>
-            <p class="text-lg md:text-xl text-slate-600 leading-relaxed mb-6 font-medium">
-                Equalaw was founded on the principle that basic legal understanding shouldn't cost hundreds of dollars an hour. 
-                By leveraging advanced AI models instructed on structural law, we translate complex legal situations into highly actionable, simple steps.
-            </p>
-            <p class="text-lg md:text-xl text-slate-600 leading-relaxed font-medium">
-                While we aren't a traditional law firm, we act as your first responder—helping you gather evidence, understand liabilities, and connect seamlessly with real attorneys when the stakes are high and representation is necessary.
-            </p>
-        </div>
-    </section>
-
-    <footer id="contact" class="w-full bg-slate-900 border-t border-slate-800 pt-16 pb-8 mt-12 text-slate-400 relative z-10">
-        <div class="max-w-7xl mx-auto px-6 md:px-8 grid grid-cols-1 md:grid-cols-12 gap-12">
-            <div class="col-span-1 md:col-span-4">
-                <h2 class="text-2xl font-bold text-white mb-4">Equalaw</h2>
-                <p class="text-sm leading-relaxed max-w-xs">Transforming access to justice through intuitive digital platforms.</p>
-            </div>
-            
-            <div class="col-span-1 md:col-span-3">
-                <h3 class="text-sm font-semibold text-white tracking-wider uppercase mb-4">Contact</h3>
-                <ul class="space-y-3">
-                    <li class="flex items-center gap-3 text-sm">
-                        <svg class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                        support@equalaw.tech
-                    </li>
-                    <li class="flex items-center gap-3 text-sm">
-                        <svg class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                        San Francisco, CA
-                    </li>
-                </ul>
-            </div>
-            
-            <div class="col-span-1 md:col-span-5">
-                <h3 class="text-sm font-semibold text-white tracking-wider uppercase mb-4">Legal Disclaimer</h3>
-                <p class="text-xs text-slate-400 leading-relaxed text-left">
-                    Equalaw is a technology platform, not a law firm. The information provided by our AI assistant does not constitute legal advice. By using this service, you agree to our Terms of Service and Privacy Policy. Always consult with a qualified attorney for formal legal counsel tailored to your specific situation.
-                </p>
-            </div>
-        </div>
-        
-        <div class="mt-16 pt-8 border-t border-slate-800 text-center text-xs text-slate-500">
-            &copy; 2026 Equalaw Technologies. All rights reserved.
-        </div>
+    <!-- Minimal footer — no links, no escape -->
+    <footer class="relative z-10 text-center py-4 text-[10px] text-slate-400 font-medium shrink-0">
+        Equalaw is a technology platform, not a law firm. Information provided does not constitute legal advice.
     </footer>
 
     <script>
-        // "Fresh Start" Logic: Clear input on page load/back navigation
-        window.addEventListener('pageshow', (event) => {
-            const inputField = document.getElementById('legal-query');
-            if (inputField) {
-                inputField.value = '';
-            }
-        });
+        // --- Multilingual morphing headlines ---
+        const headlines = [
+            "Free, Instant Legal Guidance\nat Your Fingertips",
+            "मुफ़्त, तुरंत कानूनी मार्गदर्शन\nआपकी उंगलियों पर",
+            "বিনামূল্যে, তাৎক্ষণিক আইনি পরামর্শ\nআপনার নখদর্পণে",
+            "ఉచిత, తక్షణ న్యాయ సలహా\nమీ చేతివేళ్ల కొనన",
+            "मोफत, त्वरित कायदेशीर मार्गदर्शन\nतुमच्या बोटांच्या टोकावर",
+            "இலவச, உடனடி சட்ட ஆலோசனை\nஉங்கள் விரல் நுனியில்",
+            "મફત, તાત્કાલિક કાનૂની માર્ગદર્શન\nતમારી આંગળીના ટેરવે",
+            "ಉಚಿತ, ತ್ವರಿತ ಕಾನೂನು ಮಾರ್ಗದರ್ಶನ\nನಿಮ್ಮ ಬೆರಳ ತುದಿಯಲ್ಲಿ",
+            "സൗജന്യ, തൽക്ഷണ നിയമ ഉപദേശം\nനിങ്ങളുടെ വിരൽത്തുമ്പിൽ",
+            "ମାଗଣା, ତୁରନ୍ତ ଆଇନ ମାର୍ଗଦର୍ଶନ\nଆପଣଙ୍କ ଆଙ୍ଗୁଠି ଡଗରେ",
+            "ਮੁਫ਼ਤ, ਤੁਰੰਤ ਕਾਨੂੰਨੀ ਮਾਰਗਦਰਸ਼ਨ\nਤੁਹਾਡੀਆਂ ਉਂਗਲਾਂ 'ਤੇ"
+        ];
 
-        // Form submission logic to route to chatbot page directly via query parameters
+        let currentIdx = 0;
+        const target = document.getElementById('morph-target');
+
+        function setHeadline(text) {
+            // Replace \n with <br> for two-line display
+            target.innerHTML = text.replace(/\n/g, '<br>');
+            target.classList.remove('exit');
+            target.classList.remove('morph-text');
+            void target.offsetWidth; // force reflow
+            target.classList.add('morph-text');
+        }
+
+        function cycleHeadline() {
+            // Exit current
+            target.classList.add('exit');
+            target.classList.remove('morph-text');
+
+            setTimeout(() => {
+                currentIdx = (currentIdx + 1) % headlines.length;
+                setHeadline(headlines[currentIdx]);
+            }, 400);
+        }
+
+        // Initial
+        setHeadline(headlines[0]);
+        setInterval(cycleHeadline, 3000);
+
+        // --- Form submission ---
         document.getElementById('inquiry-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            const query = encodeURIComponent(document.getElementById('legal-query').value);
-            window.location.href = 'chatbot.html?query=' + query;
+            const query = document.getElementById('legal-query').value.trim();
+            if (!query) return;
+            window.location.href = 'chatbot.html?query=' + encodeURIComponent(query);
         });
     </script>
 </body>

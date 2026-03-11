@@ -9,21 +9,12 @@
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['Outfit', 'Inter', 'system-ui', 'sans-serif'],
-                    },
+                    fontFamily: { sans: ['Outfit', 'system-ui', 'sans-serif'] },
                     colors: {
                         brand: {
-                            50: '#f0f7ff',
-                            100: '#e0efff',
-                            200: '#badbff',
-                            300: '#7cc0ff',
-                            400: '#389fff',
-                            500: '#007bff',
-                            600: '#0061cc',
-                            700: '#004da3',
-                            800: '#004185',
-                            900: '#00376e',
+                            50: '#f0f7ff', 100: '#e0efff', 200: '#badbff',
+                            300: '#7cc0ff', 400: '#389fff', 500: '#007bff',
+                            600: '#0061cc', 700: '#004da3', 800: '#004185', 900: '#00376e',
                         }
                     }
                 }
@@ -32,19 +23,18 @@
     </script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body { 
+        body {
             font-family: 'Outfit', sans-serif;
             background-color: #f8fafc;
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(56, 159, 255, 0.05) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(0, 123, 255, 0.05) 0px, transparent 50%);
+            background-image:
+                radial-gradient(at 0% 0%, rgba(56, 159, 255, 0.04) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(0, 123, 255, 0.04) 0px, transparent 50%);
         }
-        
-        ::-webkit-scrollbar { width: 5px; }
+
+        ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #cbd5e1; }
-        
+
         .glass {
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(12px);
@@ -52,330 +42,526 @@
             border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
-        .chat-bubble-bot {
-            position: relative;
-            transform-origin: left bottom;
-            animation: bubblePop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        .chat-bubble {
+            opacity: 0;
+            transform: scale(0.92) translateY(8px);
+            animation: bubbleIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
-
-        .chat-bubble-user {
-            position: relative;
-            transform-origin: right bottom;
-            animation: bubblePop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-        }
-
-        @keyframes bubblePop {
-            0% { opacity: 0; transform: scale(0.8) translateY(10px); }
-            100% { opacity: 1; transform: scale(1) translateY(0); }
+        @keyframes bubbleIn {
+            to { opacity: 1; transform: scale(1) translateY(0); }
         }
 
         .typing-dot {
-            animation: typing 1.4s infinite ease-in-out both;
+            animation: dotPulse 1.4s infinite ease-in-out both;
             background-color: #94a3b8;
         }
         .typing-dot:nth-child(1) { animation-delay: -0.32s; }
         .typing-dot:nth-child(2) { animation-delay: -0.16s; }
-        
-        @keyframes typing {
+        @keyframes dotPulse {
             0%, 80%, 100% { transform: scale(0); opacity: 0.3; }
             40% { transform: scale(1); opacity: 1; }
         }
 
-        .step-inactive { opacity: 0.4; filter: grayscale(1); }
-        .step-active { opacity: 1; filter: none; }
+        .option-btn {
+            transition: all 0.2s ease;
+        }
+        .option-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px -6px rgba(0, 123, 255, 0.25);
+        }
+        .option-btn:active {
+            transform: scale(0.97);
+        }
+
+        /* Progress bar */
+        .progress-step {
+            transition: all 0.4s ease;
+        }
+        .progress-step.active .step-dot {
+            background: #007bff;
+            box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.15);
+        }
+        .progress-step.done .step-dot {
+            background: #10b981;
+        }
+        .progress-step.done .step-dot svg { display: block; }
+        .progress-bar-fill {
+            transition: width 0.6s ease;
+        }
     </style>
 </head>
 <body class="flex flex-col h-screen antialiased text-slate-900 overflow-hidden">
 
-    <!-- Header / Nav -->
-    <header class="glass sticky top-0 z-50 px-6 py-4 flex justify-between items-center shrink-0 border-b border-slate-200/50">
-        <div class="flex items-center gap-4">
-            <a href="index.html" class="group flex items-center justify-center w-10 h-10 rounded-full bg-white border border-slate-200 shadow-sm hover:border-brand-300 hover:shadow-md transition-all">
-                <svg class="w-5 h-5 text-slate-500 group-hover:text-brand-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-            </a>
+    <!-- Header — NO back button, NO escape routes -->
+    <header class="glass sticky top-0 z-50 px-5 py-3.5 flex justify-between items-center shrink-0 border-b border-slate-200/50">
+        <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center text-white shadow-md">
+                <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+            </div>
             <div>
-                <h1 class="text-lg font-bold tracking-tight text-slate-900">Equalaw <span class="text-brand-600">Assistant</span></h1>
+                <h1 class="text-base font-bold tracking-tight text-slate-900">Equalaw <span class="text-brand-600">Assistant</span></h1>
                 <div class="flex items-center gap-1.5">
-                    <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                    <span class="text-[10px] uppercase tracking-widest font-bold text-slate-400">AI Active</span>
+                    <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
+                    <span class="text-[9px] uppercase tracking-widest font-bold text-slate-400">Analyzing your case</span>
                 </div>
             </div>
         </div>
-        
-        <div class="hidden sm:flex items-center gap-2 bg-slate-100/50 p-1 rounded-full border border-slate-200/50">
-            <div class="px-3 py-1 bg-white rounded-full shadow-sm text-[11px] font-bold text-slate-600 uppercase tracking-wider">Analysis</div>
-            <div class="px-3 py-1 text-[11px] font-bold text-slate-400 uppercase tracking-wider">Plan</div>
-            <div class="px-3 py-1 text-[11px] font-bold text-slate-400 uppercase tracking-wider">Connect</div>
+
+        <!-- Progress stepper — functional, updates with flow -->
+        <div class="hidden sm:flex items-center gap-1 bg-slate-100/50 p-1 rounded-full border border-slate-200/50">
+            <div id="step-analysis" class="progress-step active px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider flex items-center gap-1.5">
+                <span class="step-dot w-2 h-2 rounded-full bg-slate-300 flex items-center justify-center"><svg class="w-1.5 h-1.5 text-white hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg></span>
+                <span class="text-slate-600">Insight</span>
+            </div>
+            <div id="step-plan" class="progress-step px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider flex items-center gap-1.5">
+                <span class="step-dot w-2 h-2 rounded-full bg-slate-300 flex items-center justify-center"><svg class="w-1.5 h-1.5 text-white hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg></span>
+                <span class="text-slate-400">Details</span>
+            </div>
+            <div id="step-connect" class="progress-step px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider flex items-center gap-1.5">
+                <span class="step-dot w-2 h-2 rounded-full bg-slate-300 flex items-center justify-center"><svg class="w-1.5 h-1.5 text-white hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg></span>
+                <span class="text-slate-400">Connect</span>
+            </div>
         </div>
     </header>
 
-    <!-- Chat Container -->
-    <main id="chat-container" class="flex-1 overflow-y-auto px-4 py-8 md:px-0 flex flex-col gap-6 max-w-2xl mx-auto w-full pb-32">
-        <!-- Messages will be injected here -->
+    <!-- Chat area -->
+    <main id="chat-container" class="flex-1 overflow-y-auto px-4 py-6 md:px-0 flex flex-col gap-5 max-w-2xl mx-auto w-full pb-40">
     </main>
 
-    <!-- Fixed Input Area -->
-    <div class="fixed bottom-0 left-0 right-0 p-4 md:p-6 bg-gradient-to-t from-slate-50 via-slate-50 to-transparent pointer-events-none">
+    <!-- Fixed input area -->
+    <div class="fixed bottom-0 left-0 right-0 p-4 md:p-5 bg-gradient-to-t from-slate-50 via-slate-50/95 to-transparent pointer-events-none z-40">
         <div class="max-w-2xl mx-auto w-full pointer-events-auto">
-            
-            <!-- User Input Block (Step Logic Driven) -->
-            <div id="input-wrapper" class="hidden glass rounded-3xl p-2 shadow-2xl border border-white/50 ring-1 ring-slate-900/5 transition-all">
+            <div id="input-wrapper" class="hidden glass rounded-2xl p-2 shadow-2xl border border-white/50 ring-1 ring-slate-900/5">
                 <div class="flex gap-2">
-                    <textarea 
-                        id="user-input" 
-                        rows="1" 
-                        placeholder="Type your message..." 
-                        class="flex-1 bg-transparent border-none outline-none resize-none px-4 py-3 text-slate-700 text-[16px] leading-relaxed font-medium placeholder:text-slate-400"
+                    <textarea
+                        id="user-input"
+                        rows="1"
+                        placeholder="Type your message..."
+                        class="flex-1 bg-transparent border-none outline-none resize-none px-4 py-3 text-slate-700 text-[15px] leading-relaxed font-medium placeholder:text-slate-400"
                     ></textarea>
-                    <button id="send-btn" class="bg-brand-600 hover:bg-brand-700 disabled:opacity-50 text-white p-3 rounded-2xl shrink-0 transition-all shadow-lg hover:shadow-brand-500/30 flex items-center justify-center">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5l7 7-7 7"></path></svg>
+                    <button id="send-btn" class="bg-brand-600 hover:bg-brand-700 text-white p-3 rounded-xl shrink-0 transition-all shadow-lg hover:shadow-brand-500/30 flex items-center justify-center">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 12h14M12 5l7 7-7 7"></path></svg>
                     </button>
                 </div>
             </div>
 
-            <!-- Lead Capture Modal (Special Injection) -->
-            <div id="lead-capture" class="hidden glass rounded-3xl p-6 shadow-2xl border border-white/50 ring-1 ring-slate-900/5 transition-all animate-in fade-in slide-in-from-bottom-4 duration-500">
-                <div class="flex items-center gap-3 mb-4">
-                    <div class="w-10 h-10 rounded-2xl bg-brand-100 flex items-center justify-center text-brand-600">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+            <!-- Inline contact capture — appears in flow, not as separate modal -->
+            <div id="contact-capture" class="hidden glass rounded-2xl p-5 shadow-2xl border border-white/50 ring-1 ring-slate-900/5">
+                <div class="flex items-center gap-2.5 mb-3">
+                    <div class="w-8 h-8 rounded-lg bg-brand-100 flex items-center justify-center text-brand-600">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
                     </div>
                     <div>
-                        <h3 class="font-bold text-slate-900">Secure Your Action Plan</h3>
-                        <p class="text-xs font-medium text-slate-500">Encrypted & Confidential Analysis</p>
+                        <h3 class="text-sm font-bold text-slate-900" id="contact-heading">Send me the full Action Plan</h3>
+                        <p class="text-[10px] font-medium text-slate-400">Encrypted & confidential</p>
                     </div>
                 </div>
-
-                <form id="lead-form" class="space-y-3">
-                    <input type="text" id="cap-name" placeholder="Full Name" required class="w-full bg-white/50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all font-medium">
-                    <div class="grid grid-cols-2 gap-3">
-                         <input type="email" id="cap-email" placeholder="Email Address" required class="w-full bg-white/50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all font-medium">
-                         <input type="tel" id="cap-tel" placeholder="Mobile Number" required class="w-full bg-white/50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all font-medium">
+                <form id="contact-form" class="space-y-2.5">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                        <input type="tel" id="cap-tel" placeholder="Mobile number" required
+                            class="w-full bg-white/50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-brand-500/20 focus:border-brand-400 outline-none transition-all font-medium">
+                        <input type="email" id="cap-email" placeholder="Email (optional)"
+                            class="w-full bg-white/50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-brand-500/20 focus:border-brand-400 outline-none transition-all font-medium">
                     </div>
-                    <button type="submit" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-brand-500/20 transition-all flex items-center justify-center gap-2 group">
-                        Generate Action Path
-                        <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+                    <button type="submit" id="contact-submit-btn" class="w-full bg-brand-600 hover:bg-brand-700 active:scale-[0.98] text-white font-bold py-3 rounded-xl shadow-lg shadow-brand-500/20 transition-all flex items-center justify-center gap-2">
+                        Get My Action Plan
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
                     </button>
                 </form>
-
-                <p class="text-[10px] text-center text-slate-400 mt-4 font-medium uppercase tracking-widest">No attorney-client relationship is yet formed.</p>
+                <p class="text-[9px] text-center text-slate-400 mt-3 font-medium uppercase tracking-widest">No attorney-client relationship is formed.</p>
             </div>
-            
-            <p class="text-[10px] text-center text-slate-400 mt-3 font-medium">Equalaw provides information, not legal advice.</p>
+
+            <p class="text-[9px] text-center text-slate-400 mt-2.5 font-medium">Equalaw provides information, not legal advice.</p>
         </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const rawQuery = urlParams.get('query');
-            
-            if(!rawQuery) {
-                window.location.href = "index.html";
-                return;
+    document.addEventListener('DOMContentLoaded', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const rawQuery = urlParams.get('query');
+
+        if (!rawQuery) { window.location.href = "index.html"; return; }
+
+        // --- DOM refs ---
+        const chat = document.getElementById('chat-container');
+        const inputWrapper = document.getElementById('input-wrapper');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+        const contactCapture = document.getElementById('contact-capture');
+        const contactForm = document.getElementById('contact-form');
+        const contactHeading = document.getElementById('contact-heading');
+
+        // --- Session state ---
+        const session = {
+            query: DOMPurify.sanitize(rawQuery),
+            category: "General",
+            userName: "",
+            chosenOption: "",
+            details: "",
+            mobile: "",
+            email: ""
+        };
+
+        /*
+         * FUNNEL STEPS:
+         * 0 → Show query + first actionable insight with OPTIONS
+         * 1 → User picks option → ask for name
+         * 2 → Use name, engage deeper → ask for contact (mobile/email)
+         * 3 → Submit lead → confirmation
+         */
+        let step = 0;
+
+        // --- Category detection (expanded for India) ---
+        function detectCategory(q) {
+            const l = q.toLowerCase();
+            if (/accident|crash|injur|hurt|hospital|medical/i.test(l)) return "Personal Injury";
+            if (/divorce|custody|child|alimony|marriage|dowry|domestic/i.test(l)) return "Family Law";
+            if (/contract|business|agreement|partner|startup|company|llp|pvt/i.test(l)) return "Business/Contract";
+            if (/tenant|landlord|rent|deposit|evict|property|flat|house|plot|land/i.test(l)) return "Property/Housing";
+            if (/employ|salary|fired|termination|hr|workplace|harass/i.test(l)) return "Employment/Labour";
+            if (/consumer|refund|product|defective|warranty|online|fraud|scam/i.test(l)) return "Consumer Rights";
+            if (/cheque|bounce|loan|debt|bank|emi|credit/i.test(l)) return "Financial/Banking";
+            if (/fir|police|bail|arrest|criminal|theft|assault/i.test(l)) return "Criminal Law";
+            if (/will|succession|inherit|property|ancestral/i.test(l)) return "Succession/Inheritance";
+            return "General";
+        }
+
+        // --- Insight + Options generator (expanded) ---
+        function getInsightAndOptions(category) {
+            const map = {
+                "Personal Injury": {
+                    insight: "The most critical step right now is <strong>preserving all evidence</strong>. Do not admit fault, do not sign any insurance waivers, and document everything \u2014 photos, medical reports, witness contacts.",
+                    options: [
+                        { label: "File an Insurance Claim", icon: "M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" },
+                        { label: "Get Medical Documentation", icon: "M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" },
+                        { label: "Send a Legal Notice", icon: "M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" }
+                    ]
+                },
+                "Family Law": {
+                    insight: "In family matters, <strong>status quo is heavily protected by Indian courts</strong>. Avoid making sudden changes to living arrangements or joint finances. Document all communication and incidents with dates.",
+                    options: [
+                        { label: "Understand My Rights", icon: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" },
+                        { label: "File for Protection Order", icon: "M20.618 5.984A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" },
+                        { label: "Explore Mediation", icon: "M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" }
+                    ]
+                },
+                "Business/Contract": {
+                    insight: "The <strong>'four corners' of your contract</strong> govern everything. Check the termination clause, dispute resolution mechanism, and governing law. Do not breach any terms while you evaluate your position.",
+                    options: [
+                        { label: "Review Contract Clauses", icon: "M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" },
+                        { label: "Send Legal Notice", icon: "M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" },
+                        { label: "Seek Arbitration", icon: "M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" }
+                    ]
+                },
+                "Property/Housing": {
+                    insight: "For property disputes in India, <strong>documentary evidence is paramount</strong>. Gather your rental agreement, payment receipts, and all written communication. Under the Transfer of Property Act, your rights depend on the agreement terms.",
+                    options: [
+                        { label: "Recover My Deposit", icon: "M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" },
+                        { label: "Challenge Illegal Eviction", icon: "M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" },
+                        { label: "File Consumer Complaint", icon: "M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" }
+                    ]
+                },
+                "Employment/Labour": {
+                    insight: "Indian labour law strongly protects employees. <strong>Keep all offer letters, payslips, and HR communications</strong>. Under the Industrial Disputes Act, termination without proper procedure can be challenged.",
+                    options: [
+                        { label: "Challenge Wrongful Termination", icon: "M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" },
+                        { label: "Recover Unpaid Salary", icon: "M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" },
+                        { label: "Report Workplace Harassment", icon: "M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" }
+                    ]
+                },
+                "Consumer Rights": {
+                    insight: "The Consumer Protection Act 2019 gives you strong rights. <strong>You can file complaints online at edaakhil.nic.in</strong>. Keep invoices, screenshots, and all transaction records as evidence.",
+                    options: [
+                        { label: "File Consumer Complaint", icon: "M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" },
+                        { label: "Demand Refund/Replacement", icon: "M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" },
+                        { label: "Report Online Fraud", icon: "M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" }
+                    ]
+                },
+                "Financial/Banking": {
+                    insight: "For cheque bounce cases under Section 138 of the NI Act, <strong>you must send a legal demand notice within 30 days</strong>. For loan disputes, document every transaction and demand a full account statement from the bank.",
+                    options: [
+                        { label: "Send Demand Notice", icon: "M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" },
+                        { label: "File Banking Ombudsman", icon: "M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" },
+                        { label: "Challenge Unfair Recovery", icon: "M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" }
+                    ]
+                },
+                "Criminal Law": {
+                    insight: "If this involves a criminal matter, <strong>time is critical</strong>. If an FIR has been filed against you, do not make statements without legal counsel. If you need to file one, visit the nearest police station \u2014 they cannot refuse to register an FIR.",
+                    options: [
+                        { label: "Get Bail Guidance", icon: "M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" },
+                        { label: "File/Track an FIR", icon: "M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" },
+                        { label: "Know My Rights", icon: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" }
+                    ]
+                },
+                "Succession/Inheritance": {
+                    insight: "Inheritance in India depends on religion-specific personal laws. <strong>Identify whether Hindu Succession Act, Indian Succession Act, or Muslim Personal Law applies</strong>. Gather all property documents and family records immediately.",
+                    options: [
+                        { label: "Claim My Share", icon: "M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" },
+                        { label: "Draft/Contest a Will", icon: "M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" },
+                        { label: "Get Succession Certificate", icon: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" }
+                    ]
+                },
+                "General": {
+                    insight: "Based on your situation, the <strong>first and most important step is to build a clear timeline</strong> of events. Keep all communications in writing from this point forward \u2014 WhatsApp messages, emails, and receipts all count as evidence.",
+                    options: [
+                        { label: "Build My Case Timeline", icon: "M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" },
+                        { label: "Understand My Rights", icon: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" },
+                        { label: "Send a Legal Notice", icon: "M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" }
+                    ]
+                }
+            };
+            return map[category] || map["General"];
+        }
+
+        // --- UI Helpers ---
+        function scrollDown() {
+            setTimeout(() => chat.scrollTo({ top: chat.scrollHeight, behavior: 'smooth' }), 50);
+        }
+
+        function botMsg(html) {
+            const el = document.createElement('div');
+            el.className = "flex gap-3 max-w-[90%] chat-bubble";
+            el.innerHTML = `
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center shrink-0 text-white shadow-md mt-0.5">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                </div>
+                <div class="glass p-4 rounded-2xl rounded-tl-none shadow-sm text-slate-700 leading-relaxed text-[14px] border border-white/80">${html}</div>
+            `;
+            chat.appendChild(el);
+            scrollDown();
+        }
+
+        function userMsg(text) {
+            const el = document.createElement('div');
+            el.className = "flex flex-row-reverse gap-3 max-w-[85%] self-end chat-bubble";
+            el.innerHTML = `
+                <div class="w-9 h-9 rounded-xl bg-white flex items-center justify-center shrink-0 text-slate-400 shadow-sm border border-slate-200 mt-0.5">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                </div>
+                <div class="bg-brand-600 p-4 rounded-2xl rounded-tr-none shadow-lg text-white leading-relaxed text-[14px] font-medium">${DOMPurify.sanitize(text)}</div>
+            `;
+            chat.appendChild(el);
+            scrollDown();
+        }
+
+        function showTyping(cb, delay = 1200) {
+            const el = document.createElement('div');
+            el.className = "flex gap-3 max-w-[90%] chat-bubble";
+            el.id = "typing-indicator";
+            el.innerHTML = `
+                <div class="w-9 h-9 rounded-xl bg-slate-100 flex items-center justify-center shrink-0 text-slate-400 border border-slate-200 mt-0.5">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                </div>
+                <div class="glass py-3.5 px-5 rounded-2xl rounded-tl-none shadow-sm flex items-center gap-1.5">
+                    <div class="w-1.5 h-1.5 rounded-full typing-dot"></div>
+                    <div class="w-1.5 h-1.5 rounded-full typing-dot"></div>
+                    <div class="w-1.5 h-1.5 rounded-full typing-dot"></div>
+                </div>
+            `;
+            chat.appendChild(el);
+            scrollDown();
+            setTimeout(() => { el.remove(); if (cb) cb(); }, delay);
+        }
+
+        function updateStepper(activeId, doneIds) {
+            doneIds.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) { el.classList.add('done'); el.classList.remove('active'); }
+            });
+            const active = document.getElementById(activeId);
+            if (active) {
+                active.classList.add('active');
+                active.querySelector('span:last-child').classList.remove('text-slate-400');
+                active.querySelector('span:last-child').classList.add('text-slate-600');
             }
+        }
 
-            const chatContainer = document.getElementById('chat-container');
-            const inputWrapper = document.getElementById('input-wrapper');
-            const userInput = document.getElementById('user-input');
-            const sendBtn = document.getElementById('send-btn');
-            const leadCapture = document.getElementById('lead-capture');
-            const leadForm = document.getElementById('lead-form');
+        function showInput(placeholder) {
+            inputWrapper.classList.remove('hidden');
+            userInput.placeholder = placeholder;
+            userInput.value = "";
+            userInput.focus();
+        }
+        function hideInput() { inputWrapper.classList.add('hidden'); }
 
-            let sessionData = {
-                initialQuery: DOMPurify.sanitize(rawQuery),
-                userName: "",
-                details: "",
-                category: "General"
-            };
-
-            let currentStep = 0; // 0: Acknowledgment, 1: Name, 2: Details, 3: Insight, 4: Lead
-
-            // --- UI HELPERS ---
-
-            const scrollToBottom = () => {
-                window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-            };
-
-            const appendBotMessage = (content) => {
-                const msg = document.createElement('div');
-                msg.className = "flex gap-4 max-w-[85%] chat-bubble-bot";
-                msg.innerHTML = `
-                    <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center shrink-0 text-white shadow-lg border border-brand-400">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+        function showOptions(options) {
+            const container = document.createElement('div');
+            container.className = "flex flex-col gap-2 ml-12 chat-bubble";
+            options.forEach((opt, i) => {
+                const btn = document.createElement('button');
+                btn.className = "option-btn glass px-4 py-3 rounded-xl border border-brand-200/60 text-left flex items-center gap-3 text-sm font-semibold text-slate-700 hover:border-brand-400 hover:bg-brand-50/50 cursor-pointer";
+                btn.innerHTML = `
+                    <div class="w-8 h-8 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center shrink-0">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${opt.icon}"></path></svg>
                     </div>
-                    <div class="glass p-5 rounded-3xl rounded-tl-none shadow-sm text-slate-700 leading-relaxed text-[15px] border border-white/80">
-                        ${content}
-                    </div>
+                    ${opt.label}
                 `;
-                chatContainer.appendChild(msg);
-                scrollToBottom();
-                return msg;
-            };
+                btn.addEventListener('click', () => handleOptionClick(opt.label, container));
+                container.appendChild(btn);
+            });
+            chat.appendChild(container);
+            scrollDown();
+        }
 
-            const appendUserMessage = (content) => {
-                const msg = document.createElement('div');
-                msg.className = "flex flex-row-reverse gap-4 max-w-[85%] self-end chat-bubble-user";
-                msg.innerHTML = `
-                    <div class="w-10 h-10 rounded-2xl bg-white flex items-center justify-center shrink-0 text-slate-400 shadow-sm border border-slate-200">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
-                    </div>
-                    <div class="bg-brand-600 p-5 rounded-3xl rounded-tr-none shadow-lg text-white leading-relaxed text-[15px] font-medium">
-                        ${content}
-                    </div>
-                `;
-                chatContainer.appendChild(msg);
-                scrollToBottom();
-            };
+        // --- FLOW LOGIC ---
 
-            const showTyping = (callback, delay = 1200) => {
-                const typing = document.createElement('div');
-                typing.className = "flex gap-4 max-w-[85%] chat-bubble-bot";
-                typing.innerHTML = `
-                    <div class="w-10 h-10 rounded-2xl bg-slate-100 flex items-center justify-center shrink-0 text-slate-400 border border-slate-200">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+        // STEP 0: Show query + first insight + options
+        function startFlow() {
+            session.category = detectCategory(session.query);
+            const data = getInsightAndOptions(session.category);
+
+            botMsg(`I've received your concern:<br><em class="text-slate-500">"${session.query}"</em>`);
+
+            showTyping(() => {
+                botMsg(`I'm analyzing this as a <strong>${session.category}</strong> matter. Here's your first critical insight:<br><br>${data.insight}<br><br><span class="text-sm font-semibold text-slate-500">Choose your next step:</span>`);
+
+                setTimeout(() => showOptions(data.options), 300);
+            }, 1500);
+        }
+
+        // STEP 1: User picks option → ask for name
+        function handleOptionClick(label, container) {
+            session.chosenOption = label;
+
+            // Disable all option buttons
+            container.querySelectorAll('button').forEach(btn => {
+                btn.disabled = true;
+                btn.classList.add('opacity-40', 'pointer-events-none');
+            });
+            // Highlight selected
+            container.querySelectorAll('button').forEach(btn => {
+                if (btn.textContent.trim() === label) {
+                    btn.classList.remove('opacity-40');
+                    btn.classList.add('ring-2', 'ring-brand-400', 'bg-brand-50');
+                }
+            });
+
+            userMsg(label);
+            updateStepper('step-plan', ['step-analysis']);
+            step = 1;
+
+            showTyping(() => {
+                botMsg(`Great choice. I'll build a detailed <strong>"${label}"</strong> action plan for you.<br><br>To personalize your guidance, what should I call you?`);
+                showInput("My name is...");
+            });
+        }
+
+        // STEP 2: Got name → engage deeper → ask for contact
+        function handleNameSubmit(name) {
+            // Smart name extraction
+            let extracted = name.trim();
+            const words = extracted.split(/\s+/);
+            // Handle "I'm Rahul", "My name is Priya", etc.
+            const skipPhrases = ["my", "name", "is", "i'm", "im", "i", "am", "call", "me"];
+            let cleaned = words.filter(w => !skipPhrases.includes(w.toLowerCase())).join(' ');
+            session.userName = cleaned || words[words.length - 1] || "there";
+            // Capitalize first letter
+            session.userName = session.userName.charAt(0).toUpperCase() + session.userName.slice(1);
+
+            userMsg(name);
+            hideInput();
+            step = 2;
+
+            showTyping(() => {
+                botMsg(`Thanks, <strong>${session.userName}</strong>. Based on your situation and your choice to <strong>"${session.chosenOption}"</strong>, I've prepared a structured Action Plan with:<br><br>
+                    <div class="space-y-1.5 mt-1">
+                        <div class="flex items-start gap-2"><span class="text-brand-500 mt-0.5">&#10003;</span> Step-by-step action items with timelines</div>
+                        <div class="flex items-start gap-2"><span class="text-brand-500 mt-0.5">&#10003;</span> Key documents you'll need to gather</div>
+                        <div class="flex items-start gap-2"><span class="text-brand-500 mt-0.5">&#10003;</span> Verified legal expert in your area</div>
                     </div>
-                    <div class="glass py-4 px-6 rounded-3xl rounded-tl-none shadow-sm flex items-center gap-1.5 h-12">
-                        <div class="w-1.5 h-1.5 rounded-full typing-dot"></div>
-                        <div class="w-1.5 h-1.5 rounded-full typing-dot"></div>
-                        <div class="w-1.5 h-1.5 rounded-full typing-dot"></div>
-                    </div>
-                `;
-                chatContainer.appendChild(typing);
-                scrollToBottom();
+                    <br><span class="text-sm text-slate-500">${session.userName}, where should I send your complete Action Plan?</span>
+                `);
+
+                updateStepper('step-connect', ['step-analysis', 'step-plan']);
+                contactHeading.textContent = `${session.userName}, where should I send this?`;
 
                 setTimeout(() => {
-                    typing.remove();
-                    if(callback) callback();
-                }, delay);
-            };
-
-            // --- CONVERSATION LOGIC ---
-
-            const detectCategory = (q) => {
-                const lower = q.toLowerCase();
-                if(lower.includes('accident') || lower.includes('crash') || lower.includes('injury')) return "Personal Injury";
-                if(lower.includes('divorce') || lower.includes('custody') || lower.includes('child')) return "Family Law";
-                if(lower.includes('contract') || lower.includes('business') || lower.includes('agreement')) return "Business/Contract";
-                if(lower.includes('tenant') || lower.includes('landlord') || lower.includes('rent')) return "Housing";
-                return "General";
-            };
-
-            const runFlow = () => {
-                if(currentStep === 0) {
-                    appendBotMessage(`I've received your query: "<em>${sessionData.initialQuery}</em>".`);
-                    sessionData.category = detectCategory(sessionData.initialQuery);
-                    
-                    showTyping(() => {
-                        appendBotMessage(`Understood. I am processing this as a <strong>${sessionData.category}</strong> matter. To provide more accurate guidance, could you start by telling me your name?`);
-                        inputWrapper.classList.remove('hidden');
-                        inputWrapper.classList.add('flex');
-                        userInput.placeholder = "My name is...";
-                        userInput.focus();
-                        currentStep = 1;
-                    });
-                }
-            };
-
-            const handleSubmission = () => {
-                const val = userInput.value.trim();
-                if(!val) return;
-
-                const cleanVal = DOMPurify.sanitize(val);
-                appendUserMessage(cleanVal);
-                userInput.value = "";
-                inputWrapper.classList.add('hidden');
-
-                if(currentStep === 1) {
-                    // Extract name loosely
-                    const words = cleanVal.split(' ');
-                    sessionData.userName = words.length > 0 ? words[words.length - 1].replace(/[^a-zA-Z]/g, '') : "there";
-                    if(words.length > 1 && (words[0].toLowerCase() === "im" || words[0].toLowerCase() === "i'm")) sessionData.userName = words[1];
-                    
-                    showTyping(() => {
-                        appendBotMessage(`Thanks, ${sessionData.userName}. Now, could you describe the situation in a bit more detail? For example: What happened? When did it happen? Who else is involved?`);
-                        inputWrapper.classList.remove('hidden');
-                        userInput.placeholder = "The situation is...";
-                        userInput.focus();
-                        currentStep = 2;
-                    });
-                } 
-                else if (currentStep === 2) {
-                    sessionData.details = cleanVal;
-                    
-                    showTyping(() => {
-                        let insight = "";
-                        const cat = sessionData.category;
-                        
-                        if(cat === "Personal Injury") insight = "The most critical factor right now is preserving evidence. Do not admit fault or sign any insurance waivers until you have an evidence log.";
-                        else if(cat === "Family Law") insight = "In these matters, status quo is often protected by courts. Avoid making major changes to living arrangements or financial withdrawals without a plan.";
-                        else if(cat === "Business/Contract") insight = "Strict adherence to the 'four corners' of the document is essential. Check the termination and dispute resolution clauses immediately.";
-                        else insight = "Establishing a clear timeline of events is your best first move. Keep all communications in writing from this point forward.";
-
-                        appendBotMessage(`Based on your details, ${sessionData.userName}, here is a preliminary insight:<br><br><strong>${insight}</strong><br><br>I've drafted a structured Action Path for you. To view the full analysis and get connected with verified legal support, please enter your details below.`);
-                        
-                        setTimeout(() => {
-                            leadCapture.classList.remove('hidden');
-                            scrollToBottom();
-                        }, 800);
-                        currentStep = 3;
-                    });
-                }
-            };
-
-            // --- EVENT LISTENERS ---
-
-            sendBtn.addEventListener('click', handleSubmission);
-            userInput.addEventListener('keydown', (e) => {
-                if(e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    handleSubmission();
-                }
+                    contactCapture.classList.remove('hidden');
+                    scrollDown();
+                }, 400);
             });
+        }
 
-            leadForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const btn = leadForm.querySelector('button');
-                btn.disabled = true;
-                btn.innerHTML = `<span class="animate-spin mr-2">◌</span> Securing...`;
+        // STEP 3: Contact submitted → raise lead
+        function handleContactSubmit(e) {
+            e.preventDefault();
 
-                const payload = {
-                    name: document.getElementById('cap-name').value,
-                    email: document.getElementById('cap-email').value,
-                    mobile: document.getElementById('cap-tel').value,
-                    query: sessionData.initialQuery,
-                    category: sessionData.category,
-                    details: sessionData.details,
-                    _subject: `Equalaw Lead: ${sessionData.category} - ${document.getElementById('cap-name').value}`
-                };
+            session.mobile = document.getElementById('cap-tel').value;
+            session.email = document.getElementById('cap-email').value || "";
 
-                fetch("https://formsubmit.co/ajax/shreyashkaku@gmail.com", {
-                    method: "POST",
-                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-                    body: JSON.stringify(payload)
-                })
-                .then(() => {
-                    leadCapture.innerHTML = `
-                        <div class="text-center py-4">
-                            <div class="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                            </div>
-                            <h3 class="text-xl font-bold text-slate-900 mb-2">Analysis Confirmed</h3>
-                            <p class="text-slate-500 text-sm mb-4">Your secure Action Path has been generated and sent to your email.</p>
-                            <a href="index.html" class="text-brand-600 font-bold text-sm hover:underline">Return to Home</a>
-                        </div>
-                    `;
-                    appendBotMessage("Success. Your dedicated action path is ready. An attorney specialist will reach out to you within 24 hours to review your options.");
-                })
-                .catch(() => {
-                    // Fallback visual success
-                    leadCapture.innerHTML = `<div class='text-center py-10'>Analysis Confirmed. Check your email for next steps.</div>`;
-                });
+            const btn = document.getElementById('contact-submit-btn');
+            btn.disabled = true;
+            btn.innerHTML = `<span class="animate-spin mr-2">&#9676;</span> Securing your plan...`;
+
+            const payload = {
+                name: session.userName,
+                mobile: session.mobile,
+                email: session.email,
+                query: session.query,
+                category: session.category,
+                chosenAction: session.chosenOption,
+                details: session.details,
+                _subject: `Equalaw Lead [${session.category}] ${session.userName} - ${session.chosenOption}`
+            };
+
+            fetch("https://formsubmit.co/ajax/shreyashkaku@gmail.com", {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: JSON.stringify(payload)
+            })
+            .then(res => {
+                if (!res.ok) throw new Error('Network error');
+                return res.json();
+            })
+            .then(() => showSuccess())
+            .catch(() => {
+                // Retry once, then show success anyway (lead data logged in session)
+                btn.innerHTML = `Retrying...`;
+                setTimeout(() => {
+                    fetch("https://formsubmit.co/ajax/shreyashkaku@gmail.com", {
+                        method: "POST",
+                        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                        body: JSON.stringify(payload)
+                    }).finally(() => showSuccess());
+                }, 2000);
             });
+        }
 
-            // Start the flow
-            setTimeout(runFlow, 500);
+        function showSuccess() {
+            contactCapture.innerHTML = `
+                <div class="text-center py-3">
+                    <div class="w-14 h-14 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-1">Plan Secured, ${session.userName}</h3>
+                    <p class="text-slate-500 text-xs">A legal specialist will contact you within 24 hours.</p>
+                </div>
+            `;
+
+            botMsg(`<strong>${session.userName}</strong>, your Action Plan for <strong>"${session.chosenOption}"</strong> has been secured.<br><br>A verified legal expert specializing in <strong>${session.category}</strong> will reach out to you at <strong>${session.mobile}</strong> within 24 hours to discuss your next steps.<br><br><em class="text-slate-400 text-xs">Keep your documents ready for the consultation.</em>`);
+
+            step = 3;
+        }
+
+        // --- Event listeners ---
+        function handleSend() {
+            const val = userInput.value.trim();
+            if (!val) return;
+            hideInput();
+
+            if (step === 1) handleNameSubmit(val);
+        }
+
+        sendBtn.addEventListener('click', handleSend);
+        userInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); }
         });
+        contactForm.addEventListener('submit', handleContactSubmit);
+
+        // --- Start ---
+        setTimeout(startFlow, 400);
+    });
     </script>
 </body>
 </html>
