@@ -10,363 +10,371 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+                        sans: ['Outfit', 'Inter', 'system-ui', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0efff',
+                            200: '#badbff',
+                            300: '#7cc0ff',
+                            400: '#389fff',
+                            500: '#007bff',
+                            600: '#0061cc',
+                            700: '#004da3',
+                            800: '#004185',
+                            900: '#00376e',
+                        }
                     }
                 }
             }
         }
     </script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; }
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
-        
-        .fade-in-up {
-            animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            opacity: 0;
-            transform: translateY(10px);
+        body { 
+            font-family: 'Outfit', sans-serif;
+            background-color: #f8fafc;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(56, 159, 255, 0.05) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(0, 123, 255, 0.05) 0px, transparent 50%);
         }
         
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #cbd5e1; }
+        
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .chat-bubble-bot {
+            position: relative;
+            transform-origin: left bottom;
+            animation: bubblePop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        .chat-bubble-user {
+            position: relative;
+            transform-origin: right bottom;
+            animation: bubblePop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes bubblePop {
+            0% { opacity: 0; transform: scale(0.8) translateY(10px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
         .typing-dot {
             animation: typing 1.4s infinite ease-in-out both;
+            background-color: #94a3b8;
         }
         .typing-dot:nth-child(1) { animation-delay: -0.32s; }
         .typing-dot:nth-child(2) { animation-delay: -0.16s; }
         
-        @keyframes fadeInUp {
-            to { opacity: 1; transform: translateY(0); }
-        }
         @keyframes typing {
             0%, 80%, 100% { transform: scale(0); opacity: 0.3; }
             40% { transform: scale(1); opacity: 1; }
         }
+
+        .step-inactive { opacity: 0.4; filter: grayscale(1); }
+        .step-active { opacity: 1; filter: none; }
     </style>
 </head>
-<body class="bg-slate-50 flex flex-col h-screen antialiased font-sans">
+<body class="flex flex-col h-screen antialiased text-slate-900 overflow-hidden">
 
-    <header class="bg-white border-b border-slate-200 px-4 py-3 flex justify-between items-center shrink-0 z-10 shadow-sm relative">
-        <div class="flex items-center gap-3">
-            <a href="index.html" class="text-slate-400 hover:text-slate-800 transition p-1 hover:bg-slate-100 rounded-lg" aria-label="Go back">
-                <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+    <!-- Header / Nav -->
+    <header class="glass sticky top-0 z-50 px-6 py-4 flex justify-between items-center shrink-0 border-b border-slate-200/50">
+        <div class="flex items-center gap-4">
+            <a href="index.html" class="group flex items-center justify-center w-10 h-10 rounded-full bg-white border border-slate-200 shadow-sm hover:border-brand-300 hover:shadow-md transition-all">
+                <svg class="w-5 h-5 text-slate-500 group-hover:text-brand-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
             </a>
-            <div class="text-lg md:text-xl font-bold tracking-tighter text-blue-600 flex items-center">
-                Equalaw Assistant
-            </div>
-        </div>
-        
-        <div class="flex items-center bg-slate-100/80 hover:bg-slate-200/80 transition rounded-lg border border-slate-200/50">
-            <select class="bg-transparent text-slate-700 text-xs md:text-sm focus:ring-0 focus:outline-none cursor-pointer py-1.5 md:py-2 pl-3 pr-8 appearance-none font-medium h-full w-full" aria-label="Select Language">
-                <option value="en">English</option>
-                <option value="es">Español</option>
-                <option value="fr">Français</option>
-                <option value="hi">हिन्दी</option>
-            </select>
-            <div class="pointer-events-none absolute inset-y-0 right-4 flex items-center text-slate-500">
-                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-            </div>
-        </div>
-    </header>
-
-    <main id="chat-container" class="flex-1 overflow-y-auto p-4 md:p-6 flex flex-col gap-4 max-w-3xl mx-auto w-full pb-12 items-start relative z-0">
-        <!-- Initial messages dynamically injected here -->
-        
-        <!-- User Chat Input Block (Step 2) -->
-        <div id="user-input-block" class="hidden w-full max-w-[95%] md:max-w-[85%] mt-2 fade-in-up">
-            <div class="flex gap-2 bg-white border border-slate-300 rounded-2xl p-2 shadow-sm focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 transition-all">
-                <textarea id="user-chat-input" rows="2" placeholder="My name is... and the situation is..." class="w-full bg-transparent border-none outline-none resize-none px-3 py-2 text-slate-700 text-[15px]"></textarea>
-                <button id="send-user-details" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-xl shrink-0 transition-colors shadow-sm self-end">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
-                </button>
-            </div>
-            <p class="text-[11px] font-medium text-slate-400 mt-2 ml-2">Press Enter to send. Shift+Enter for new line.</p>
-        </div>
-
-        <!-- Lead Capture Block (Step 4) -->
-        <div id="lead-capture" class="hidden flex gap-3 max-w-[95%] md:max-w-[85%] mt-4 fade-in-up">
-            <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center shrink-0 text-blue-600 shadow-sm border border-blue-200">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-            </div>
-            <div class="bg-white border border-slate-200 p-5 rounded-2xl rounded-tl-sm shadow-sm text-slate-700 w-full relative overflow-hidden group">
-                <div class="absolute top-0 left-0 w-1 h-full bg-blue-500 rounded-l-2xl"></div>
-                <p class="mb-5 text-[15px] leading-relaxed relative z-10" id="final-cta-text">
-                    To prioritize your privacy and securely send your customized action plan, please provide your contact details below.
-                </p>
-                
-                <form id="lead-form" class="flex flex-col gap-3 relative z-10 w-full" action="https://formsubmit.co/shreyashkaku@gmail.com" method="POST">
-                    <div class="relative w-full">
-                        <input type="text" name="name" id="capture-name" placeholder="Your Full Name" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3.5 focus:outline-none focus:border-blue-500 focus:bg-white transition text-[15px] shadow-sm font-medium" />
-                    </div>
-                    <div class="relative w-full">
-                        <input type="email" name="email" id="capture-email" placeholder="Your Email Address" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3.5 focus:outline-none focus:border-blue-500 focus:bg-white transition text-[15px] shadow-sm font-medium" />
-                    </div>
-                    <div class="relative w-full">
-                        <input type="tel" name="mobile" id="capture-mobile" placeholder="Your Mobile Number" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3.5 focus:outline-none focus:border-blue-500 focus:bg-white transition text-[15px] shadow-sm font-medium" />
-                    </div>
-                    
-                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3.5 rounded-xl transition shadow-md hover:shadow-lg flex justify-center items-center gap-2 cursor-pointer relative overflow-hidden group/btn mt-2">
-                        <span class="relative z-10 flex items-center gap-2">
-                            Secure My Action Plan
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                        </span>
-                        <div class="absolute inset-0 bg-white/20 translate-y-full group-hover/btn:translate-y-0 transition-transform duration-300 ease-in-out"></div>
-                    </button>
-                    
-                    <div class="flex items-center justify-center gap-1.5 mt-2">
-                        <svg class="w-3.5 h-3.5 text-slate-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
-                        <p class="text-[11px] font-medium text-slate-400 leading-tight">Your data is encrypted and strictly confidential.</p>
-                    </div>
-                </form>
-
-                <!-- Success State Overlay -->
-                <div id="form-success" class="hidden absolute inset-0 bg-white z-20 flex flex-col items-center justify-center text-center p-6 fade-in-up">
-                    <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-3 text-green-600">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                    </div>
-                    <h4 class="font-bold text-slate-900 mb-1">Confirmed</h4>
-                    <p class="text-[13px] text-slate-500 leading-relaxed font-medium">Your customized legal outline is being generated and will be sent to your email and phone securely.</p>
+            <div>
+                <h1 class="text-lg font-bold tracking-tight text-slate-900">Equalaw <span class="text-brand-600">Assistant</span></h1>
+                <div class="flex items-center gap-1.5">
+                    <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                    <span class="text-[10px] uppercase tracking-widest font-bold text-slate-400">AI Active</span>
                 </div>
             </div>
         </div>
+        
+        <div class="hidden sm:flex items-center gap-2 bg-slate-100/50 p-1 rounded-full border border-slate-200/50">
+            <div class="px-3 py-1 bg-white rounded-full shadow-sm text-[11px] font-bold text-slate-600 uppercase tracking-wider">Analysis</div>
+            <div class="px-3 py-1 text-[11px] font-bold text-slate-400 uppercase tracking-wider">Plan</div>
+            <div class="px-3 py-1 text-[11px] font-bold text-slate-400 uppercase tracking-wider">Connect</div>
+        </div>
+    </header>
 
+    <!-- Chat Container -->
+    <main id="chat-container" class="flex-1 overflow-y-auto px-4 py-8 md:px-0 flex flex-col gap-6 max-w-2xl mx-auto w-full pb-32">
+        <!-- Messages will be injected here -->
     </main>
 
-    <footer class="bg-slate-100/50 border-t border-slate-200 shrink-0 shadow-[0_-4px_15px_-3px_rgba(0,0,0,0.03)] pb-safe relative z-10 w-full hidden" id="main-footer">
-        <div class="bg-transparent px-4 py-3 flex justify-center w-full max-w-3xl mx-auto">
-            <div class="text-center w-full max-w-xl">
-                 <p class="text-[10px] md:text-[11px] font-medium text-slate-400 uppercase tracking-widest mb-1.5">MANDATORY LEGAL DISCLAIMER</p>
-                 <p class="text-[10px] md:text-[11px] text-slate-500 leading-relaxed px-4 text-center">Equalaw Assistant is an AI tool designed for general information purposes only. It does not provide legal advice, and using this tool does not create an attorney-client relationship. Always consult a qualified attorney for legal guidance tailored to your specific situation.</p>
+    <!-- Fixed Input Area -->
+    <div class="fixed bottom-0 left-0 right-0 p-4 md:p-6 bg-gradient-to-t from-slate-50 via-slate-50 to-transparent pointer-events-none">
+        <div class="max-w-2xl mx-auto w-full pointer-events-auto">
+            
+            <!-- User Input Block (Step Logic Driven) -->
+            <div id="input-wrapper" class="hidden glass rounded-3xl p-2 shadow-2xl border border-white/50 ring-1 ring-slate-900/5 transition-all">
+                <div class="flex gap-2">
+                    <textarea 
+                        id="user-input" 
+                        rows="1" 
+                        placeholder="Type your message..." 
+                        class="flex-1 bg-transparent border-none outline-none resize-none px-4 py-3 text-slate-700 text-[16px] leading-relaxed font-medium placeholder:text-slate-400"
+                    ></textarea>
+                    <button id="send-btn" class="bg-brand-600 hover:bg-brand-700 disabled:opacity-50 text-white p-3 rounded-2xl shrink-0 transition-all shadow-lg hover:shadow-brand-500/30 flex items-center justify-center">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5l7 7-7 7"></path></svg>
+                    </button>
+                </div>
             </div>
-        </div>
-    </footer>
 
+            <!-- Lead Capture Modal (Special Injection) -->
+            <div id="lead-capture" class="hidden glass rounded-3xl p-6 shadow-2xl border border-white/50 ring-1 ring-slate-900/5 transition-all animate-in fade-in slide-in-from-bottom-4 duration-500">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-2xl bg-brand-100 flex items-center justify-center text-brand-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-slate-900">Secure Your Action Plan</h3>
+                        <p class="text-xs font-medium text-slate-500">Encrypted & Confidential Analysis</p>
+                    </div>
+                </div>
+
+                <form id="lead-form" class="space-y-3">
+                    <input type="text" id="cap-name" placeholder="Full Name" required class="w-full bg-white/50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all font-medium">
+                    <div class="grid grid-cols-2 gap-3">
+                         <input type="email" id="cap-email" placeholder="Email Address" required class="w-full bg-white/50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all font-medium">
+                         <input type="tel" id="cap-tel" placeholder="Mobile Number" required class="w-full bg-white/50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none transition-all font-medium">
+                    </div>
+                    <button type="submit" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-3.5 rounded-xl shadow-lg shadow-brand-500/20 transition-all flex items-center justify-center gap-2 group">
+                        Generate Action Path
+                        <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+                    </button>
+                </form>
+
+                <p class="text-[10px] text-center text-slate-400 mt-4 font-medium uppercase tracking-widest">No attorney-client relationship is yet formed.</p>
+            </div>
+            
+            <p class="text-[10px] text-center text-slate-400 mt-3 font-medium">Equalaw provides information, not legal advice.</p>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
-            const rawUserQuery = urlParams.get('query');
+            const rawQuery = urlParams.get('query');
             
-            // Redirect if empty access
-            if(!rawUserQuery) {
+            if(!rawQuery) {
                 window.location.href = "index.html";
                 return;
             }
 
-            // Sanitize query to prevent XSS
-            const userQuery = DOMPurify(rawUserQuery);
-
             const chatContainer = document.getElementById('chat-container');
-            const userInputBlock = document.getElementById('user-input-block');
-            const userChatInput = document.getElementById('user-chat-input');
-            const sendUserDetailsBtn = document.getElementById('send-user-details');
+            const inputWrapper = document.getElementById('input-wrapper');
+            const userInput = document.getElementById('user-input');
+            const sendBtn = document.getElementById('send-btn');
             const leadCapture = document.getElementById('lead-capture');
             const leadForm = document.getElementById('lead-form');
-            const finalCtaText = document.getElementById('final-cta-text');
-            
-            let userDetailedPredicament = "";
-            let extractedName = "";
 
-            // UTILS
+            let sessionData = {
+                initialQuery: DOMPurify.sanitize(rawQuery),
+                userName: "",
+                details: "",
+                category: "General"
+            };
+
+            let currentStep = 0; // 0: Acknowledgment, 1: Name, 2: Details, 3: Insight, 4: Lead
+
+            // --- UI HELPERS ---
+
             const scrollToBottom = () => {
-                setTimeout(() => {
-                    chatContainer.scrollTo({ top: chatContainer.scrollHeight, behavior: 'smooth' });
-                }, 50);
+                window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
             };
 
-            const DOMPurify = (str) => {
-                const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#x27;', "/": '&#x2F;' };
-                const reg = /[&<>"'/]/ig;
-                return str.replace(reg, (match)=>(map[match]));
-            };
-
-            const appendBotMessage = (text, delayClass = "fade-in-up") => {
+            const appendBotMessage = (content) => {
                 const msg = document.createElement('div');
-                msg.className = `flex gap-3 max-w-[95%] md:max-w-[85%] ${delayClass}`;
+                msg.className = "flex gap-4 max-w-[85%] chat-bubble-bot";
                 msg.innerHTML = `
-                    <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center shrink-0 text-blue-600 shadow-sm border border-blue-200">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center shrink-0 text-white shadow-lg border border-brand-400">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                     </div>
-                    <div class="bg-white border border-slate-200 p-4 md:p-4.5 rounded-2xl rounded-tl-sm shadow-sm text-slate-700 leading-relaxed text-[15px]">
-                        ${text}
+                    <div class="glass p-5 rounded-3xl rounded-tl-none shadow-sm text-slate-700 leading-relaxed text-[15px] border border-white/80">
+                        ${content}
                     </div>
                 `;
-                
-                // Keep input/capture blocks at bottom
-                if(!userInputBlock.classList.contains('hidden')) {
-                    chatContainer.insertBefore(msg, userInputBlock);
-                } else if (!leadCapture.classList.contains('hidden')) {
-                    chatContainer.insertBefore(msg, leadCapture);
-                } else {
-                    chatContainer.appendChild(msg);
-                }
+                chatContainer.appendChild(msg);
                 scrollToBottom();
                 return msg;
             };
 
-            const appendUserMessage = (text) => {
+            const appendUserMessage = (content) => {
                 const msg = document.createElement('div');
-                msg.className = `flex gap-3 max-w-[90%] md:max-w-[80%] self-end flex-row-reverse mt-1 fade-in-up`;
+                msg.className = "flex flex-row-reverse gap-4 max-w-[85%] self-end chat-bubble-user";
                 msg.innerHTML = `
-                    <div class="bg-blue-600 text-white p-4 rounded-2xl rounded-tr-sm shadow-md leading-relaxed text-[15px] font-medium">
-                        ${text.replace(/\n/g, '<br>')}
+                    <div class="w-10 h-10 rounded-2xl bg-white flex items-center justify-center shrink-0 text-slate-400 shadow-sm border border-slate-200">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                    </div>
+                    <div class="bg-brand-600 p-5 rounded-3xl rounded-tr-none shadow-lg text-white leading-relaxed text-[15px] font-medium">
+                        ${content}
                     </div>
                 `;
-                
-                if(!userInputBlock.classList.contains('hidden')) {
-                    chatContainer.insertBefore(msg, userInputBlock);
-                } else if (!leadCapture.classList.contains('hidden')) {
-                    chatContainer.insertBefore(msg, leadCapture);
-                } else {
-                    chatContainer.appendChild(msg);
-                }
+                chatContainer.appendChild(msg);
                 scrollToBottom();
             };
 
-            const showTyping = (duration, callback) => {
-                const msg = document.createElement('div');
-                msg.className = `flex gap-3 max-w-[80%] mt-1 mb-1 fade-in-up`;
-                msg.id = 'typing-indicator';
-                msg.innerHTML = `
-                     <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center shrink-0 text-blue-600 shadow-sm border border-blue-200">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+            const showTyping = (callback, delay = 1200) => {
+                const typing = document.createElement('div');
+                typing.className = "flex gap-4 max-w-[85%] chat-bubble-bot";
+                typing.innerHTML = `
+                    <div class="w-10 h-10 rounded-2xl bg-slate-100 flex items-center justify-center shrink-0 text-slate-400 border border-slate-200">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                     </div>
-                    <div class="bg-white border border-slate-200 py-3 px-5 rounded-2xl rounded-tl-sm shadow-sm flex items-center gap-1.5 h-10 md:h-[46px]">
-                        <div class="w-1.5 h-1.5 bg-slate-400 rounded-full typing-dot"></div>
-                        <div class="w-1.5 h-1.5 bg-slate-400 rounded-full typing-dot"></div>
-                        <div class="w-1.5 h-1.5 bg-slate-400 rounded-full typing-dot"></div>
+                    <div class="glass py-4 px-6 rounded-3xl rounded-tl-none shadow-sm flex items-center gap-1.5 h-12">
+                        <div class="w-1.5 h-1.5 rounded-full typing-dot"></div>
+                        <div class="w-1.5 h-1.5 rounded-full typing-dot"></div>
+                        <div class="w-1.5 h-1.5 rounded-full typing-dot"></div>
                     </div>
                 `;
-                
-                if(!userInputBlock.classList.contains('hidden')) {
-                    chatContainer.insertBefore(msg, userInputBlock);
-                } else if (!leadCapture.classList.contains('hidden')) {
-                    chatContainer.insertBefore(msg, leadCapture);
-                } else {
-                    chatContainer.appendChild(msg);
-                }
+                chatContainer.appendChild(typing);
                 scrollToBottom();
 
                 setTimeout(() => {
-                    msg.remove();
+                    typing.remove();
                     if(callback) callback();
-                }, duration);
+                }, delay);
             };
 
-            // INITIALIZATION SEQUENCE (STEP 1)
-            appendBotMessage(`Hello. I see you're dealing with: "<em>${userQuery}</em>."`);
-            
-            showTyping(1500, () => {
-                const lowerQuery = userQuery.toLowerCase();
-                let insight = "";
+            // --- CONVERSATION LOGIC ---
 
-                if (lowerQuery.includes('accident') || lowerQuery.includes('car') || lowerQuery.includes('crash')) {
-                    insight = "In personal injury cases like this, securing evidence and understanding fault protocols are the most critical first steps.";
-                } else if (lowerQuery.includes('business') || lowerQuery.includes('llc') || lowerQuery.includes('company')) {
-                    insight = "When dealing with corporate entities, strict adherence to state-level compliance and formal agreements is essential.";
-                } else if (lowerQuery.includes('divorce') || lowerQuery.includes('child') || lowerQuery.includes('family')) {
-                    insight = "Family law matters require immediate strategic planning to protect both assets and personal rights safely.";
-                } else {
-                    insight = "This is a serious matter, and taking the right preliminary steps can significantly impact the outcome.";
-                }
+            const detectCategory = (q) => {
+                const lower = q.toLowerCase();
+                if(lower.includes('accident') || lower.includes('crash') || lower.includes('injury')) return "Personal Injury";
+                if(lower.includes('divorce') || lower.includes('custody') || lower.includes('child')) return "Family Law";
+                if(lower.includes('contract') || lower.includes('business') || lower.includes('agreement')) return "Business/Contract";
+                if(lower.includes('tenant') || lower.includes('landlord') || lower.includes('rent')) return "Housing";
+                return "General";
+            };
 
-                appendBotMessage(`Based on your initial problem statement, here's an actionable insight: <strong>${insight}</strong><br><br>To help me define the absolute best next step for you, could you please tell me your name and provide a few concise details about your legal predicament?`);
-
-                // Reveal user input block
-                userInputBlock.classList.remove('hidden');
-                scrollToBottom();
-                userChatInput.focus();
-            });
-
-            // HANDLE USER DETAILS SUBMISSION (STEP 2)
-            const handleUserDetails = () => {
-                const details = userChatInput.value.trim();
-                if(!details) return;
-
-                userDetailedPredicament = DOMPurify(details);
-                
-                // Hide input block
-                userInputBlock.classList.add('hidden');
-                
-                // Append user message
-                appendUserMessage(userDetailedPredicament);
-
-                // Attempt to extract a first name loosely (e.g., "I'm John and...")
-                const words = userDetailedPredicament.split(' ');
-                extractedName = words.length > 0 ? words[0].replace(/[^a-zA-Z]/g, '') : "there";
-                if(extractedName.toLowerCase() === 'im' || extractedName.toLowerCase() === 'my') {
-                     extractedName = words.length > 1 ? words[1].replace(/[^a-zA-Z]/g, '') : "there";
-                }
-                if(extractedName.toLowerCase() === 'name') {
-                     extractedName = words.length > 2 ? words[2].replace(/[^a-zA-Z]/g, '') : "there";
-                }
-
-                // Add name to capture form 
-                document.getElementById('capture-name').value = extractedName;
-
-                // Move to Actionable Next Step (STEP 3)
-                showTyping(2000, () => {
-                    appendBotMessage(`Thank you for sharing that context, ${extractedName}. <br><br>Based on everything you've shared, your most critical actionable next step is to <strong>formally document the incident timeline and restrict direct communication with the opposing party until representation evaluates it</strong>.<br><br>To proceed and ensure we don't miss any critical deadlines, please provide your contact details securely. I will compile all of this into a brief for an attorney review.`);
+            const runFlow = () => {
+                if(currentStep === 0) {
+                    appendBotMessage(`I've received your query: "<em>${sessionData.initialQuery}</em>".`);
+                    sessionData.category = detectCategory(sessionData.initialQuery);
                     
-                    setTimeout(() => {
-                        leadCapture.classList.remove('hidden');
-                        scrollToBottom();
-                    }, 800);
-                });
+                    showTyping(() => {
+                        appendBotMessage(`Understood. I am processing this as a <strong>${sessionData.category}</strong> matter. To provide more accurate guidance, could you start by telling me your name?`);
+                        inputWrapper.classList.remove('hidden');
+                        inputWrapper.classList.add('flex');
+                        userInput.placeholder = "My name is...";
+                        userInput.focus();
+                        currentStep = 1;
+                    });
+                }
             };
 
-            sendUserDetailsBtn.addEventListener('click', handleUserDetails);
-            userChatInput.addEventListener('keydown', (e) => {
+            const handleSubmission = () => {
+                const val = userInput.value.trim();
+                if(!val) return;
+
+                const cleanVal = DOMPurify.sanitize(val);
+                appendUserMessage(cleanVal);
+                userInput.value = "";
+                inputWrapper.classList.add('hidden');
+
+                if(currentStep === 1) {
+                    // Extract name loosely
+                    const words = cleanVal.split(' ');
+                    sessionData.userName = words.length > 0 ? words[words.length - 1].replace(/[^a-zA-Z]/g, '') : "there";
+                    if(words.length > 1 && (words[0].toLowerCase() === "im" || words[0].toLowerCase() === "i'm")) sessionData.userName = words[1];
+                    
+                    showTyping(() => {
+                        appendBotMessage(`Thanks, ${sessionData.userName}. Now, could you describe the situation in a bit more detail? For example: What happened? When did it happen? Who else is involved?`);
+                        inputWrapper.classList.remove('hidden');
+                        userInput.placeholder = "The situation is...";
+                        userInput.focus();
+                        currentStep = 2;
+                    });
+                } 
+                else if (currentStep === 2) {
+                    sessionData.details = cleanVal;
+                    
+                    showTyping(() => {
+                        let insight = "";
+                        const cat = sessionData.category;
+                        
+                        if(cat === "Personal Injury") insight = "The most critical factor right now is preserving evidence. Do not admit fault or sign any insurance waivers until you have an evidence log.";
+                        else if(cat === "Family Law") insight = "In these matters, status quo is often protected by courts. Avoid making major changes to living arrangements or financial withdrawals without a plan.";
+                        else if(cat === "Business/Contract") insight = "Strict adherence to the 'four corners' of the document is essential. Check the termination and dispute resolution clauses immediately.";
+                        else insight = "Establishing a clear timeline of events is your best first move. Keep all communications in writing from this point forward.";
+
+                        appendBotMessage(`Based on your details, ${sessionData.userName}, here is a preliminary insight:<br><br><strong>${insight}</strong><br><br>I've drafted a structured Action Path for you. To view the full analysis and get connected with verified legal support, please enter your details below.`);
+                        
+                        setTimeout(() => {
+                            leadCapture.classList.remove('hidden');
+                            scrollToBottom();
+                        }, 800);
+                        currentStep = 3;
+                    });
+                }
+            };
+
+            // --- EVENT LISTENERS ---
+
+            sendBtn.addEventListener('click', handleSubmission);
+            userInput.addEventListener('keydown', (e) => {
                 if(e.key === 'Enter' && !e.shiftKey) {
                     e.preventDefault();
-                    handleUserDetails();
+                    handleSubmission();
                 }
             });
 
-            // Handle Form Output via FormSubmit API (STEP 4)
             leadForm.addEventListener('submit', (e) => {
                 e.preventDefault();
-                
-                const nameInput = document.getElementById('capture-name').value;
-                const emailInput = document.getElementById('capture-email').value;
-                const mobileInput = document.getElementById('capture-mobile').value;
-                
-                const submitBtn = leadForm.querySelector('button[type="submit"]');
-                const btnText = submitBtn.querySelector('span');
-                
-                if(btnText) btnText.innerHTML = "Securing...";
-                submitBtn.disabled = true;
+                const btn = leadForm.querySelector('button');
+                btn.disabled = true;
+                btn.innerHTML = `<span class="animate-spin mr-2">◌</span> Securing...`;
 
-                // Send silent background request to FormSubmit
+                const payload = {
+                    name: document.getElementById('cap-name').value,
+                    email: document.getElementById('cap-email').value,
+                    mobile: document.getElementById('cap-tel').value,
+                    query: sessionData.initialQuery,
+                    category: sessionData.category,
+                    details: sessionData.details,
+                    _subject: `Equalaw Lead: ${sessionData.category} - ${document.getElementById('cap-name').value}`
+                };
+
                 fetch("https://formsubmit.co/ajax/shreyashkaku@gmail.com", {
                     method: "POST",
-                    headers: { 
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        Name: nameInput,
-                        Email: emailInput,
-                        Mobile: mobileInput,
-                        Initial_Problem_Statement: rawUserQuery,
-                        Detailed_Predicament: userDetailedPredicament,
-                        _subject: "New Complete Lead from Equalaw Funnel!"
-                    })
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify(payload)
                 })
-                .then(response => response.json())
-                .then(data => {
-                    leadForm.classList.add('hidden');
-                    document.getElementById('form-success').classList.remove('hidden');
-                    setTimeout(() => {
-                        appendBotMessage("Success. Your secure action plan and attorney connection details are being processed. Ensure no deadlines are missed while you wait.");
-                    }, 800);
+                .then(() => {
+                    leadCapture.innerHTML = `
+                        <div class="text-center py-4">
+                            <div class="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                            <h3 class="text-xl font-bold text-slate-900 mb-2">Analysis Confirmed</h3>
+                            <p class="text-slate-500 text-sm mb-4">Your secure Action Path has been generated and sent to your email.</p>
+                            <a href="index.html" class="text-brand-600 font-bold text-sm hover:underline">Return to Home</a>
+                        </div>
+                    `;
+                    appendBotMessage("Success. Your dedicated action path is ready. An attorney specialist will reach out to you within 24 hours to review your options.");
                 })
-                .catch(error => {
-                    // Fallback visual success if fetch is blocked
-                    leadForm.classList.add('hidden');
-                    document.getElementById('form-success').classList.remove('hidden');
+                .catch(() => {
+                    // Fallback visual success
+                    leadCapture.innerHTML = `<div class='text-center py-10'>Analysis Confirmed. Check your email for next steps.</div>`;
                 });
             });
+
+            // Start the flow
+            setTimeout(runFlow, 500);
         });
     </script>
 </body>
