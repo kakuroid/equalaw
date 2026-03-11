@@ -95,11 +95,21 @@
     <!-- Header — NO back button, NO escape routes -->
     <header class="glass sticky top-0 z-50 px-5 py-3.5 flex justify-between items-center shrink-0 border-b border-slate-200/50">
         <div class="flex items-center gap-3">
-            <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center text-white shadow-md">
-                <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+            <!-- Scales emblem avatar (Image 2 strategy: icon mark for chatbot) -->
+            <div class="w-9 h-9 rounded-xl bg-white border border-slate-200 flex items-center justify-center shadow-sm shrink-0">
+                <svg width="22" height="22" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="1" y="6" width="26" height="2" rx="1" fill="#C49A38"/>
+                    <rect x="12.5" y="8" width="3" height="14" fill="#C49A38"/>
+                    <rect x="9" y="22" width="10" height="2.5" rx="1" fill="#C49A38"/>
+                    <path d="M2 8 L11 8 L9 16 L4 16 Z" fill="#0061cc"/>
+                    <rect x="1.5" y="16" width="11" height="2" rx="1" fill="#0061cc"/>
+                    <path d="M17 8 L26 8 L24 16 L19 16 Z" fill="#0061cc"/>
+                    <rect x="15.5" y="16" width="11" height="2" rx="1" fill="#0061cc"/>
+                </svg>
             </div>
             <div>
-                <h1 class="text-base font-bold tracking-tight text-slate-900">Equalaw <span class="text-brand-600">Assistant</span></h1>
+                <!-- EQUALAW wordmark (Image 1/3 strategy: wordmark in header) -->
+                <h1 class="text-sm font-semibold tracking-[0.18em] text-slate-900 uppercase">EQUALAW <span class="text-brand-600 font-bold normal-case tracking-normal" style="letter-spacing:0">Assistant</span></h1>
                 <div class="flex items-center gap-1.5">
                     <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
                     <span class="text-[9px] uppercase tracking-widest font-bold text-slate-400">Analyzing your case</span>
@@ -107,15 +117,19 @@
             </div>
         </div>
 
-        <!-- Progress stepper — functional, updates with flow -->
+        <!-- Progress stepper — 4 steps -->
         <div class="hidden sm:flex items-center gap-1 bg-slate-100/50 p-1 rounded-full border border-slate-200/50">
             <div id="step-analysis" class="progress-step active px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider flex items-center gap-1.5">
                 <span class="step-dot w-2 h-2 rounded-full bg-slate-300 flex items-center justify-center"><svg class="w-1.5 h-1.5 text-white hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg></span>
                 <span class="text-slate-600">Insight</span>
             </div>
-            <div id="step-plan" class="progress-step px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider flex items-center gap-1.5">
+            <div id="step-profile" class="progress-step px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider flex items-center gap-1.5">
                 <span class="step-dot w-2 h-2 rounded-full bg-slate-300 flex items-center justify-center"><svg class="w-1.5 h-1.5 text-white hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg></span>
-                <span class="text-slate-400">Details</span>
+                <span class="text-slate-400">Profile</span>
+            </div>
+            <div id="step-qualify" class="progress-step px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider flex items-center gap-1.5">
+                <span class="step-dot w-2 h-2 rounded-full bg-slate-300 flex items-center justify-center"><svg class="w-1.5 h-1.5 text-white hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg></span>
+                <span class="text-slate-400">Qualify</span>
             </div>
             <div id="step-connect" class="progress-step px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider flex items-center gap-1.5">
                 <span class="step-dot w-2 h-2 rounded-full bg-slate-300 flex items-center justify-center"><svg class="w-1.5 h-1.5 text-white hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg></span>
@@ -202,6 +216,9 @@
             category: "General",
             userName: "",
             chosenOption: "",
+            timeline: "",
+            stepsTaken: "",
+            urgency: "",
             details: "",
             mobile: "",
             email: ""
@@ -211,8 +228,11 @@
          * FUNNEL STEPS:
          * 0 → Show query + first actionable insight with OPTIONS
          * 1 → User picks option → ask for name
-         * 2 → Use name, engage deeper → ask for contact (mobile/email)
-         * 3 → Submit lead → confirmation
+         * 2 → Got name → ask timeline question (free text)
+         * 3 → Got timeline → ask steps taken (3 option buttons)
+         * 4 → Got steps → ask urgency (3 option buttons)
+         * 5 → Got urgency → show action plan summary + contact form
+         * 6 → Submit lead → confirmation
          */
         let step = 0;
 
@@ -327,8 +347,16 @@
             const el = document.createElement('div');
             el.className = "flex gap-3 max-w-[90%] chat-bubble";
             el.innerHTML = `
-                <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center shrink-0 text-white shadow-md mt-0.5">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                <div class="w-9 h-9 rounded-xl bg-white border border-slate-200 flex items-center justify-center shrink-0 shadow-sm mt-0.5">
+                    <svg width="20" height="20" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="1" y="6" width="26" height="2" rx="1" fill="#C49A38"/>
+                        <rect x="12.5" y="8" width="3" height="14" fill="#C49A38"/>
+                        <rect x="9" y="22" width="10" height="2.5" rx="1" fill="#C49A38"/>
+                        <path d="M2 8 L11 8 L9 16 L4 16 Z" fill="#0061cc"/>
+                        <rect x="1.5" y="16" width="11" height="2" rx="1" fill="#0061cc"/>
+                        <path d="M17 8 L26 8 L24 16 L19 16 Z" fill="#0061cc"/>
+                        <rect x="15.5" y="16" width="11" height="2" rx="1" fill="#0061cc"/>
+                    </svg>
                 </div>
                 <div class="glass p-4 rounded-2xl rounded-tl-none shadow-sm text-slate-700 leading-relaxed text-[14px] border border-white/80">${html}</div>
             `;
@@ -354,8 +382,16 @@
             el.className = "flex gap-3 max-w-[90%] chat-bubble";
             el.id = "typing-indicator";
             el.innerHTML = `
-                <div class="w-9 h-9 rounded-xl bg-slate-100 flex items-center justify-center shrink-0 text-slate-400 border border-slate-200 mt-0.5">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                <div class="w-9 h-9 rounded-xl bg-white border border-slate-200 flex items-center justify-center shrink-0 shadow-sm mt-0.5">
+                    <svg width="20" height="20" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="1" y="6" width="26" height="2" rx="1" fill="#C49A38" opacity="0.5"/>
+                        <rect x="12.5" y="8" width="3" height="14" fill="#C49A38" opacity="0.5"/>
+                        <rect x="9" y="22" width="10" height="2.5" rx="1" fill="#C49A38" opacity="0.5"/>
+                        <path d="M2 8 L11 8 L9 16 L4 16 Z" fill="#94a3b8"/>
+                        <rect x="1.5" y="16" width="11" height="2" rx="1" fill="#94a3b8"/>
+                        <path d="M17 8 L26 8 L24 16 L19 16 Z" fill="#94a3b8"/>
+                        <rect x="15.5" y="16" width="11" height="2" rx="1" fill="#94a3b8"/>
+                    </svg>
                 </div>
                 <div class="glass py-3.5 px-5 rounded-2xl rounded-tl-none shadow-sm flex items-center gap-1.5">
                     <div class="w-1.5 h-1.5 rounded-full typing-dot"></div>
@@ -408,6 +444,31 @@
             scrollDown();
         }
 
+        // Show qualifying question option buttons (no icon, simpler style)
+        function showQualifyingOptions(options, handler) {
+            const container = document.createElement('div');
+            container.className = "flex flex-col gap-2 ml-12 chat-bubble";
+            options.forEach((label) => {
+                const btn = document.createElement('button');
+                btn.className = "option-btn glass px-4 py-3 rounded-xl border border-brand-200/60 text-left text-sm font-semibold text-slate-700 hover:border-brand-400 hover:bg-brand-50/50 cursor-pointer";
+                btn.textContent = label;
+                btn.addEventListener('click', () => {
+                    // Disable all buttons in this container
+                    container.querySelectorAll('button').forEach(b => {
+                        b.disabled = true;
+                        b.classList.add('opacity-40', 'pointer-events-none');
+                    });
+                    // Highlight selected
+                    btn.classList.remove('opacity-40');
+                    btn.classList.add('ring-2', 'ring-brand-400', 'bg-brand-50');
+                    handler(label);
+                });
+                container.appendChild(btn);
+            });
+            chat.appendChild(container);
+            scrollDown();
+        }
+
         // --- FLOW LOGIC ---
 
         // STEP 0: Show query + first insight + options
@@ -444,7 +505,7 @@
             });
 
             userMsg(label);
-            updateStepper('step-plan', ['step-analysis']);
+            updateStepper('step-profile', ['step-analysis']);
             step = 1;
 
             showTyping(() => {
@@ -473,7 +534,7 @@
             ).join(' ');
         }
 
-        // STEP 2: Got name → engage deeper → ask for contact
+        // STEP 2: Got name → ask timeline question (free text)
         function handleNameSubmit(name) {
             session.userName = extractName(name);
 
@@ -481,8 +542,60 @@
             hideInput();
             step = 2;
 
+            updateStepper('step-qualify', ['step-analysis', 'step-profile']);
+
             showTyping(() => {
-                botMsg(`Thanks, <strong>${session.userName}</strong>. Based on your situation and your choice to <strong>"${session.chosenOption}"</strong>, I've prepared a structured Action Plan with:<br><br>
+                botMsg(`Thanks, <strong>${session.userName}</strong>. To build your <strong>"${session.chosenOption}"</strong> action plan, I need a few quick details.<br><br>When did this situation start or happen?`);
+                showInput("e.g., Last month, 2 weeks ago...");
+            });
+        }
+
+        // STEP 3: Got timeline → ask steps taken (3 option buttons)
+        function handleTimelineSubmit(val) {
+            session.timeline = val;
+
+            userMsg(val);
+            hideInput();
+            step = 3;
+
+            showTyping(() => {
+                botMsg(`<strong>${session.userName}</strong>, have you taken any steps to address this so far?`);
+                setTimeout(() => {
+                    showQualifyingOptions(
+                        ["Nothing yet", "Spoke to them informally", "Already consulted someone"],
+                        handleStepsTakenClick
+                    );
+                }, 300);
+            });
+        }
+
+        // STEP 4: Got steps taken → ask urgency (3 option buttons)
+        function handleStepsTakenClick(label) {
+            session.stepsTaken = label;
+
+            userMsg(label);
+            step = 4;
+
+            showTyping(() => {
+                botMsg(`Got it. How urgent is this matter for you?`);
+                setTimeout(() => {
+                    showQualifyingOptions(
+                        ["Very urgent - need help today", "Somewhat urgent - this week", "Not urgent - exploring options"],
+                        handleUrgencyClick
+                    );
+                }, 300);
+            });
+        }
+
+        // STEP 5: Got urgency → show action plan summary + contact form
+        function handleUrgencyClick(label) {
+            session.urgency = label;
+
+            userMsg(label);
+            step = 5;
+
+            showTyping(() => {
+                botMsg(`Perfect, <strong>${session.userName}</strong>. Based on everything you've shared, I've prepared a comprehensive <strong>"${session.chosenOption}"</strong> Action Plan with:<br><br>
                     <div class="space-y-1.5 mt-1">
                         <div class="flex items-start gap-2"><span class="text-brand-500 mt-0.5">&#10003;</span> Step-by-step action items with timelines</div>
                         <div class="flex items-start gap-2"><span class="text-brand-500 mt-0.5">&#10003;</span> Key documents you'll need to gather</div>
@@ -491,7 +604,7 @@
                     <br><span class="text-sm text-slate-500">${session.userName}, where should I send your complete Action Plan?</span>
                 `);
 
-                updateStepper('step-connect', ['step-analysis', 'step-plan']);
+                updateStepper('step-connect', ['step-analysis', 'step-profile', 'step-qualify']);
                 contactHeading.textContent = `${session.userName}, where should I send this?`;
 
                 setTimeout(() => {
@@ -510,7 +623,7 @@
             return num.replace(/[\s\-+]/g, '').replace(/^(\+?91|0)/, '');
         }
 
-        // STEP 3: Contact submitted → raise lead
+        // STEP 6: Contact submitted → raise lead
         function handleContactSubmit(e) {
             e.preventDefault();
 
@@ -529,8 +642,8 @@
 
             session.mobile = mobile;
             session.email = document.getElementById('cap-email').value || "";
-            // Enrich details with full context
-            session.details = `Query: ${session.query} | Category: ${session.category} | Action chosen: ${session.chosenOption} | Name: ${session.userName} | Mobile: ${session.mobile} | Email: ${session.email}`;
+            // Enrich details with full context including qualifying data
+            session.details = `Query: ${session.query} | Category: ${session.category} | Action: ${session.chosenOption} | Name: ${session.userName} | Timeline: ${session.timeline} | Steps taken: ${session.stepsTaken} | Urgency: ${session.urgency} | Mobile: ${session.mobile} | Email: ${session.email}`;
 
             const btn = document.getElementById('contact-submit-btn');
             btn.disabled = true;
@@ -543,6 +656,9 @@
                 query: session.query,
                 category: session.category,
                 chosenAction: session.chosenOption,
+                timeline: session.timeline,
+                stepsTaken: session.stepsTaken,
+                urgency: session.urgency,
                 details: session.details,
                 timestamp: new Date().toISOString(),
                 source: window.location.href,
@@ -593,7 +709,94 @@
 
             botMsg(`<strong>${session.userName}</strong>, your Action Plan for <strong>"${session.chosenOption}"</strong> has been secured.<br><br>A verified legal expert specializing in <strong>${session.category}</strong> will reach out to you at <strong>${session.mobile}</strong> within 24 hours to discuss your next steps.<br><br><em class="text-slate-400 text-xs">Keep your documents ready for the consultation.</em>`);
 
-            step = 3;
+            step = 6;
+
+            // Post-completion: continue conversation to keep user engaged and gather more context
+            showTyping(() => {
+                botMsg(`While you wait, a few quick questions that will help your specialist prepare — this will make your consultation faster and more effective.<br><br><strong>Do you have any documents related to this matter?</strong>`);
+                setTimeout(() => {
+                    showQualifyingOptions(
+                        ["Yes — I have written proof", "Partially — some records", "No documents yet"],
+                        handleDocumentsResponse
+                    );
+                }, 300);
+            }, 2000);
+        }
+
+        // Post-completion: Documents → Location → Free slot
+        function handleDocumentsResponse(label) {
+            session.hasDocuments = label;
+
+            userMsg(label);
+
+            showTyping(() => {
+                const docAdvice = label.includes("Yes")
+                    ? "Good — your specialist will need to review them. Keep them accessible."
+                    : label.includes("Partially")
+                    ? "Even partial records help. Start gathering what you can."
+                    : "Don't worry — your specialist will guide you on what to collect.";
+
+                botMsg(`${docAdvice}<br><br><strong>Which city or state are you in?</strong> This helps us match you with the right local expert.`);
+                showInput("City / State...");
+                step = 7;
+            });
+        }
+
+        // STEP 7: Got location → ask best time for consultation
+        function handleLocationSubmit(location) {
+            session.location = location;
+
+            userMsg(location);
+            hideInput();
+            step = 8;
+
+            // Send a follow-up data payload with enriched info
+            const enrichedPayload = {
+                name: session.userName,
+                mobile: session.mobile,
+                location: session.location,
+                hasDocuments: session.hasDocuments || "",
+                preferredTime: "",
+                _subject: `Equalaw Follow-up [${session.category}] ${session.userName} — ${session.location}`,
+                _template: "table"
+            };
+
+            showTyping(() => {
+                botMsg(`Got it — <strong>${location}</strong>. One last thing, <strong>${session.userName}</strong>:<br><br><strong>When is the best time for your expert to call?</strong>`);
+                setTimeout(() => {
+                    showQualifyingOptions(
+                        ["Morning (9am–12pm)", "Afternoon (12pm–5pm)", "Evening (5pm–8pm)"],
+                        (slot) => handleTimeSlotResponse(slot, enrichedPayload)
+                    );
+                }, 300);
+            });
+        }
+
+        // Final post-completion: slot selected → send enriched update + wrap up
+        function handleTimeSlotResponse(slot, payload) {
+            session.preferredTime = slot;
+            payload.preferredTime = slot;
+
+            userMsg(slot);
+            step = 9;
+
+            // Send enriched follow-up payload
+            fetch("https://formsubmit.co/ajax/shreyashkaku@gmail.com", {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: JSON.stringify(payload)
+            }).catch(() => {}); // Silent — non-critical
+
+            showTyping(() => {
+                botMsg(`Perfect. Your specialist for <strong>${session.category}</strong> in <strong>${session.location}</strong> has been briefed and will call you in the <strong>${slot}</strong> window.<br><br>
+                    <div class="bg-brand-50 rounded-xl p-3 mt-2 text-xs font-medium text-slate-600 space-y-1.5">
+                        <div class="flex items-center gap-2"><span class="text-green-500">✓</span> Action Plan: <strong>${session.chosenOption}</strong></div>
+                        <div class="flex items-center gap-2"><span class="text-green-500">✓</span> Contact: <strong>${session.mobile}</strong></div>
+                        <div class="flex items-center gap-2"><span class="text-green-500">✓</span> Area: <strong>${session.location}</strong></div>
+                        <div class="flex items-center gap-2"><span class="text-green-500">✓</span> Call time: <strong>${slot}</strong></div>
+                    </div>
+                    <br><em class="text-slate-400 text-xs">Save this for your records. You can close this window now.</em>`);
+            }, 1200);
         }
 
         // --- Event listeners ---
@@ -603,6 +806,8 @@
             hideInput();
 
             if (step === 1) handleNameSubmit(val);
+            else if (step === 2) handleTimelineSubmit(val);
+            else if (step === 7) handleLocationSubmit(val);
         }
 
         // Mobile input: strip non-digits as user types
