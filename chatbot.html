@@ -158,8 +158,12 @@
                 </div>
                 <form id="contact-form" class="space-y-2.5">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                        <input type="tel" id="cap-tel" placeholder="Mobile number" required
-                            class="w-full bg-white/50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-brand-500/20 focus:border-brand-400 outline-none transition-all font-medium">
+                        <div class="relative">
+                            <input type="tel" id="cap-tel" placeholder="Mobile number" required
+                                pattern="[6-9][0-9]{9}" minlength="10" maxlength="10"
+                                class="w-full bg-white/50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-brand-500/20 focus:border-brand-400 outline-none transition-all font-medium">
+                            <span id="tel-error" class="hidden text-[10px] text-red-500 font-medium absolute -bottom-4 left-1">Enter valid 10-digit Indian mobile number</span>
+                        </div>
                         <input type="email" id="cap-email" placeholder="Email (optional)"
                             class="w-full bg-white/50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-brand-500/20 focus:border-brand-400 outline-none transition-all font-medium">
                     </div>
@@ -423,6 +427,8 @@
         // STEP 1: User picks option → ask for name
         function handleOptionClick(label, container) {
             session.chosenOption = label;
+            // Store chosen option as part of details context
+            session.details = `Initial query: ${session.query} | Category: ${session.category} | Chosen action: ${label}`;
 
             // Disable all option buttons
             container.querySelectorAll('button').forEach(btn => {
@@ -443,21 +449,33 @@
 
             showTyping(() => {
                 botMsg(`Great choice. I'll build a detailed <strong>"${label}"</strong> action plan for you.<br><br>To personalize your guidance, what should I call you?`);
-                showInput("My name is...");
+                showInput("Your name...");
             });
+        }
+
+        // --- Name extraction helper ---
+        function extractName(raw) {
+            let input = raw.trim();
+            // Remove common preambles: "My name is", "I'm", "I am", "call me", "its", "it's"
+            input = input
+                .replace(/^(hi|hello|hey)[,.\s]*/i, '')
+                .replace(/^(my\s+name\s+is|i\s*'?\s*m|i\s+am|call\s+me|they\s+call\s+me|it'?s)\s+/i, '')
+                .replace(/[.!,]+$/, '')
+                .trim();
+            // If nothing left, use last word of original
+            if (!input) {
+                const words = raw.trim().split(/\s+/);
+                input = words[words.length - 1];
+            }
+            // Capitalize each word (proper name)
+            return input.split(/\s+/).map(w =>
+                w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()
+            ).join(' ');
         }
 
         // STEP 2: Got name → engage deeper → ask for contact
         function handleNameSubmit(name) {
-            // Smart name extraction
-            let extracted = name.trim();
-            const words = extracted.split(/\s+/);
-            // Handle "I'm Rahul", "My name is Priya", etc.
-            const skipPhrases = ["my", "name", "is", "i'm", "im", "i", "am", "call", "me"];
-            let cleaned = words.filter(w => !skipPhrases.includes(w.toLowerCase())).join(' ');
-            session.userName = cleaned || words[words.length - 1] || "there";
-            // Capitalize first letter
-            session.userName = session.userName.charAt(0).toUpperCase() + session.userName.slice(1);
+            session.userName = extractName(name);
 
             userMsg(name);
             hideInput();
@@ -483,12 +501,36 @@
             });
         }
 
+        // --- Mobile validation ---
+        function isValidIndianMobile(num) {
+            return /^[6-9]\d{9}$/.test(num.replace(/[\s\-+]/g, '').replace(/^(\+?91|0)/, ''));
+        }
+
+        function cleanMobile(num) {
+            return num.replace(/[\s\-+]/g, '').replace(/^(\+?91|0)/, '');
+        }
+
         // STEP 3: Contact submitted → raise lead
         function handleContactSubmit(e) {
             e.preventDefault();
 
-            session.mobile = document.getElementById('cap-tel').value;
+            const rawMobile = document.getElementById('cap-tel').value;
+            const mobile = cleanMobile(rawMobile);
+            const telError = document.getElementById('tel-error');
+
+            if (!isValidIndianMobile(rawMobile)) {
+                telError.classList.remove('hidden');
+                document.getElementById('cap-tel').classList.add('border-red-400');
+                document.getElementById('cap-tel').focus();
+                return;
+            }
+            telError.classList.add('hidden');
+            document.getElementById('cap-tel').classList.remove('border-red-400');
+
+            session.mobile = mobile;
             session.email = document.getElementById('cap-email').value || "";
+            // Enrich details with full context
+            session.details = `Query: ${session.query} | Category: ${session.category} | Action chosen: ${session.chosenOption} | Name: ${session.userName} | Mobile: ${session.mobile} | Email: ${session.email}`;
 
             const btn = document.getElementById('contact-submit-btn');
             btn.disabled = true;
@@ -502,7 +544,10 @@
                 category: session.category,
                 chosenAction: session.chosenOption,
                 details: session.details,
-                _subject: `Equalaw Lead [${session.category}] ${session.userName} - ${session.chosenOption}`
+                timestamp: new Date().toISOString(),
+                source: window.location.href,
+                _subject: `Equalaw Lead [${session.category}] ${session.userName} - ${session.chosenOption}`,
+                _template: "table"
             };
 
             fetch("https://formsubmit.co/ajax/shreyashkaku@gmail.com", {
@@ -516,14 +561,20 @@
             })
             .then(() => showSuccess())
             .catch(() => {
-                // Retry once, then show success anyway (lead data logged in session)
+                // Retry once
                 btn.innerHTML = `Retrying...`;
                 setTimeout(() => {
                     fetch("https://formsubmit.co/ajax/shreyashkaku@gmail.com", {
                         method: "POST",
                         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
                         body: JSON.stringify(payload)
-                    }).finally(() => showSuccess());
+                    })
+                    .then(() => showSuccess())
+                    .catch(() => {
+                        // Final fallback — show error with retry button
+                        btn.disabled = false;
+                        btn.innerHTML = `Retry — Network Issue <svg class="w-4 h-4 inline ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>`;
+                    });
                 }, 2000);
             });
         }
@@ -535,7 +586,8 @@
                         <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
                     </div>
                     <h3 class="text-lg font-bold text-slate-900 mb-1">Plan Secured, ${session.userName}</h3>
-                    <p class="text-slate-500 text-xs">A legal specialist will contact you within 24 hours.</p>
+                    <p class="text-slate-500 text-xs mb-4">A legal specialist will contact you within 24 hours.</p>
+                    <button onclick="window.location.href='index.html'" class="text-brand-600 font-bold text-sm hover:underline">Have another legal question? →</button>
                 </div>
             `;
 
@@ -552,6 +604,13 @@
 
             if (step === 1) handleNameSubmit(val);
         }
+
+        // Mobile input: strip non-digits as user types
+        document.getElementById('cap-tel').addEventListener('input', function() {
+            this.value = this.value.replace(/[^\d+\-\s]/g, '');
+            document.getElementById('tel-error').classList.add('hidden');
+            this.classList.remove('border-red-400');
+        });
 
         sendBtn.addEventListener('click', handleSend);
         userInput.addEventListener('keydown', (e) => {
