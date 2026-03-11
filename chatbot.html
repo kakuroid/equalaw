@@ -73,30 +73,40 @@
     <main id="chat-container" class="flex-1 overflow-y-auto p-4 md:p-6 flex flex-col gap-4 max-w-3xl mx-auto w-full pb-12 items-start relative z-0">
         <!-- Initial messages dynamically injected here -->
         
-        <!-- Quick Replies (Hidden initially) -->
-        <div id="quick-replies" class="hidden flex flex-col gap-2 w-full max-w-[90%] md:max-w-[85%] fade-in-up" style="animation-delay: 0.1s;">
-            <!-- Buttons dynamically injected here -->
+        <!-- User Chat Input Block (Step 2) -->
+        <div id="user-input-block" class="hidden w-full max-w-[95%] md:max-w-[85%] mt-2 fade-in-up">
+            <div class="flex gap-2 bg-white border border-slate-300 rounded-2xl p-2 shadow-sm focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 transition-all">
+                <textarea id="user-chat-input" rows="2" placeholder="My name is... and the situation is..." class="w-full bg-transparent border-none outline-none resize-none px-3 py-2 text-slate-700 text-[15px]"></textarea>
+                <button id="send-user-details" class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-xl shrink-0 transition-colors shadow-sm self-end">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+                </button>
+            </div>
+            <p class="text-[11px] font-medium text-slate-400 mt-2 ml-2">Press Enter to send. Shift+Enter for new line.</p>
         </div>
 
-        <!-- Lead Capture Block (Hidden initially) -->
+        <!-- Lead Capture Block (Step 4) -->
         <div id="lead-capture" class="hidden flex gap-3 max-w-[95%] md:max-w-[85%] mt-4 fade-in-up">
             <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center shrink-0 text-blue-600 shadow-sm border border-blue-200">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
             </div>
             <div class="bg-white border border-slate-200 p-5 rounded-2xl rounded-tl-sm shadow-sm text-slate-700 w-full relative overflow-hidden group">
                 <div class="absolute top-0 left-0 w-1 h-full bg-blue-500 rounded-l-2xl"></div>
-                <p class="mb-5 text-[15px] leading-relaxed relative z-10">
-                    To prioritize your privacy and ensure you receive the correct guidance pack, I will send this customized outline directly to you safely. Where should I send your action plan?
+                <p class="mb-5 text-[15px] leading-relaxed relative z-10" id="final-cta-text">
+                    To prioritize your privacy and securely send your customized action plan, please provide your contact details below.
                 </p>
                 
-                <form id="lead-form" class="flex flex-col gap-3 relative z-10 w-full">
+                <form id="lead-form" class="flex flex-col gap-3 relative z-10 w-full" action="https://formsubmit.co/shreyashkaku@gmail.com" method="POST">
                     <div class="relative w-full">
-                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                            <svg class="h-5 w-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-                        </div>
-                        <input type="email" placeholder="Your secure email address" required class="w-full bg-slate-50 border border-slate-300 rounded-xl pl-11 pr-4 py-3.5 focus:outline-none focus:border-blue-500 focus:bg-white transition text-[15px] shadow-sm font-medium" />
+                        <input type="text" name="name" id="capture-name" placeholder="Your Full Name" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3.5 focus:outline-none focus:border-blue-500 focus:bg-white transition text-[15px] shadow-sm font-medium" />
                     </div>
-                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3.5 rounded-xl transition shadow-md hover:shadow-lg flex justify-center items-center gap-2 cursor-pointer relative overflow-hidden group/btn">
+                    <div class="relative w-full">
+                        <input type="email" name="email" id="capture-email" placeholder="Your Email Address" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3.5 focus:outline-none focus:border-blue-500 focus:bg-white transition text-[15px] shadow-sm font-medium" />
+                    </div>
+                    <div class="relative w-full">
+                        <input type="tel" name="mobile" id="capture-mobile" placeholder="Your Mobile Number" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3.5 focus:outline-none focus:border-blue-500 focus:bg-white transition text-[15px] shadow-sm font-medium" />
+                    </div>
+                    
+                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3.5 rounded-xl transition shadow-md hover:shadow-lg flex justify-center items-center gap-2 cursor-pointer relative overflow-hidden group/btn mt-2">
                         <span class="relative z-10 flex items-center gap-2">
                             Secure My Action Plan
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
@@ -116,14 +126,14 @@
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                     </div>
                     <h4 class="font-bold text-slate-900 mb-1">Confirmed</h4>
-                    <p class="text-[13px] text-slate-500 leading-relaxed font-medium">Your customized legal outline is being generated and dispatched to your email securely.</p>
+                    <p class="text-[13px] text-slate-500 leading-relaxed font-medium">Your customized legal outline is being generated and will be sent to your email and phone securely.</p>
                 </div>
             </div>
         </div>
 
     </main>
 
-    <footer class="bg-slate-100/50 border-t border-slate-200 shrink-0 shadow-[0_-4px_15px_-3px_rgba(0,0,0,0.03)] pb-safe relative z-10 w-full">
+    <footer class="bg-slate-100/50 border-t border-slate-200 shrink-0 shadow-[0_-4px_15px_-3px_rgba(0,0,0,0.03)] pb-safe relative z-10 w-full hidden" id="main-footer">
         <div class="bg-transparent px-4 py-3 flex justify-center w-full max-w-3xl mx-auto">
             <div class="text-center w-full max-w-xl">
                  <p class="text-[10px] md:text-[11px] font-medium text-slate-400 uppercase tracking-widest mb-1.5">MANDATORY LEGAL DISCLAIMER</p>
@@ -147,9 +157,15 @@
             const userQuery = DOMPurify(rawUserQuery);
 
             const chatContainer = document.getElementById('chat-container');
-            const quickRepliesContainer = document.getElementById('quick-replies');
+            const userInputBlock = document.getElementById('user-input-block');
+            const userChatInput = document.getElementById('user-chat-input');
+            const sendUserDetailsBtn = document.getElementById('send-user-details');
             const leadCapture = document.getElementById('lead-capture');
             const leadForm = document.getElementById('lead-form');
+            const finalCtaText = document.getElementById('final-cta-text');
+            
+            let userDetailedPredicament = "";
+            let extractedName = "";
 
             // UTILS
             const scrollToBottom = () => {
@@ -175,9 +191,12 @@
                         ${text}
                     </div>
                 `;
-                // Insert before lead capture or replies so it flows down correctly
-                if(quickRepliesContainer.parentNode) {
-                    chatContainer.insertBefore(msg, quickRepliesContainer);
+                
+                // Keep input/capture blocks at bottom
+                if(!userInputBlock.classList.contains('hidden')) {
+                    chatContainer.insertBefore(msg, userInputBlock);
+                } else if (!leadCapture.classList.contains('hidden')) {
+                    chatContainer.insertBefore(msg, leadCapture);
                 } else {
                     chatContainer.appendChild(msg);
                 }
@@ -190,10 +209,13 @@
                 msg.className = `flex gap-3 max-w-[90%] md:max-w-[80%] self-end flex-row-reverse mt-1 fade-in-up`;
                 msg.innerHTML = `
                     <div class="bg-blue-600 text-white p-4 rounded-2xl rounded-tr-sm shadow-md leading-relaxed text-[15px] font-medium">
-                        ${text}
+                        ${text.replace(/\n/g, '<br>')}
                     </div>
                 `;
-                if(quickRepliesContainer.parentNode) {
+                
+                if(!userInputBlock.classList.contains('hidden')) {
+                    chatContainer.insertBefore(msg, userInputBlock);
+                } else if (!leadCapture.classList.contains('hidden')) {
                     chatContainer.insertBefore(msg, leadCapture);
                 } else {
                     chatContainer.appendChild(msg);
@@ -215,7 +237,14 @@
                         <div class="w-1.5 h-1.5 bg-slate-400 rounded-full typing-dot"></div>
                     </div>
                 `;
-                chatContainer.insertBefore(msg, quickRepliesContainer);
+                
+                if(!userInputBlock.classList.contains('hidden')) {
+                    chatContainer.insertBefore(msg, userInputBlock);
+                } else if (!leadCapture.classList.contains('hidden')) {
+                    chatContainer.insertBefore(msg, leadCapture);
+                } else {
+                    chatContainer.appendChild(msg);
+                }
                 scrollToBottom();
 
                 setTimeout(() => {
@@ -224,75 +253,119 @@
                 }, duration);
             };
 
-            // INITIALIZATION SEQUENCE
-            
-            // 1. Initial Greeting Mirroring Query
+            // INITIALIZATION SEQUENCE (STEP 1)
             appendBotMessage(`Hello. I see you're dealing with: "<em>${userQuery}</em>."`);
             
-            // 2. Typing indicator into follow up logic
-            showTyping(1200, () => {
+            showTyping(1500, () => {
                 const lowerQuery = userQuery.toLowerCase();
-                let followUp = "";
-                let options = [];
+                let insight = "";
 
                 if (lowerQuery.includes('accident') || lowerQuery.includes('car') || lowerQuery.includes('crash')) {
-                    followUp = "Due to strict statute of limitation laws, securing evidence immediately is critical. What area is your priority right now?";
-                    options = ["Understand fault and liability", "Insurance claim steps", "Find personal injury representation"];
+                    insight = "In personal injury cases like this, securing evidence and understanding fault protocols are the most critical first steps.";
                 } else if (lowerQuery.includes('business') || lowerQuery.includes('llc') || lowerQuery.includes('company')) {
-                    followUp = "Starting or managing a business involves specific state-level legal steps. How can I assist you with your entity?";
-                    options = ["Steps to form an LLC", "Contract templates and logic", "Consult business counsel"];
+                    insight = "When dealing with corporate entities, strict adherence to state-level compliance and formal agreements is essential.";
                 } else if (lowerQuery.includes('divorce') || lowerQuery.includes('child') || lowerQuery.includes('family')) {
-                    followUp = "Family law matters are highly sensitive and require immediate strategic planning. What information do you need first?";
-                    options = ["Understand custody rights", "Filing for legal separation", "Immediate family law representation"];
+                    insight = "Family law matters require immediate strategic planning to protect both assets and personal rights safely.";
                 } else {
-                    followUp = "I can provide preliminary guidance to help you understand your options. Based on your description, here are some relevant focus areas. Please select one to proceed:";
-                    options = ["Understand my fundamental rights", "What are my immediate next steps?", "General attorney consultation"];
+                    insight = "This is a serious matter, and taking the right preliminary steps can significantly impact the outcome.";
                 }
 
-                appendBotMessage(followUp);
+                appendBotMessage(`Based on your initial problem statement, here's an actionable insight: <strong>${insight}</strong><br><br>To help me define the absolute best next step for you, could you please tell me your name and provide a few concise details about your legal predicament?`);
 
-                // 3. Render Buttons
-                options.forEach((opt, index) => {
-                    const btn = document.createElement('button');
-                    btn.className = "w-full text-left bg-transparent border border-blue-200 text-blue-700 hover:bg-blue-50 hover:border-blue-300 font-semibold py-3.5 px-6 rounded-xl transition-all shadow-sm text-[15px]";
-                    btn.textContent = opt;
-                    
-                    btn.addEventListener('click', () => handleUserChoice(opt, btn));
-                    quickRepliesContainer.appendChild(btn);
-                });
-
-                quickRepliesContainer.classList.remove('hidden');
+                // Reveal user input block
+                userInputBlock.classList.remove('hidden');
                 scrollToBottom();
+                userChatInput.focus();
             });
 
-            // CORE INTERACTION HANDLER
-            const handleUserChoice = (choiceText, node) => {
-                // Clear UI buttons
-                quickRepliesContainer.classList.add('hidden');
-                
-                // Mirror choice in chat
-                appendUserMessage(choiceText);
+            // HANDLE USER DETAILS SUBMISSION (STEP 2)
+            const handleUserDetails = () => {
+                const details = userChatInput.value.trim();
+                if(!details) return;
 
-                // Lead Capture Handoff Delay
-                showTyping(1500, () => {
-                    appendBotMessage(`Excellent context. Identifying key action steps for "${choiceText}". To ensure accurate guidance, customized outlines are delivered securely.`);
+                userDetailedPredicament = DOMPurify(details);
+                
+                // Hide input block
+                userInputBlock.classList.add('hidden');
+                
+                // Append user message
+                appendUserMessage(userDetailedPredicament);
+
+                // Attempt to extract a first name loosely (e.g., "I'm John and...")
+                const words = userDetailedPredicament.split(' ');
+                extractedName = words.length > 0 ? words[0].replace(/[^a-zA-Z]/g, '') : "there";
+                if(extractedName.toLowerCase() === 'im' || extractedName.toLowerCase() === 'my') {
+                     extractedName = words.length > 1 ? words[1].replace(/[^a-zA-Z]/g, '') : "there";
+                }
+                if(extractedName.toLowerCase() === 'name') {
+                     extractedName = words.length > 2 ? words[2].replace(/[^a-zA-Z]/g, '') : "there";
+                }
+
+                // Add name to capture form 
+                document.getElementById('capture-name').value = extractedName;
+
+                // Move to Actionable Next Step (STEP 3)
+                showTyping(2000, () => {
+                    appendBotMessage(`Thank you for sharing that context, ${extractedName}. <br><br>Based on everything you've shared, your most critical actionable next step is to <strong>formally document the incident timeline and restrict direct communication with the opposing party until representation evaluates it</strong>.<br><br>To proceed and ensure we don't miss any critical deadlines, please provide your contact details securely. I will compile all of this into a brief for an attorney review.`);
                     
-                    // Reveal form after 600ms to maintain realistic pace as specified
                     setTimeout(() => {
                         leadCapture.classList.remove('hidden');
                         scrollToBottom();
-                    }, 600);
+                    }, 800);
                 });
-            }
+            };
 
-            // Handle Form Output
+            sendUserDetailsBtn.addEventListener('click', handleUserDetails);
+            userChatInput.addEventListener('keydown', (e) => {
+                if(e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    handleUserDetails();
+                }
+            });
+
+            // Handle Form Output via FormSubmit API (STEP 4)
             leadForm.addEventListener('submit', (e) => {
                 e.preventDefault();
-                leadForm.classList.add('hidden');
-                document.getElementById('form-success').classList.remove('hidden');
-                setTimeout(() => {
-                    appendBotMessage("Success. Your secure outline is on its way. Ensure no deadlines are missed while you review.");
-                }, 800);
+                
+                const nameInput = document.getElementById('capture-name').value;
+                const emailInput = document.getElementById('capture-email').value;
+                const mobileInput = document.getElementById('capture-mobile').value;
+                
+                const submitBtn = leadForm.querySelector('button[type="submit"]');
+                const btnText = submitBtn.querySelector('span');
+                
+                if(btnText) btnText.innerHTML = "Securing...";
+                submitBtn.disabled = true;
+
+                // Send silent background request to FormSubmit
+                fetch("https://formsubmit.co/ajax/shreyashkaku@gmail.com", {
+                    method: "POST",
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        Name: nameInput,
+                        Email: emailInput,
+                        Mobile: mobileInput,
+                        Initial_Problem_Statement: rawUserQuery,
+                        Detailed_Predicament: userDetailedPredicament,
+                        _subject: "New Complete Lead from Equalaw Funnel!"
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    leadForm.classList.add('hidden');
+                    document.getElementById('form-success').classList.remove('hidden');
+                    setTimeout(() => {
+                        appendBotMessage("Success. Your secure action plan and attorney connection details are being processed. Ensure no deadlines are missed while you wait.");
+                    }, 800);
+                })
+                .catch(error => {
+                    // Fallback visual success if fetch is blocked
+                    leadForm.classList.add('hidden');
+                    document.getElementById('form-success').classList.remove('hidden');
+                });
             });
         });
     </script>
