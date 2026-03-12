@@ -10,7 +10,8 @@
     <meta property="og:description" content="Describe your legal situation and get a clear, structured action plan. Free, instant, and confidential.">
     <meta property="og:url" content="https://www.equalaw.tech/chatbot">
     <meta property="og:type" content="website">
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="/assets/equalaw-logo.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -124,19 +125,9 @@
     <!-- Header — NO back button, NO escape routes -->
     <header class="glass sticky top-0 z-50 px-5 py-3.5 flex justify-between items-center shrink-0 border-b border-slate-200/50">
         <div class="flex items-center gap-3">
-            <!-- Scales emblem avatar (from brand asset) -->
-            <div class="w-9 h-9 rounded-xl bg-white border border-slate-200 flex items-center justify-center shadow-sm shrink-0">
-                <svg width="22" height="22" viewBox="0 0 100 100">
-                    <rect x="5" y="5" width="44" height="7" fill="#1e293b"/>
-                    <rect x="51" y="5" width="44" height="7" fill="#1e293b"/>
-                    <polygon points="5,12 42,12 42,20 35,20 20,68 5,68" fill="#1e293b"/>
-                    <polygon points="15,55 26,55 23,32 18,32" fill="white"/>
-                    <polygon points="58,12 95,12 95,68 80,68 65,20 58,20" fill="#1e293b"/>
-                    <polygon points="74,55 85,55 82,32 77,32" fill="white"/>
-                    <rect x="44" y="12" width="12" height="78" fill="#1e293b"/>
-                    <rect x="5" y="85" width="40" height="10" fill="#1e293b"/>
-                    <rect x="55" y="85" width="40" height="10" fill="#1e293b"/>
-                </svg>
+            <!-- Scales emblem avatar (brand asset) -->
+            <div class="w-9 h-9 rounded-xl bg-white border border-slate-200 flex items-center justify-center shadow-sm shrink-0 overflow-hidden">
+                <img src="/assets/equalaw-logo.svg" alt="" width="24" height="24" class="w-6 h-6" aria-hidden="true">
             </div>
             <div>
                 <!-- EQUALAW wordmark (Image 1/3 strategy: wordmark in header) -->
