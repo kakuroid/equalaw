@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Equalaw | Legal Guidance Assistant</title>
+    <meta name="description" content="Get a structured legal action plan for your situation in minutes. Free, private, and guided — Equalaw connects you with the right legal specialist.">
+    <meta name="robots" content="noindex, nofollow">
+    <meta property="og:title" content="Equalaw | Legal Guidance Assistant">
+    <meta property="og:description" content="Describe your legal situation and get a clear, structured action plan. Free, instant, and confidential.">
+    <meta property="og:url" content="https://www.equalaw.tech/chatbot-ui">
+    <meta property="og:type" content="website">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -196,15 +203,24 @@
                 </div>
                 <form id="contact-form" class="space-y-2.5">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                        <div class="relative">
-                            <input type="tel" id="cap-tel" placeholder="Mobile number" required
+                        <div class="relative pb-5">
+                            <input type="tel" id="cap-tel" placeholder="+91 Mobile number" required
                                 pattern="[6-9][0-9]{9}" minlength="10" maxlength="10"
                                 class="w-full bg-white/50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-brand-500/20 focus:border-brand-400 outline-none transition-all font-medium">
-                            <span id="tel-error" class="hidden text-[10px] text-red-500 font-medium absolute -bottom-4 left-1">Enter valid 10-digit Indian mobile number</span>
+                            <span id="tel-error" class="hidden text-[10px] text-red-500 font-semibold absolute bottom-0 left-1">Enter a valid 10-digit Indian mobile number</span>
                         </div>
                         <input type="email" id="cap-email" placeholder="Email (optional)"
                             class="w-full bg-white/50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-brand-500/20 focus:border-brand-400 outline-none transition-all font-medium">
                     </div>
+                    <!-- Consent checkbox — required for DPDP Act compliance -->
+                    <label class="flex items-start gap-2.5 cursor-pointer group">
+                        <input type="checkbox" id="consent-check" required
+                            class="mt-0.5 h-4 w-4 rounded border-slate-300 text-brand-600 focus:ring-brand-500 shrink-0 cursor-pointer">
+                        <span class="text-[11px] text-slate-500 leading-relaxed">
+                            I consent to Equalaw collecting and using my contact details to connect me with a legal specialist, in accordance with the <a href="/privacy" target="_blank" class="text-brand-600 underline underline-offset-2 hover:text-brand-800">Privacy Policy</a>. I understand this is not legal advice.
+                        </span>
+                    </label>
+                    <span id="consent-error" class="hidden text-[10px] text-red-500 font-semibold">Please accept the terms to continue.</span>
                     <button type="submit" id="contact-submit-btn" class="w-full bg-brand-600 hover:bg-brand-700 active:scale-[0.98] text-white font-bold py-3 rounded-xl shadow-lg shadow-brand-500/20 transition-all flex items-center justify-center gap-2">
                         Get My Action Plan
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
@@ -223,7 +239,7 @@
         const urlParams = new URLSearchParams(window.location.search);
         const rawQuery = urlParams.get('query');
 
-        if (!rawQuery) { window.location.href = "index.html"; return; }
+        if (!rawQuery) { window.location.href = "/"; return; }
 
         // --- DOM refs ---
         const chat = document.getElementById('chat-container');
@@ -435,6 +451,13 @@
             setTimeout(() => { el.remove(); if (cb) cb(); }, delay);
         }
 
+        const stepStatusLabels = {
+            'step-analysis': 'Reviewing your situation',
+            'step-profile':  'Building your profile',
+            'step-qualify':  'Qualifying your case',
+            'step-connect':  'Preparing your action plan'
+        };
+
         function updateStepper(activeId, doneIds) {
             doneIds.forEach(id => {
                 const el = document.getElementById(id);
@@ -445,6 +468,11 @@
                 active.classList.add('active');
                 active.querySelector('span:last-child').classList.remove('text-slate-400');
                 active.querySelector('span:last-child').classList.add('text-slate-600');
+            }
+            // Keep header status label in sync with stepper
+            const statusEl = document.getElementById('header-status');
+            if (statusEl && stepStatusLabels[activeId]) {
+                statusEl.textContent = stepStatusLabels[activeId];
             }
         }
 
@@ -661,7 +689,10 @@
             const rawMobile = document.getElementById('cap-tel').value;
             const mobile = cleanMobile(rawMobile);
             const telError = document.getElementById('tel-error');
+            const consentCheck = document.getElementById('consent-check');
+            const consentError = document.getElementById('consent-error');
 
+            // Validate mobile
             if (!isValidIndianMobile(rawMobile)) {
                 telError.classList.remove('hidden');
                 document.getElementById('cap-tel').classList.add('border-red-400');
@@ -670,6 +701,14 @@
             }
             telError.classList.add('hidden');
             document.getElementById('cap-tel').classList.remove('border-red-400');
+
+            // Validate consent
+            if (!consentCheck.checked) {
+                consentError.classList.remove('hidden');
+                consentCheck.focus();
+                return;
+            }
+            consentError.classList.add('hidden');
 
             session.mobile = mobile;
             session.email = document.getElementById('cap-email').value || "";
@@ -697,7 +736,7 @@
                 _template: "table"
             };
 
-            fetch("https://formsubmit.co/ajax/shreyashkaku@gmail.com", {
+            fetch("https://formsubmit.co/ajax/support@equalaw.tech", {
                 method: "POST",
                 headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
                 body: JSON.stringify(payload)
@@ -711,7 +750,7 @@
                 // Retry once
                 btn.innerHTML = `Retrying...`;
                 setTimeout(() => {
-                    fetch("https://formsubmit.co/ajax/shreyashkaku@gmail.com", {
+                    fetch("https://formsubmit.co/ajax/support@equalaw.tech", {
                         method: "POST",
                         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
                         body: JSON.stringify(payload)
@@ -734,7 +773,7 @@
                     </div>
                     <h3 class="text-lg font-bold text-slate-900 mb-1">Plan Secured, ${session.userName}</h3>
                     <p class="text-slate-500 text-xs mb-4">A legal specialist will contact you within 24 hours.</p>
-                    <button onclick="window.location.href='index.html'" class="text-brand-600 font-bold text-sm hover:underline">Have another legal question? →</button>
+                    <button onclick="window.location.href='/'" class="text-brand-600 font-bold text-sm hover:underline">Have another legal question? →</button>
                 </div>
             `;
 
@@ -812,7 +851,7 @@
             step = 9;
 
             // Send enriched follow-up payload
-            fetch("https://formsubmit.co/ajax/shreyashkaku@gmail.com", {
+            fetch("https://formsubmit.co/ajax/support@equalaw.tech", {
                 method: "POST",
                 headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
                 body: JSON.stringify(payload)

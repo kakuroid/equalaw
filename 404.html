@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found | Equalaw</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+        }
+        .emblem { margin-bottom: 1.5rem; opacity: 0.15; }
+        h1 { font-size: 6rem; font-weight: 800; color: #0061cc; line-height: 1; }
+        h2 { font-size: 1.5rem; font-weight: 700; margin: 0.75rem 0 0.5rem; }
+        p  { font-size: 1rem; color: #64748b; max-width: 360px; line-height: 1.6; }
+        .btn {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            margin-top: 2rem;
+            background: #0061cc; color: white;
+            font-size: 0.95rem; font-weight: 700;
+            padding: 0.85rem 2rem; border-radius: 9999px;
+            text-decoration: none;
+            transition: background 0.2s, transform 0.2s;
+        }
+        .btn:hover { background: #004da3; transform: translateY(-2px); }
+        footer { margin-top: 3rem; font-size: 0.7rem; color: #94a3b8; }
+    </style>
+</head>
+<body>
+    <div class="emblem">
+        <svg width="72" height="72" viewBox="0 0 100 100">
+            <rect x="5"  y="5"  width="44" height="7"  fill="#1e293b"/>
+            <rect x="51" y="5"  width="44" height="7"  fill="#1e293b"/>
+            <polygon points="5,12 42,12 42,20 35,20 20,68 5,68"    fill="#1e293b"/>
+            <polygon points="15,55 26,55 23,32 18,32"              fill="white"/>
+            <polygon points="58,12 95,12 95,68 80,68 65,20 58,20"  fill="#1e293b"/>
+            <polygon points="74,55 85,55 82,32 77,32"              fill="white"/>
+            <rect x="44" y="12" width="12" height="78"             fill="#1e293b"/>
+            <rect x="5"  y="85" width="40" height="10"             fill="#1e293b"/>
+            <rect x="55" y="85" width="40" height="10"             fill="#1e293b"/>
+        </svg>
+    </div>
+
+    <h1>404</h1>
+    <h2>Page not found</h2>
+    <p>The page you're looking for doesn't exist. Let's get you back to where you can find the legal guidance you need.</p>
+
+    <a href="/" class="btn">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+        </svg>
+        Back to Equalaw
+    </a>
+
+    <footer>Equalaw is a technology platform, not a law firm.</footer>
+</body>
+</html>
