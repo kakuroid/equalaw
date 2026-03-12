@@ -1,10 +1,12 @@
 {
   "version": 2,
+  "redirects": [
+    { "source": "/chatbot-ui",       "destination": "/chatbot", "permanent": false },
+    { "source": "/chatbot-ui/:path*","destination": "/chatbot", "permanent": false }
+  ],
   "rewrites": [
-    { "source": "/chatbot-ui",     "destination": "/chatbot.html" },
-    { "source": "/chatbot-ui/:path*", "destination": "/chatbot.html" },
-    { "source": "/privacy",        "destination": "/privacy.html" },
-    { "source": "/terms",          "destination": "/terms.html"   }
+    { "source": "/privacy", "destination": "/privacy.html" },
+    { "source": "/terms",   "destination": "/terms.html"   }
   ],
   "cleanUrls": true,
   "trailingSlash": false,
