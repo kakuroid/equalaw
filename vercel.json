@@ -1,7 +1,8 @@
 {
   "version": 2,
   "rewrites": [
-    { "source": "/chatbot-ui(.*)", "destination": "/chatbot.html" },
+    { "source": "/chatbot-ui",     "destination": "/chatbot.html" },
+    { "source": "/chatbot-ui/:path*", "destination": "/chatbot.html" },
     { "source": "/privacy",        "destination": "/privacy.html" },
     { "source": "/terms",          "destination": "/terms.html"   }
   ],
