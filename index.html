@@ -282,7 +282,7 @@
             }
             errorEl.classList.add('hidden');
             inputEl.classList.remove('ring-2', 'ring-red-400');
-            window.location.href = 'chatbot.html?query=' + encodeURIComponent(query);
+            window.location.href = '/chatbot-ui?query=' + encodeURIComponent(query);
         });
         document.getElementById('legal-query').addEventListener('input', function() {
             if (this.value.trim().length >= 10) {
