@@ -1,28 +1,32 @@
 /**
- * Equalaw Analytics Layer v1.0
+ * Equalaw Analytics Layer v2.0
  * ─────────────────────────────────────────────────────────────────────────
  * Single file for all tracking. Replace IDs in CONFIG before going live.
- * Instruments: Google Tag Manager · GA4 · Meta (Facebook) Pixel
+ * Instruments: PostHog · Google Tag Manager · GA4 · Meta Pixel
  *
  * Funnel events fired:
  *  index.html  → chip_click, query_submit
- *  chatbot.html→ chatbot_load, category_detected, action_selected,
- *                lead_form_shown, lead_submitted, lead_captured,
+ *  chatbot.html→ chatbot_load, action_selected, lead_form_shown,
+ *                lead_submitted, lead_captured,
  *                funnel_step_timeline, funnel_step_steps_taken,
  *                funnel_step_urgency, funnel_step_documents,
  *                funnel_step_timeslot, case_secured, whatsapp_share_click
+ *  development → dev_log_view
  * ─────────────────────────────────────────────────────────────────────────
  */
 (function () {
   'use strict';
 
   // ══════════════════════════════════════════════════════════════════════
-  //  CONFIGURATION — replace all three IDs before launching paid ads
+  //  CONFIGURATION — replace IDs before going live
+  //  PostHog is primary (free, instant insight). GTM/GA4/Meta when ready.
   // ══════════════════════════════════════════════════════════════════════
   var CONFIG = {
-    GTM_ID:         'GTM-XXXXXXX',        // e.g. GTM-K7XP2NR
-    GA4_ID:         'G-XXXXXXXXXX',        // e.g. G-3FT9KZHMW4
-    META_PIXEL_ID:  '000000000000000',     // e.g. 1234567890123456
+    POSTHOG_KEY:    'phc_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX', // Replace → app.posthog.com
+    POSTHOG_HOST:   'https://us.i.posthog.com',
+    GTM_ID:         'GTM-XXXXXXX',        // Replace → tagmanager.google.com
+    GA4_ID:         'G-XXXXXXXXXX',        // Replace → analytics.google.com
+    META_PIXEL_ID:  '000000000000000',     // Replace → business.facebook.com
     debug:          false,                 // true = log all events to console
   };
   // ══════════════════════════════════════════════════════════════════════
@@ -44,17 +48,22 @@
     params = Object.assign({}, params || {});
     params.event_category = params.event_category || 'equalaw_funnel';
 
-    /* 1 ─ GTM dataLayer */
+    /* 1 ─ PostHog (primary) */
+    if (window.posthog && typeof window.posthog.capture === 'function') {
+      window.posthog.capture(event, params);
+    }
+
+    /* 2 ─ GTM dataLayer */
     window.dataLayer.push(Object.assign({ event: event }, params));
 
-    /* 2 ─ GA4 */
+    /* 3 ─ GA4 */
     if (typeof window.gtag === 'function') {
       window.gtag('event', event, params);
     }
 
-    /* 3 ─ Meta Pixel — map to standard events where possible */
+    /* 4 ─ Meta Pixel — map to standard events where possible */
     if (typeof window.fbq === 'function') {
-      if (event === 'lead_captured')  window.fbq('track', 'Lead', params);
+      if (event === 'lead_captured')     window.fbq('track', 'Lead', params);
       else if (event === 'case_secured') window.fbq('track', 'CompleteRegistration', params);
       else if (event === 'chatbot_load') window.fbq('track', 'ViewContent', params);
       else window.fbq('trackCustom', event, params);
@@ -65,8 +74,31 @@
     }
   };
 
+  /**
+   * eqIdentify(userId, traits)
+   * Called on lead_captured to attach person properties in PostHog.
+   */
+  window.eqIdentify = function (userId, traits) {
+    if (window.posthog && typeof window.posthog.identify === 'function') {
+      window.posthog.identify(userId, traits);
+    }
+  };
+
+  /* ── Load PostHog ───────────────────────────────────────────────────── */
+  if (CONFIG.POSTHOG_KEY && CONFIG.POSTHOG_KEY.indexOf('XXXX') === -1) {
+    /* PostHog snippet — v1 loader */
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]);t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.people.toString(1)+" (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys getNextSurveyStep onSessionId setPersonPropertiesForFlags".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+    window.posthog.init(CONFIG.POSTHOG_KEY, {
+      api_host:           CONFIG.POSTHOG_HOST,
+      person_profiles:    'identified_only',     // Only profile identified users
+      capture_pageview:   true,
+      capture_pageleave:  true,
+      session_recording:  { maskAllInputs: true }, // Privacy: mask form fields
+    });
+  }
+
   /* ── Load Google Tag Manager ────────────────────────────────────────── */
-  if (CONFIG.GTM_ID && CONFIG.GTM_ID !== 'GTM-XXXXXXX') {
+  if (CONFIG.GTM_ID && CONFIG.GTM_ID.indexOf('XXXX') === -1) {
     (function (w, d, s, l, i) {
       w[l] = w[l] || [];
       w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
@@ -78,7 +110,6 @@
       f.parentNode.insertBefore(j, f);
     })(window, document, 'script', 'dataLayer', CONFIG.GTM_ID);
 
-    /* GTM noscript iframe — appended after body opens */
     document.addEventListener('DOMContentLoaded', function () {
       var ns = document.createElement('noscript');
       var iframe = document.createElement('iframe');
@@ -95,7 +126,7 @@
   }
 
   /* ── Load GA4 ───────────────────────────────────────────────────────── */
-  if (CONFIG.GA4_ID && CONFIG.GA4_ID !== 'G-XXXXXXXXXX') {
+  if (CONFIG.GA4_ID && CONFIG.GA4_ID.indexOf('XXXX') === -1) {
     var gaEl = document.createElement('script');
     gaEl.async = true;
     gaEl.src = 'https://www.googletagmanager.com/gtag/js?id=' + CONFIG.GA4_ID;
@@ -105,7 +136,7 @@
   }
 
   /* ── Load Meta Pixel ────────────────────────────────────────────────── */
-  if (CONFIG.META_PIXEL_ID && CONFIG.META_PIXEL_ID !== '000000000000000') {
+  if (CONFIG.META_PIXEL_ID && CONFIG.META_PIXEL_ID.indexOf('0000000') === -1) {
     /* eslint-disable */
     !function (f, b, e, v, n, t, s) {
       if (f.fbq) return;

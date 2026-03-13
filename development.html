@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<!-- Equalaw Development Log — product changelog and build journey -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Equalaw | Development Log</title>
+    <meta name="description" content="The Equalaw build journal — every decision, every sprint, every lesson from zero to product.">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" href="/assets/equalaw-logo.svg" type="image/svg+xml">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Outfit', 'system-ui', 'sans-serif'] },
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff', 100: '#e0efff', 200: '#badbff',
+                            300: '#7cc0ff', 400: '#389fff', 500: '#007bff',
+                            600: '#0061cc', 700: '#004da3', 800: '#004185', 900: '#00376e',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="/assets/analytics.js"></script>
+    <style>
+        body { font-family: 'Outfit', sans-serif; background: #f8fafc; }
+
+        .glass {
+            background: rgba(255,255,255,0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+
+        /* Timeline vertical line */
+        .timeline-line {
+            position: absolute; left: 19px; top: 0; bottom: 0;
+            width: 2px; background: linear-gradient(to bottom, #e0efff, #badbff 30%, #badbff 70%, transparent);
+        }
+
+        /* Dot pulse animation for "In Progress" items */
+        @keyframes dotPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(0,123,255,0.4); }
+            50% { box-shadow: 0 0 0 6px rgba(0,123,255,0); }
+        }
+        .dot-live { animation: dotPulse 2s infinite; }
+
+        /* Entry fade in */
+        .entry { opacity: 0; transform: translateY(12px); transition: opacity 0.4s ease, transform 0.4s ease; }
+        .entry.visible { opacity: 1; transform: translateY(0); }
+
+        /* Status badges */
+        .badge-shipped  { background:#dcfce7; color:#15803d; }
+        .badge-live     { background:#dbeafe; color:#1d4ed8; }
+        .badge-building { background:#fef9c3; color:#854d0e; }
+        .badge-planned  { background:#f1f5f9; color:#475569; }
+        .badge-insight  { background:#fdf4ff; color:#7e22ce; }
+
+        /* Code tag */
+        code {
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            padding: 1px 5px;
+            color: #1e293b;
+        }
+
+        /* Metric pill */
+        .metric {
+            display: inline-flex; align-items: center; gap: 4px;
+            background: #f0f7ff; border: 1px solid #badbff;
+            border-radius: 999px; padding: 2px 10px;
+            font-size: 11px; font-weight: 700; color: #004da3;
+        }
+    </style>
+</head>
+<body class="antialiased text-slate-900 min-h-screen">
+
+    <!-- Header -->
+    <header class="glass sticky top-0 z-50 border-b border-slate-200/60 px-4 md:px-8 py-4 flex items-center justify-between">
+        <a href="/" class="flex items-center gap-3 group">
+            <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-600 to-brand-800 flex items-center justify-center shadow-sm" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 100 100">
+                    <rect x="5" y="5" width="41" height="7" fill="white"/>
+                    <rect x="54" y="5" width="41" height="7" fill="white"/>
+                    <polygon points="5,12 40,12 40,20 33,20 18,68 5,68" fill="white"/>
+                    <polygon points="14,55 24,55 21,33 17,33" fill="rgba(0,97,204,0.8)"/>
+                    <polygon points="60,12 95,12 95,68 82,68 67,20 60,20" fill="white"/>
+                    <polygon points="76,55 86,55 83,33 79,33" fill="rgba(0,97,204,0.8)"/>
+                    <rect x="43" y="12" width="14" height="78" fill="white"/>
+                    <rect x="5" y="85" width="38" height="10" fill="white"/>
+                    <rect x="57" y="85" width="38" height="10" fill="white"/>
+                </svg>
+            </div>
+            <div>
+                <span class="text-sm font-semibold tracking-[0.18em] text-slate-900 uppercase">EQUALAW</span>
+                <span class="text-brand-600 font-bold tracking-normal normal-case text-sm"> · Dev Log</span>
+            </div>
+        </a>
+        <div class="flex items-center gap-4 text-xs font-semibold text-slate-500">
+            <span class="flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+                Live — v2.1.0
+            </span>
+            <a href="/" class="text-brand-600 hover:text-brand-800 transition-colors">← Back to product</a>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-4 md:px-6 py-12">
+
+        <!-- Hero -->
+        <div class="mb-14">
+            <div class="inline-flex items-center gap-2 bg-brand-50 border border-brand-200 rounded-full px-4 py-1.5 text-xs font-bold text-brand-700 mb-5">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+                Build Journal
+            </div>
+            <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 leading-tight mb-4">
+                How Equalaw<br>gets built.
+            </h1>
+            <p class="text-lg text-slate-500 max-w-xl leading-relaxed">
+                Zero to product — in public. Every sprint, decision, mistake, and insight.
+                The real story behind putting access to legal guidance in everyone's pocket.
+            </p>
+
+            <!-- Live metrics strip -->
+            <div class="flex flex-wrap gap-3 mt-7">
+                <span class="metric">⚡ 14 days old</span>
+                <span class="metric">🌐 2 domains live</span>
+                <span class="metric">📊 12 funnel events</span>
+                <span class="metric">🔁 22 deploys</span>
+                <span class="metric">🔥 v2.1.0</span>
+            </div>
+        </div>
+
+        <!-- ─── CHANGELOG TIMELINE ─── -->
+        <div class="relative pl-10">
+            <div class="timeline-line" aria-hidden="true"></div>
+
+            <!-- ══ IN PROGRESS ══ -->
+            <section class="mb-10 entry">
+                <div class="flex items-start gap-3">
+                    <div class="absolute left-0 w-10 flex justify-center pt-1">
+                        <span class="w-5 h-5 rounded-full bg-brand-500 border-4 border-brand-100 dot-live flex-shrink-0 block"></span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex flex-wrap items-center gap-2 mb-2">
+                            <span class="badge-live text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full">▶ In Progress</span>
+                            <time class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">March 2026 — Sprint 2</time>
+                        </div>
+                        <div class="glass rounded-2xl p-5 shadow-sm">
+                            <h2 class="text-lg font-bold text-slate-900 mb-1">Analytics Layer + PostHog Integration</h2>
+                            <p class="text-sm text-slate-600 leading-relaxed mb-4">
+                                Wiring the full conversion funnel with real-time behavioural data.
+                                Moving from dark-room operation to full observability — every drop-off point visible, every
+                                conversion path tracked. PostHog replaces placeholder GTM/GA4/Meta stack for immediate
+                                insights without waiting on property setup.
+                            </p>
+                            <div class="space-y-1.5">
+                                <div class="flex items-start gap-2 text-sm">
+                                    <span class="text-green-500 mt-0.5 font-bold">✓</span>
+                                    <span class="text-slate-700"><code>analytics.js</code> — central config: GTM · GA4 · Meta Pixel · PostHog</span>
+                                </div>
+                                <div class="flex items-start gap-2 text-sm">
+                                    <span class="text-green-500 mt-0.5 font-bold">✓</span>
+                                    <span class="text-slate-700">12 funnel events wired: <code>chatbot_load</code> → <code>case_secured</code></span>
+                                </div>
+                                <div class="flex items-start gap-2 text-sm">
+                                    <span class="text-green-500 mt-0.5 font-bold">✓</span>
+                                    <span class="text-slate-700">Two-payload lead architecture: initial capture + enrichment</span>
+                                </div>
+                                <div class="flex items-start gap-2 text-sm">
+                                    <span class="text-blue-400 mt-0.5 font-bold">◉</span>
+                                    <span class="text-slate-700">PostHog snippet + session recording activated</span>
+                                </div>
+                                <div class="flex items-start gap-2 text-sm">
+                                    <span class="text-slate-300 mt-0.5 font-bold">○</span>
+                                    <span class="text-slate-500">Connect real GTM / GA4 / Meta Pixel IDs (pending account setup)</span>
+                                </div>
+                            </div>
+                            <div class="mt-4 pt-4 border-t border-slate-100 flex flex-wrap gap-1.5">
+                                <span class="text-[10px] font-bold bg-slate-100 text-slate-600 rounded px-2 py-0.5">analytics</span>
+                                <span class="text-[10px] font-bold bg-slate-100 text-slate-600 rounded px-2 py-0.5">posthog</span>
+                                <span class="text-[10px] font-bold bg-slate-100 text-slate-600 rounded px-2 py-0.5">gtm</span>
+                                <span class="text-[10px] font-bold bg-slate-100 text-slate-600 rounded px-2 py-0.5">unit-economics</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ══ v2.1.0 ══ -->
+            <section class="mb-10 entry">
+                <div class="flex items-start gap-3">
+                    <div class="absolute left-0 w-10 flex justify-center pt-1">
+                        <span class="w-5 h-5 rounded-full bg-green-400 border-4 border-green-50 flex-shrink-0 block"></span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex flex-wrap items-center gap-2 mb-2">
+                            <span class="badge-shipped text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full">✓ Shipped</span>
+                            <time class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">13 March 2026 · <code>07fafd4</code></time>
+                        </div>
+                        <div class="glass rounded-2xl p-5 shadow-sm">
+                            <h2 class="text-lg font-bold text-slate-900 mb-1">v2.1.0 — Full Funnel Analytics</h2>
+                            <p class="text-sm text-slate-600 leading-relaxed mb-4">
+                                First version with end-to-end event tracking. Before this: complete blind spot —
+                                no idea where users dropped, which legal categories converted, or what urgency signals predicted case_secured.
+                                Now we see everything.
+                            </p>
+                            <div class="bg-slate-50 rounded-xl p-3 text-[12px] font-mono text-slate-600 leading-relaxed">
+                                chip_click → query_submit → chatbot_load → action_selected<br>
+                                → lead_form_shown → lead_submitted → <span class="text-brand-600 font-bold">lead_captured 🔥</span><br>
+                                → funnel_step_* (×4) → <span class="text-green-600 font-bold">case_secured 🔥</span> → whatsapp_share_click
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ══ Domain & Infrastructure ══ -->
+            <section class="mb-10 entry">
+                <div class="flex items-start gap-3">
+                    <div class="absolute left-0 w-10 flex justify-center pt-1">
+                        <span class="w-5 h-5 rounded-full bg-green-400 border-4 border-green-50 flex-shrink-0 block"></span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex flex-wrap items-center gap-2 mb-2">
+                            <span class="badge-shipped text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full">✓ Shipped</span>
+                            <time class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">13 March 2026 · Infrastructure</time>
+                        </div>
+                        <div class="glass rounded-2xl p-5 shadow-sm">
+                            <h2 class="text-lg font-bold text-slate-900 mb-1">Dual Domain Setup — .tech + .in</h2>
+                            <p class="text-sm text-slate-600 leading-relaxed mb-4">
+                                <code>equalaw.in</code> was dead — parked on Hostinger's <code>ns1.dns-parking.com</code>. Diagnosed: wrong A record pointing
+                                to <code>2.57.91.91</code>. Fixed DNS → Vercel in under 20 minutes. Both domains now serve identical content
+                                with <code>www.equalaw.in</code> as canonical via 307 redirect.
+                            </p>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="bg-green-50 border border-green-200 rounded-xl p-3 text-center">
+                                    <div class="text-xs font-bold text-green-700">equalaw.tech</div>
+                                    <div class="text-[10px] text-green-600 mt-0.5">✓ Valid · Vercel CDN</div>
+                                </div>
+                                <div class="bg-green-50 border border-green-200 rounded-xl p-3 text-center">
+                                    <div class="text-xs font-bold text-green-700">equalaw.in</div>
+                                    <div class="text-[10px] text-green-600 mt-0.5">✓ Valid · 307 → www</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ══ v2.0.0 ══ -->
+            <section class="mb-10 entry">
+                <div class="flex items-start gap-3">
+                    <div class="absolute left-0 w-10 flex justify-center pt-1">
+                        <span class="w-5 h-5 rounded-full bg-green-400 border-4 border-green-50 flex-shrink-0 block"></span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex flex-wrap items-center gap-2 mb-2">
+                            <span class="badge-shipped text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full">✓ Shipped</span>
+                            <time class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">13 March 2026 · <code>871af5c</code></time>
+                        </div>
+                        <div class="glass rounded-2xl p-5 shadow-sm">
+                            <h2 class="text-lg font-bold text-slate-900 mb-1">v2.0.0 — Conversion-First Rewrite</h2>
+                            <p class="text-sm text-slate-600 leading-relaxed mb-4">
+                                Complete UX and funnel rewrite. The founding insight: <strong>capture the lead first, enrich after</strong>.
+                                v1.x asked 5 qualifying questions before collecting contact details — users dropped out before ever becoming leads.
+                                v2.0 flips it: action selection → contact form → then the qualifying questions (now enrichment, not gatekeeping).
+                            </p>
+                            <div class="space-y-1.5">
+                                <div class="flex items-start gap-2 text-sm">
+                                    <span class="text-green-500 mt-0.5 font-bold">✓</span>
+                                    <span class="text-slate-700">Lead-first funnel: 5-step enrichment moved post-capture</span>
+                                </div>
+                                <div class="flex items-start gap-2 text-sm">
+                                    <span class="text-green-500 mt-0.5 font-bold">✓</span>
+                                    <span class="text-slate-700">9 legal categories with category-specific insights and options</span>
+                                </div>
+                                <div class="flex items-start gap-2 text-sm">
+                                    <span class="text-green-500 mt-0.5 font-bold">✓</span>
+                                    <span class="text-slate-700">WhatsApp-first contact preference with WA referral CTA at completion</span>
+                                </div>
+                                <div class="flex items-start gap-2 text-sm">
+                                    <span class="text-green-500 mt-0.5 font-bold">✓</span>
+                                    <span class="text-slate-700">DPDP consent checkbox · DOMPurify XSS protection · mobile validation</span>
+                                </div>
+                                <div class="flex items-start gap-2 text-sm">
+                                    <span class="text-green-500 mt-0.5 font-bold">✓</span>
+                                    <span class="text-slate-700">Two-payload formsubmit.co architecture: initial lead + enrichment POST</span>
+                                </div>
+                                <div class="flex items-start gap-2 text-sm">
+                                    <span class="text-green-500 mt-0.5 font-bold">✓</span>
+                                    <span class="text-slate-700">Progress stepper, WhatsApp share card, accessibility (ARIA, reduced-motion)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ══ GTM PPTX ══ -->
+            <section class="mb-10 entry">
+                <div class="flex items-start gap-3">
+                    <div class="absolute left-0 w-10 flex justify-center pt-1">
+                        <span class="w-5 h-5 rounded-full bg-green-400 border-4 border-green-50 flex-shrink-0 block"></span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex flex-wrap items-center gap-2 mb-2">
+                            <span class="badge-shipped text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full">✓ Delivered</span>
+                            <time class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">13 March 2026 · Strategy</time>
+                        </div>
+                        <div class="glass rounded-2xl p-5 shadow-sm">
+                            <h2 class="text-lg font-bold text-slate-900 mb-1">GTM Strategy v1 — 13-Slide Deck</h2>
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                McKinsey-style go-to-market strategy. North Star equation: EPL &gt; CPL.
+                                ₹1L/month test budget split across Google Search, Meta, YouTube, Retargeting.
+                                Lead pricing framework by category (Tier 1: ₹500–2,000 · Tier 2: ₹2,000–8,000).
+                                Decision rule: pause channel if CPL &gt; EPL for 3 consecutive days.
+                            </p>
+                            <div class="mt-3 pt-3 border-t border-slate-100 flex flex-wrap gap-1.5">
+                                <span class="text-[10px] font-bold bg-slate-100 text-slate-600 rounded px-2 py-0.5">pptxgenjs</span>
+                                <span class="text-[10px] font-bold bg-slate-100 text-slate-600 rounded px-2 py-0.5">13 slides</span>
+                                <span class="text-[10px] font-bold bg-slate-100 text-slate-600 rounded px-2 py-0.5">444KB</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ══ PM Audit ══ -->
+            <section class="mb-10 entry">
+                <div class="flex items-start gap-3">
+                    <div class="absolute left-0 w-10 flex justify-center pt-1">
+                        <span class="w-5 h-5 rounded-full bg-green-400 border-4 border-green-50 flex-shrink-0 block"></span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex flex-wrap items-center gap-2 mb-2">
+                            <span class="badge-shipped text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full">✓ Shipped</span>
+                            <time class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">12 March 2026 · <code>e43c29b</code></time>
+                        </div>
+                        <div class="glass rounded-2xl p-5 shadow-sm">
+                            <h2 class="text-lg font-bold text-slate-900 mb-1">PM Audit Pass — Legal Compliance, Brand Trust, UX</h2>
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                Systematic product management pass: legal disclaimer hardening (not a law firm,
+                                no attorney-client relationship), brand consistency, mobile edge cases,
+                                form validation improvements, DPDP consent. Fixed 5 funnel leaks: mobile validation,
+                                name extraction, retry UX, post-completion CTA.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ══ v1.x Series ══ -->
+            <section class="mb-10 entry">
+                <div class="flex items-start gap-3">
+                    <div class="absolute left-0 w-10 flex justify-center pt-1">
+                        <span class="w-5 h-5 rounded-full bg-green-400 border-4 border-green-50 flex-shrink-0 block"></span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex flex-wrap items-center gap-2 mb-2">
+                            <span class="badge-shipped text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full">✓ Shipped</span>
+                            <time class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">11–12 March 2026 · v1.x Sprint</time>
+                        </div>
+                        <div class="glass rounded-2xl p-5 shadow-sm">
+                            <h2 class="text-lg font-bold text-slate-900 mb-1">v1.x — First Working Funnel (8 deploys)</h2>
+                            <p class="text-sm text-slate-600 leading-relaxed mb-3">
+                                First production version. Initial funnel: qualify first, capture second.
+                                Learned: users bail before giving contact details when asked qualifying questions upfront.
+                                The core product insight emerged here — <strong>the sequence matters more than the questions.</strong>
+                            </p>
+                            <div class="space-y-1 text-sm text-slate-600">
+                                <div>→ <code>edb65eb</code> Fortify lead funnel: multilingual hero, reordered flow</div>
+                                <div>→ <code>d1da1f5</code> Premium UI, improved conversational flow, flattened structure</div>
+                                <div>→ <code>448777d</code> Multi-step Actionable Insights + robust lead form</div>
+                                <div>→ <code>7608e01</code> Initial production deploy · first user hits</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ══ Origin ══ -->
+            <section class="mb-10 entry">
+                <div class="flex items-start gap-3">
+                    <div class="absolute left-0 w-10 flex justify-center pt-1">
+                        <span class="w-5 h-5 rounded-full bg-slate-300 border-4 border-slate-100 flex-shrink-0 block"></span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex flex-wrap items-center gap-2 mb-2">
+                            <span class="badge-insight text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full">◈ Origin</span>
+                            <time class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Early March 2026</time>
+                        </div>
+                        <div class="glass rounded-2xl p-5 shadow-sm">
+                            <h2 class="text-lg font-bold text-slate-900 mb-1">The Founding Hypothesis</h2>
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                Access to justice in India is broken. Most people don't know where to start when they have a legal problem —
+                                they either overpay for a lawyer they found on a referral, or they do nothing and get exploited.
+                                Equalaw bets that a structured triage chatbot that correctly categorizes a legal situation and
+                                connects users to qualified specialists will create a two-sided market:
+                                <strong>users get free guidance, lawyers get qualified leads.</strong>
+                                The business model is simple: CPL vs EPL — the daily equation this entire product is built to answer.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ══ ROADMAP ══ -->
+            <div class="mt-6 mb-10">
+                <h2 class="text-xs font-black uppercase tracking-widest text-slate-400 mb-4">On the Horizon</h2>
+            </div>
+
+            <!-- PostHog Dashboard -->
+            <section class="mb-8 entry">
+                <div class="flex items-start gap-3">
+                    <div class="absolute left-0 w-10 flex justify-center pt-1">
+                        <span class="w-5 h-5 rounded-full bg-yellow-300 border-4 border-yellow-50 flex-shrink-0 block"></span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex flex-wrap items-center gap-2 mb-2">
+                            <span class="badge-building text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full">⟳ Building</span>
+                        </div>
+                        <div class="glass rounded-2xl p-5 shadow-sm border-l-4 border-yellow-300">
+                            <h2 class="text-lg font-bold text-slate-900 mb-1">CPL vs EPL Daily Dashboard</h2>
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                PostHog funnels → daily lead volume per channel. CRM layer (Airtable) tracking
+                                which leads convert to paid consultations. Looker Studio view: CPL by channel/category
+                                vs EPL. Decision engine: pause if CPL &gt; EPL for 3 days · double if EPL &gt; 2× CPL.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Global NRI Strategy -->
+            <section class="mb-8 entry">
+                <div class="flex items-start gap-3">
+                    <div class="absolute left-0 w-10 flex justify-center pt-1">
+                        <span class="w-5 h-5 rounded-full bg-yellow-300 border-4 border-yellow-50 flex-shrink-0 block"></span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex flex-wrap items-center gap-2 mb-2">
+                            <span class="badge-building text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full">⟳ Researching</span>
+                        </div>
+                        <div class="glass rounded-2xl p-5 shadow-sm border-l-4 border-yellow-300">
+                            <h2 class="text-lg font-bold text-slate-900 mb-1">Bootstrap Global NRI Strategy</h2>
+                            <p class="text-sm text-slate-600 leading-relaxed">
+                                35.4M NRIs globally. UK lawyers bill £150–500/hr. Australian lawyers AUD $200–800/hr.
+                                Their legal problems are Indian (property, succession, family law) but they're sitting in
+                                expensive jurisdictions with no affordable alternative.
+                                Equalaw can solve Indian legal problems for NRIs at Indian cost — zero-budget via NRI Facebook groups,
+                                WhatsApp communities, Reddit. EPL target: $100–300/qualified NRI lead.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Planned -->
+            <section class="mb-8 entry">
+                <div class="flex items-start gap-3">
+                    <div class="absolute left-0 w-10 flex justify-center pt-1">
+                        <span class="w-5 h-5 rounded-full bg-slate-200 border-4 border-slate-50 flex-shrink-0 block"></span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex flex-wrap items-center gap-2 mb-2">
+                            <span class="badge-planned text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full">○ Planned</span>
+                        </div>
+                        <div class="glass rounded-2xl p-5 shadow-sm">
+                            <h2 class="text-lg font-bold text-slate-900 mb-2">Backlog</h2>
+                            <div class="space-y-2 text-sm text-slate-600">
+                                <div class="flex items-start gap-2"><span class="text-slate-300 font-bold">○</span> Lawyer-side portal: lead inbox, accept/decline, pricing controls</div>
+                                <div class="flex items-start gap-2"><span class="text-slate-300 font-bold">○</span> Multi-language support: Hindi, Tamil, Telugu, Marathi (11 planned)</div>
+                                <div class="flex items-start gap-2"><span class="text-slate-300 font-bold">○</span> Lead quality scoring: urgency × category × location × documents = lead score</div>
+                                <div class="flex items-start gap-2"><span class="text-slate-300 font-bold">○</span> WhatsApp Business API: automated follow-up sequences post-case_secured</div>
+                                <div class="flex items-start gap-2"><span class="text-slate-300 font-bold">○</span> A/B test framework: headline variants, CTA copy, urgency triggers</div>
+                                <div class="flex items-start gap-2"><span class="text-slate-300 font-bold">○</span> Stripe payments for premium lead tiers (verified, documents attached)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Subscribe / follow section -->
+        <div class="glass rounded-2xl p-6 text-center mt-10 border border-brand-100">
+            <p class="text-sm font-semibold text-slate-700 mb-1">Building in public.</p>
+            <p class="text-xs text-slate-500">This log updates with every significant sprint. Check back — or watch the <a href="https://github.com/kakuroid/equalaw" target="_blank" rel="noopener" class="text-brand-600 hover:underline font-semibold">GitHub repo</a> directly.</p>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center py-6 text-[11px] text-slate-400 font-medium px-4">
+        <a href="/" class="hover:text-slate-700 transition-colors">← equalaw.tech</a>
+        <span class="mx-2 text-slate-200" aria-hidden="true">·</span>
+        <span>Equalaw is a technology platform, not a law firm.</span>
+    </footer>
+
+    <script>
+        // Intersection observer for timeline entry animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.entry').forEach(el => observer.observe(el));
+
+        // Track page view
+        if (typeof eqTrack === 'function') eqTrack('dev_log_view', {});
+    </script>
+</body>
+</html>
