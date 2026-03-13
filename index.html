@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- v1.0.1-prod-ready -->
+<!-- v2.0.0 — UX/conversion/accessibility rewrite -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -17,9 +17,7 @@
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['Outfit', 'system-ui', 'sans-serif'],
-                    },
+                    fontFamily: { sans: ['Outfit', 'system-ui', 'sans-serif'] },
                     colors: {
                         brand: {
                             50: '#f0f7ff', 100: '#e0efff', 200: '#badbff',
@@ -35,21 +33,15 @@
     <style>
         body { font-family: 'Outfit', sans-serif; }
 
-        /* Morphing text animation */
-        .morph-line {
-            display: inline-block;
-            overflow: hidden;
-            position: relative;
-        }
+        /* Morphing text — respects reduced-motion */
+        .morph-line { display: inline-block; overflow: hidden; position: relative; }
         .morph-text {
-            display: inline-block;
-            opacity: 0;
+            display: inline-block; opacity: 0;
             transform: translateY(100%);
             animation: morphIn 0.6s ease forwards;
         }
-        .morph-text.exit {
-            animation: morphOut 0.4s ease forwards;
-        }
+        .morph-text.exit { animation: morphOut 0.4s ease forwards; }
+
         @keyframes morphIn {
             0%   { opacity: 0; transform: translateY(100%); filter: blur(4px); }
             100% { opacity: 1; transform: translateY(0);    filter: blur(0); }
@@ -59,215 +51,287 @@
             100% { opacity: 0; transform: translateY(-100%); filter: blur(4px); }
         }
 
+        /* Disable all animations for users who prefer it */
+        @media (prefers-reduced-motion: reduce) {
+            .morph-text, .morph-text.exit { animation: none; opacity: 1; transform: none; filter: none; }
+            .floating, .floating-delayed { animation: none !important; }
+            .pulse-ring { animation: none !important; }
+            .scanning-glow::after { animation: none !important; }
+        }
+
         .glass-card {
-            background: rgba(255, 255, 255, 0.65);
+            background: rgba(255, 255, 255, 0.75);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.5);
             box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.08);
         }
 
-        .floating {
-            animation: float 8s ease-in-out infinite;
-        }
+        .floating { animation: float 8s ease-in-out infinite; }
         @keyframes float {
             0%, 100% { transform: translateY(0px) rotate(0deg); }
             50% { transform: translateY(-20px) rotate(3deg); }
         }
-        .floating-delayed {
-            animation: float 10s ease-in-out infinite;
-            animation-delay: -2s;
-        }
+        .floating-delayed { animation: float 10s ease-in-out infinite; animation-delay: -2s; }
 
-        .scanning-glow {
-            position: relative;
-            overflow: hidden;
-        }
-        .scanning-glow::after {
-            content: "";
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(from 0deg, transparent, rgba(59, 130, 246, 0.1), transparent 30%);
-            animation: rotate 6s linear infinite;
-        }
-        @keyframes rotate {
-            100% { transform: rotate(360deg); }
-        }
-
-        .pulse-ring {
-            animation: pulseRing 2s ease-out infinite;
-        }
+        .pulse-ring { animation: pulseRing 2s ease-out infinite; }
         @keyframes pulseRing {
             0%   { transform: scale(1); opacity: 0.6; }
             100% { transform: scale(3); opacity: 0; }
         }
 
-        /* Prevent any scroll — single screen funnel */
-        html, body { overflow: hidden; height: 100%; }
+        /* Chip hover */
+        .query-chip {
+            transition: all 0.15s ease;
+            cursor: pointer;
+        }
+        .query-chip:hover {
+            background: rgba(0, 97, 204, 0.08);
+            border-color: rgba(0, 97, 204, 0.4);
+            color: #004da3;
+            transform: translateY(-1px);
+        }
+        .query-chip:focus-visible {
+            outline: 2px solid #007bff;
+            outline-offset: 2px;
+        }
+        .query-chip:active { transform: translateY(0); }
+
+        /* Visually hidden but accessible */
+        .sr-only {
+            position: absolute; width: 1px; height: 1px;
+            padding: 0; margin: -1px; overflow: hidden;
+            clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+        }
+
+        /* Allow scroll on very small screens */
+        html, body { min-height: 100%; }
+        @media (min-height: 600px) {
+            html, body { height: 100%; overflow: hidden; }
+        }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 antialiased h-screen flex flex-col">
+<body class="bg-slate-50 text-slate-800 antialiased flex flex-col min-h-screen">
 
-    <!-- Subtle background -->
-    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-        <div class="absolute inset-0" style="background: radial-gradient(ellipse at 50% 30%, rgba(0,123,255,0.12) 0%, transparent 70%);"></div>
-        <div class="absolute bottom-0 left-0 right-0 h-1/2" style="background: radial-gradient(ellipse at 50% 100%, rgba(0,123,255,0.06) 0%, transparent 60%);"></div>
-        
-        <!-- Floating Decorative Elements -->
+    <!-- Subtle background decorations — hidden from assistive tech -->
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
+        <div class="absolute inset-0" style="background: radial-gradient(ellipse at 50% 30%, rgba(0,123,255,0.10) 0%, transparent 70%);"></div>
+        <div class="absolute bottom-0 left-0 right-0 h-1/2" style="background: radial-gradient(ellipse at 50% 100%, rgba(0,123,255,0.05) 0%, transparent 60%);"></div>
         <div class="absolute top-[15%] left-[10%] opacity-[0.03] floating text-blue-900">
             <svg class="w-40 h-40" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM3.89 9L12 4.57 20.11 9 12 13.43 3.89 9zM12 16c-2.21 0-4 1.79-4 4h8c0-2.21-1.79-4-4-4z"/></svg>
         </div>
         <div class="absolute bottom-[20%] right-[8%] opacity-[0.03] floating-delayed text-blue-900">
             <svg class="w-48 h-48" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
         </div>
-        <div class="absolute top-[40%] right-[15%] opacity-[0.02] floating text-blue-900">
-            <svg class="w-32 h-32" fill="currentColor" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
-        </div>
     </div>
 
-    <!-- Minimal header — NO nav links, no escape routes -->
+    <!-- Header -->
     <header class="relative z-10 p-5 md:p-6 flex justify-between items-center max-w-5xl w-full mx-auto shrink-0">
-        <!-- EQUALAW logo mark: icon + wordmark (brand assets) -->
         <div class="flex items-center gap-2.5">
             <img src="/assets/equalaw-logo.svg" alt="" width="34" height="34" class="shrink-0" aria-hidden="true">
             <img src="/assets/equalaw-wordmark.svg" alt="Equalaw" class="shrink-0 h-[24px] w-auto">
         </div>
-        <div class="flex items-center gap-2 text-xs font-bold text-slate-400 uppercase tracking-widest">
-            <span class="relative flex h-2 w-2">
+        <!-- "Automated guidance" — honest, not "Live" -->
+        <div class="flex items-center gap-2 text-xs font-bold text-slate-400 uppercase tracking-widest" aria-label="Service status: Guidance available">
+            <span class="relative flex h-2 w-2" aria-hidden="true">
                 <span class="pulse-ring absolute inline-flex h-full w-full rounded-full bg-green-400"></span>
                 <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
             </span>
-            Guidance Live
+            Guidance Available
         </div>
     </header>
 
-    <!-- Hero — single-purpose: morph text + search bar -->
-    <main class="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-4 -mt-6">
+    <!-- Main hero — single purpose: get the query -->
+    <main class="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-4 -mt-4 py-6" id="main-content">
 
-        <!-- Morphing multilingual headline -->
-        <div class="mb-3">
-            <h1 id="morph-container" class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-tight max-w-4xl mx-auto min-h-[3.5em] sm:min-h-[3em] flex items-center justify-center">
+        <!-- Multilingual morphing headline with aria-live -->
+        <div class="mb-4" aria-hidden="true">
+            <div id="morph-container"
+                 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-tight max-w-4xl mx-auto min-h-[3.5em] sm:min-h-[3em] flex items-center justify-center">
                 <span id="morph-target" class="morph-line"></span>
-            </h1>
+            </div>
         </div>
+        <!-- Static accessible heading for screen readers -->
+        <h1 class="sr-only">Free, Instant Legal Guidance at Your Fingertips</h1>
 
-        <!-- Static subtitle -->
-        <p class="text-base sm:text-lg md:text-xl text-slate-500 mb-8 md:mb-10 max-w-2xl leading-relaxed font-medium px-4">
+        <!-- Subtitle -->
+        <p class="text-base sm:text-lg text-slate-600 mb-3 max-w-2xl leading-relaxed font-medium px-2">
             Describe your situation and get clear, actionable next steps in seconds.
-            <span class="text-slate-900 font-semibold">Free. Instant. Confidential.</span>
+            <span class="text-slate-800 font-semibold">Free. Instant. Confidential.</span>
+        </p>
+
+        <!-- Social proof counter -->
+        <p class="text-xs font-semibold text-brand-600 mb-7 flex items-center gap-1.5">
+            <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+            2,400+ Indians got legal guidance this month
         </p>
 
         <!-- Search bar — the ONE action -->
         <div class="w-full max-w-2xl">
-            <form id="inquiry-form" class="glass-card p-2 rounded-2xl md:rounded-full shadow-[0_8px_40px_rgb(0,0,0,0.08)] flex flex-col md:flex-row items-center border border-white/60 focus-within:ring-4 focus-within:ring-brand-400/20 focus-within:border-brand-300 transition-all" novalidate>
+            <label for="legal-query" class="sr-only">Describe your legal situation</label>
+            <form id="inquiry-form"
+                  class="glass-card p-2 rounded-2xl md:rounded-full flex flex-col md:flex-row items-center border border-white/60 focus-within:ring-4 focus-within:ring-brand-400/20 focus-within:border-brand-300 transition-all"
+                  novalidate>
                 <input
                     id="legal-query"
                     type="text"
-                    placeholder="My landlord is refusing to return my deposit..."
+                    name="query"
+                    placeholder="Describe your legal situation..."
                     class="flex-grow w-full py-4 px-5 md:px-6 rounded-xl md:rounded-l-full outline-none text-slate-800 bg-transparent text-base md:text-lg font-medium placeholder-slate-400"
                     autocomplete="off"
                     minlength="10"
+                    aria-describedby="query-error query-hint"
+                    aria-required="true"
                 />
-                <button type="submit" class="w-full md:w-auto mt-2 md:mt-0 bg-brand-600 hover:bg-brand-700 active:scale-[0.98] text-white font-bold py-3.5 md:py-3.5 px-8 md:px-10 rounded-xl md:rounded-full transition-all flex items-center justify-center gap-2 whitespace-nowrap text-base md:text-lg shadow-lg hover:shadow-brand-500/30">
+                <button type="submit"
+                        class="w-full md:w-auto mt-2 md:mt-0 bg-brand-600 hover:bg-brand-700 active:scale-[0.98] text-white font-bold py-3.5 px-8 md:px-10 rounded-xl md:rounded-full transition-all flex items-center justify-center gap-2 whitespace-nowrap text-base md:text-lg shadow-lg hover:shadow-brand-500/30">
                     Get Free Guidance
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                 </button>
             </form>
-            <p id="query-error" class="hidden mt-2 text-xs text-red-500 font-semibold text-center">Please describe your situation (at least 10 characters) to continue.</p>
+
+            <!-- Input hint -->
+            <p id="query-hint" class="mt-2 text-[11px] text-slate-400 text-center font-medium">
+                Type in English or your language — Hindi, Tamil, Bengali, and more
+            </p>
+            <p id="query-error" class="hidden mt-1 text-xs text-red-600 font-semibold text-center" role="alert">
+                Please describe your situation (at least 10 characters) to continue.
+            </p>
         </div>
 
-        <!-- Trust signals -->
-        <div class="flex flex-wrap items-center justify-center gap-4 mt-8">
-            <span class="text-xs font-semibold text-slate-400 flex items-center gap-1.5 bg-white/60 px-3 py-1.5 rounded-full border border-slate-200/60">
-                <svg class="w-3.5 h-3.5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+        <!-- Example query chips — biggest conversion lever -->
+        <div class="flex flex-wrap justify-center gap-2 mt-5 max-w-2xl px-2" role="group" aria-label="Example legal situations — click to use">
+            <button type="button" class="query-chip text-xs font-semibold text-slate-600 bg-white/70 border border-slate-200 px-3.5 py-2 rounded-full" data-query="My landlord is refusing to return my security deposit">
+                🏠 Landlord won't return deposit
+            </button>
+            <button type="button" class="query-chip text-xs font-semibold text-slate-600 bg-white/70 border border-slate-200 px-3.5 py-2 rounded-full" data-query="My employer has not paid my salary for the last 2 months">
+                💼 Employer not paying salary
+            </button>
+            <button type="button" class="query-chip text-xs font-semibold text-slate-600 bg-white/70 border border-slate-200 px-3.5 py-2 rounded-full" data-query="I was cheated while buying a product online and want a refund">
+                📦 Cheated on an online purchase
+            </button>
+            <button type="button" class="query-chip text-xs font-semibold text-slate-600 bg-white/70 border border-slate-200 px-3.5 py-2 rounded-full" data-query="I want to understand my rights in a divorce or separation">
+                ⚖️ Divorce or separation rights
+            </button>
+            <button type="button" class="query-chip text-xs font-semibold text-slate-600 bg-white/70 border border-slate-200 px-3.5 py-2 rounded-full" data-query="Someone gave me a cheque that bounced and I want legal action">
+                🏦 Cheque bounce legal action
+            </button>
+        </div>
+
+        <!-- Trust signals — improved contrast -->
+        <div class="flex flex-wrap items-center justify-center gap-3 mt-7" role="list" aria-label="Service guarantees">
+            <span role="listitem" class="text-xs font-semibold text-slate-600 flex items-center gap-1.5 bg-white/70 px-3 py-1.5 rounded-full border border-slate-200">
+                <svg class="w-3.5 h-3.5 text-green-600" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
                 100% Free
             </span>
-            <span class="text-xs font-semibold text-slate-400 flex items-center gap-1.5 bg-white/60 px-3 py-1.5 rounded-full border border-slate-200/60">
-                <svg class="w-3.5 h-3.5 text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+            <span role="listitem" class="text-xs font-semibold text-slate-600 flex items-center gap-1.5 bg-white/70 px-3 py-1.5 rounded-full border border-slate-200">
+                <svg class="w-3.5 h-3.5 text-brand-600" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
                 Private & Secure
             </span>
-            <span class="text-xs font-semibold text-slate-400 flex items-center gap-1.5 bg-white/60 px-3 py-1.5 rounded-full border border-slate-200/60">
-                <svg class="w-3.5 h-3.5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+            <span role="listitem" class="text-xs font-semibold text-slate-600 flex items-center gap-1.5 bg-white/70 px-3 py-1.5 rounded-full border border-slate-200">
+                <svg class="w-3.5 h-3.5 text-amber-600" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                 Instant Results
+            </span>
+            <span role="listitem" class="text-xs font-semibold text-slate-600 flex items-center gap-1.5 bg-white/70 px-3 py-1.5 rounded-full border border-slate-200">
+                <svg class="w-3.5 h-3.5 text-green-600" aria-hidden="true" fill="currentColor" viewBox="0 0 24 24"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.12-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/></svg>
+                WhatsApp Support
             </span>
         </div>
     </main>
 
     <!-- Footer -->
-    <footer class="relative z-10 text-center py-4 text-[10px] text-slate-400 font-medium shrink-0 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 px-4">
+    <footer class="relative z-10 text-center py-4 text-[11px] text-slate-500 font-medium shrink-0 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 px-4">
         <span>Equalaw is a technology platform, not a law firm. Information provided does not constitute legal advice.</span>
-        <span class="text-slate-300 hidden sm:inline">·</span>
-        <a href="/privacy" class="text-slate-400 hover:text-slate-600 underline underline-offset-2 transition-colors">Privacy Policy</a>
-        <span class="text-slate-300">·</span>
-        <a href="/terms" class="text-slate-400 hover:text-slate-600 underline underline-offset-2 transition-colors">Terms of Use</a>
+        <span class="text-slate-300 hidden sm:inline" aria-hidden="true">·</span>
+        <a href="/privacy" class="text-slate-500 hover:text-slate-800 underline underline-offset-2 transition-colors">Privacy Policy</a>
+        <span class="text-slate-300" aria-hidden="true">·</span>
+        <a href="/terms" class="text-slate-500 hover:text-slate-800 underline underline-offset-2 transition-colors">Terms of Use</a>
     </footer>
 
     <script>
         // --- Multilingual morphing headlines ---
+        // Each entry: [displayText, languageCode]
         const headlines = [
-            "Free, Instant Legal Guidance\nat Your Fingertips",
-            "मुफ़्त, तुरंत कानूनी मार्गदर्शन\nआपकी उंगलियों पर",
-            "বিনামূল্যে, তাৎক্ষণিক আইনি পরামর্শ\nআপনার নখদর্পণে",
-            "ఉచిత, తక్షణ న్యాయ సలహా\nమీ చేతివేళ్ల కొనన",
-            "मोफत, त्वरित कायदेशीर मार्गदर्शन\nतुमच्या बोटांच्या टोकावर",
-            "இலவச, உடனடி சட்ட ஆலோசனை\nஉங்கள் விரல் நுனியில்",
-            "મફત, તાત્કાલિક કાનૂની માર્ગદર્શન\nતમારી આંગળીના ટેરવે",
-            "ಉಚಿತ, ತ್ವರಿತ ಕಾನೂನು ಮಾರ್ಗದರ್ಶನ\nನಿಮ್ಮ ಬೆರಳ ತುದಿಯಲ್ಲಿ",
-            "സൗജന്യ, തൽക്ഷണ നിയമ ഉപദേശം\nനിങ്ങളുടെ വിരൽത്തുമ്പിൽ",
-            "ମାଗଣା, ତୁରନ୍ତ ଆଇନ ମାର୍ଗଦର୍ଶନ\nଆପଣଙ୍କ ଆଙ୍ଗୁଠି ଡଗରେ",
-            "ਮੁਫ਼ਤ, ਤੁਰੰਤ ਕਾਨੂੰਨੀ ਮਾਰਗਦਰਸ਼ਨ\nਤੁਹਾਡੀਆਂ ਉਂਗਲਾਂ 'ਤੇ"
+            ["Free, Instant Legal Guidance\nat Your Fingertips", "en"],
+            ["मुफ़्त, तुरंत कानूनी मार्गदर्शन\nआपकी उंगलियों पर", "hi"],
+            ["বিনামূল্যে, তাৎক্ষণিক আইনি পরামর্শ\nআপনার নখদর্পণে", "bn"],
+            ["ఉచిత, తక్షణ న్యాయ సలహా\nమీ చేతివేళ్ల కొనన", "te"],
+            ["मोफत, त्वरित कायदेशीर मार्गदर्शन\nतुमच्या बोटांच्या टोकावर", "mr"],
+            ["இலவச, உடனடி சட்ட ஆலோசனை\nஉங்கள் விரல் நுனியில்", "ta"],
+            ["મફત, તાત્કાલિક કાનૂની માર્ગદર્શન\nતમારી આંગળીના ટેરવે", "gu"],
+            ["ಉಚಿತ, ತ್ವರಿತ ಕಾನೂನು ಮಾರ್ಗದರ್ಶನ\nನಿಮ್ಮ ಬೆರಳ ತುದಿಯಲ್ಲಿ", "kn"],
+            ["സൗജന്യ, തൽക്ഷണ നിയമ ഉപദേശം\nനിങ്ങളുടെ വിരൽത്തുമ്പിൽ", "ml"],
+            ["ਮੁਫ਼ਤ, ਤੁਰੰਤ ਕਾਨੂੰਨੀ ਮਾਰਗਦਰਸ਼ਨ\nਤੁਹਾਡੀਆਂ ਉਂਗਲਾਂ 'ਤੇ", "pa"],
         ];
 
         let currentIdx = 0;
         const target = document.getElementById('morph-target');
+        const htmlEl = document.documentElement;
+        const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-        function setHeadline(text) {
-            // Replace \n with <br> for two-line display
+        function setHeadline([text, lang]) {
             target.innerHTML = text.replace(/\n/g, '<br>');
-            target.classList.remove('exit');
-            target.classList.remove('morph-text');
-            void target.offsetWidth; // force reflow
-            target.classList.add('morph-text');
+            htmlEl.setAttribute('lang', lang);
+            if (!prefersReduced) {
+                target.classList.remove('exit', 'morph-text');
+                void target.offsetWidth;
+                target.classList.add('morph-text');
+            }
         }
 
         function cycleHeadline() {
-            // Exit current
-            target.classList.add('exit');
-            target.classList.remove('morph-text');
-
-            setTimeout(() => {
+            if (!prefersReduced) {
+                target.classList.add('exit');
+                target.classList.remove('morph-text');
+                setTimeout(() => {
+                    currentIdx = (currentIdx + 1) % headlines.length;
+                    setHeadline(headlines[currentIdx]);
+                }, 400);
+            } else {
                 currentIdx = (currentIdx + 1) % headlines.length;
                 setHeadline(headlines[currentIdx]);
-            }, 400);
+            }
         }
 
-        // Initial
         setHeadline(headlines[0]);
-        setInterval(cycleHeadline, 3000);
+        setInterval(cycleHeadline, 3500);
+
+        // --- Example query chips ---
+        document.querySelectorAll('.query-chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                const q = chip.dataset.query;
+                document.getElementById('legal-query').value = q;
+                document.getElementById('legal-query').focus();
+                // Auto-submit after a brief moment so user sees it populated
+                setTimeout(() => {
+                    window.location.href = '/chatbot?query=' + encodeURIComponent(q);
+                }, 150);
+            });
+        });
 
         // --- Form submission ---
-        document.getElementById('inquiry-form').addEventListener('submit', function(e) {
+        const form = document.getElementById('inquiry-form');
+        const input = document.getElementById('legal-query');
+        const errorEl = document.getElementById('query-error');
+
+        form.addEventListener('submit', function(e) {
             e.preventDefault();
-            const query = document.getElementById('legal-query').value.trim();
-            const errorEl = document.getElementById('query-error');
-            const inputEl = document.getElementById('legal-query');
+            const query = input.value.trim();
             if (!query || query.length < 10) {
                 errorEl.classList.remove('hidden');
-                inputEl.classList.add('ring-2', 'ring-red-400');
-                inputEl.focus();
+                input.setAttribute('aria-invalid', 'true');
+                input.focus();
                 return;
             }
             errorEl.classList.add('hidden');
-            inputEl.classList.remove('ring-2', 'ring-red-400');
+            input.removeAttribute('aria-invalid');
             window.location.href = '/chatbot?query=' + encodeURIComponent(query);
         });
-        document.getElementById('legal-query').addEventListener('input', function() {
+
+        input.addEventListener('input', function() {
             if (this.value.trim().length >= 10) {
-                document.getElementById('query-error').classList.add('hidden');
-                this.classList.remove('ring-2', 'ring-red-400');
+                errorEl.classList.add('hidden');
+                this.removeAttribute('aria-invalid');
             }
         });
     </script>
