@@ -31,6 +31,8 @@
         }
     </script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Analytics: GTM · GA4 · Meta Pixel — IDs configured in /assets/analytics.js -->
+    <script src="/assets/analytics.js"></script>
     <style>
         body {
             font-family: 'Outfit', sans-serif;
@@ -611,6 +613,7 @@
         function startFlow() {
             session.category = detectCategory(session.query);
             const data = insightMap[session.category] || insightMap['General'];
+            if (typeof eqTrack === 'function') eqTrack('chatbot_load', { query: session.query, category: session.category });
 
             botMsg(`I've received your concern:<br><em class="text-slate-500">"${DOMPurify.sanitize(session.query)}"</em>`);
 
@@ -623,6 +626,7 @@
         // STEP 1: Option chosen → show contact form immediately
         function handleOptionClick(label, wrap) {
             session.chosenOption = label;
+            if (typeof eqTrack === 'function') eqTrack('action_selected', { action: label, category: session.category });
 
             wrap.querySelectorAll('button').forEach(b => {
                 b.disabled = true;
@@ -647,6 +651,7 @@
                     hideInput();
                     contactEl.classList.remove('hidden');
                     scrollDown();
+                    if (typeof eqTrack === 'function') eqTrack('lead_form_shown', { action: label, category: session.category });
                     setTimeout(() => document.getElementById('cap-name').focus(), 200);
                 }, 400);
             }, 1000);
@@ -727,6 +732,7 @@
             const btn = document.getElementById('contact-submit-btn');
             btn.disabled = true;
             btn.innerHTML = `<span class="animate-spin mr-2 inline-block">⟳</span> Securing your plan...`;
+            if (typeof eqTrack === 'function') eqTrack('lead_submitted', { category: session.category, city: session.city, contact_pref: session.contactPref });
 
             // Send initial lead payload
             const payload = {
@@ -764,6 +770,7 @@
 
         // STEP 2: Lead captured — show action plan + start enrichment
         function onLeadCaptured() {
+            if (typeof eqTrack === 'function') eqTrack('lead_captured', { category: session.category, city: session.city, contact_pref: session.contactPref, action: session.chosenOption });
             contactEl.classList.add('hidden');
             step = 2;
             updateStepper('step-qualify', ['step-insight', 'step-connect']);
@@ -806,6 +813,7 @@
             userMsg(val);
             hideInput();
             step = 3;
+            if (typeof eqTrack === 'function') eqTrack('funnel_step_timeline', { category: session.category, timeline: val });
 
             showTyping(() => {
                 botMsg(`<strong>Have you taken any steps to address this so far?</strong>`);
@@ -821,6 +829,7 @@
             session.stepsTaken = label;
             userMsg(label);
             step = 4;
+            if (typeof eqTrack === 'function') eqTrack('funnel_step_steps_taken', { category: session.category, steps_taken: label });
 
             showTyping(() => {
                 botMsg(`<strong>How urgent is this for you?</strong>`);
@@ -836,6 +845,7 @@
             session.urgency = label;
             userMsg(label);
             step = 5;
+            if (typeof eqTrack === 'function') eqTrack('funnel_step_urgency', { category: session.category, urgency: label });
 
             // Differentiated response based on urgency
             const isVeryUrgent = label.startsWith('Very urgent');
@@ -858,6 +868,7 @@
             session.hasDocuments = label;
             userMsg(label);
             step = 6;
+            if (typeof eqTrack === 'function') eqTrack('funnel_step_documents', { category: session.category, has_documents: label });
 
             showTyping(() => {
                 const docNote = label.includes('Yes')
@@ -879,6 +890,17 @@
             session.preferredTime = slot;
             userMsg(slot);
             step = 7;
+            if (typeof eqTrack === 'function') eqTrack('funnel_step_timeslot', { category: session.category, timeslot: slot });
+            if (typeof eqTrack === 'function') eqTrack('case_secured', {
+                category:      session.category,
+                city:          session.city,
+                urgency:       session.urgency,
+                has_documents: session.hasDocuments,
+                steps_taken:   session.stepsTaken,
+                timeslot:      slot,
+                action:        session.chosenOption,
+                contact_pref:  session.contactPref,
+            });
 
             // Send enriched follow-up payload
             const enriched = {
@@ -940,7 +962,8 @@
                             <a href="https://wa.me/?text=${encodeURIComponent('I just got free legal guidance from Equalaw — https://equalaw.tech')}"
                                target="_blank" rel="noopener"
                                class="wa-btn w-full flex items-center justify-center gap-2.5 text-white font-bold py-3 rounded-xl text-sm shadow-md"
-                               aria-label="Share Equalaw on WhatsApp">
+                               aria-label="Share Equalaw on WhatsApp"
+                               onclick="if(typeof eqTrack==='function') eqTrack('whatsapp_share_click', { category: '${session.category}', urgency: '${session.urgency}' })"
                                 <svg class="w-5 h-5" fill="currentColor" aria-hidden="true" viewBox="0 0 24 24"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.12-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/></svg>
                                 Share Equalaw on WhatsApp
                             </a>

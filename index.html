@@ -30,6 +30,8 @@
         }
     </script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Analytics: GTM · GA4 · Meta Pixel — IDs configured in /assets/analytics.js -->
+    <script src="/assets/analytics.js"></script>
     <style>
         body { font-family: 'Outfit', sans-serif; }
 
@@ -302,6 +304,8 @@
                 const q = chip.dataset.query;
                 document.getElementById('legal-query').value = q;
                 document.getElementById('legal-query').focus();
+                // Track chip click
+                if (typeof eqTrack === 'function') eqTrack('chip_click', { query: q, chip_label: chip.textContent.trim() });
                 // Auto-submit after a brief moment so user sees it populated
                 setTimeout(() => {
                     window.location.href = '/chatbot?query=' + encodeURIComponent(q);
@@ -325,6 +329,7 @@
             }
             errorEl.classList.add('hidden');
             input.removeAttribute('aria-invalid');
+            if (typeof eqTrack === 'function') eqTrack('query_submit', { query: query });
             window.location.href = '/chatbot?query=' + encodeURIComponent(query);
         });
 
