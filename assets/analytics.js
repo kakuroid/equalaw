@@ -22,7 +22,7 @@
   //  PostHog is primary (free, instant insight). GTM/GA4/Meta when ready.
   // ══════════════════════════════════════════════════════════════════════
   var CONFIG = {
-    POSTHOG_KEY:    'phc_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX', // Replace → app.posthog.com
+    POSTHOG_KEY:    'phc_qnDpv7HZh1MWNL1n8mxNttsGJCRBRf9WuRMW8QAxwh0', // PostHog project 341550
     POSTHOG_HOST:   'https://us.i.posthog.com',
     GTM_ID:         'GTM-XXXXXXX',        // Replace → tagmanager.google.com
     GA4_ID:         'G-XXXXXXXXXX',        // Replace → analytics.google.com
