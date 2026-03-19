@@ -657,6 +657,34 @@
             }, 1000);
         }
 
+        // ── Supabase intake via keuristic API (parallel, fire-and-forget) ─
+        var KEURISTIC_API = 'https://keuristic.com/api';
+        function sendLeadToSupabase(payload) {
+            var phId = (window.posthog && typeof window.posthog.get_distinct_id === 'function')
+                ? window.posthog.get_distinct_id() : null;
+            fetch(KEURISTIC_API + '/leads', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name:                payload.name,
+                    phone:               payload.mobile,
+                    email:               payload.email || null,
+                    city:                payload.city,
+                    legal_category:      payload.category,
+                    chosen_action:       payload.chosenAction,
+                    contact_preference:  payload.contactPref,
+                    query:               payload.query,
+                    timeline:            payload.timeline || null,
+                    steps_taken:         payload.stepsTaken || null,
+                    urgency:             payload.urgency || null,
+                    has_documents:       payload.hasDocuments || null,
+                    preferred_timeslot:  payload.preferredTime || null,
+                    posthog_distinct_id: phId
+                })
+            }).catch(function() {});
+        }
+        // ─────────────────────────────────────────────────────────────────
+
         // Name extraction helper
         function extractName(raw) {
             let s = raw.trim()
@@ -749,6 +777,13 @@
                 _subject:      `Equalaw Lead [${session.category}] ${session.userName} — ${session.city}`,
                 _template:     'table'
             };
+
+            sendLeadToSupabase({
+                name: session.userName, mobile: session.mobile, email: session.email,
+                city: session.city, category: session.category,
+                chosenAction: session.chosenOption, contactPref: session.contactPref,
+                query: session.query
+            });
 
             fetch('https://formsubmit.co/ajax/support@equalaw.tech', {
                 method: 'POST',
@@ -917,6 +952,15 @@
                 _subject:      `Equalaw Enrichment [${session.category}] ${session.userName} — ${session.urgency}`,
                 _template:     'table'
             };
+            sendLeadToSupabase({
+                name: session.userName, mobile: session.mobile, email: session.email,
+                city: session.city, category: session.category,
+                chosenAction: session.chosenOption, contactPref: session.contactPref,
+                query: session.query, timeline: session.timeline,
+                stepsTaken: session.stepsTaken, urgency: session.urgency,
+                hasDocuments: session.hasDocuments, preferredTime: slot
+            });
+
             fetch('https://formsubmit.co/ajax/support@equalaw.tech', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
