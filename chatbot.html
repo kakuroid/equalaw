@@ -344,7 +344,7 @@
             chosenOption: '',
             userName:     '',
             mobile:       '',
-            city:         '',
+            city:         '',          // captured at Step 0 (before insight)
             email:        '',
             contactPref:  'WhatsApp',
             timeline:     '',
@@ -355,16 +355,24 @@
         };
 
         /*
-         * NEW FUNNEL — lead first:
-         * 0: Insight + action options
-         * 1: Contact form (name, phone, city, email, pref) → lead captured here
-         * 2: Enrichment — timeline (free text)
-         * 3: Enrichment — steps taken (buttons)
-         * 4: Enrichment — urgency (buttons)
-         * 5: Enrichment — documents (buttons)
-         * 6: Success / time slot
+         * FUNNEL — Keuristic: Role × Space × Time
+         * 0:   Echo query + city capture (space signal)
+         * 0.1: City text input (if "Other city" tapped)
+         * 1:   Localized insight + action options  (role signal)
+         * 2:   Contact form → lead captured here
+         * 3:   Timeline (time signal)
+         * 4:   Steps taken
+         * 5:   Urgency (time signal)
+         * 6:   Documents
+         * 7:   Time slot (time signal) → success + match card
          */
         let step = 0;
+
+        // Pre-load city from homepage geolocation (stored in sessionStorage)
+        const _savedCity = (() => { try { return sessionStorage.getItem('eq_city') || ''; } catch(e) { return ''; } })();
+        if (_savedCity) {
+            session.city = _savedCity;
+        }
 
         // --- Category detection ---
         function detectCategory(q) {
@@ -609,18 +617,59 @@
 
         // --- FLOW ---
 
-        // STEP 0: Insight + action options
+        // STEP 0: Echo query — then get city (Space signal) or use saved city
         function startFlow() {
             session.category = detectCategory(session.query);
-            const data = insightMap[session.category] || insightMap['General'];
             if (typeof eqTrack === 'function') eqTrack('chatbot_load', { query: session.query, category: session.category });
 
             botMsg(`I've received your concern:<br><em class="text-slate-500">"${DOMPurify.sanitize(session.query)}"</em>`);
 
-            showTyping(() => {
-                botMsg(`I'm analyzing this as a <strong>${session.category}</strong> matter. Here's your first critical insight:<br><br>${data.insight}<br><br><span class="text-sm font-semibold text-slate-500">Choose your next step:</span>`);
-                setTimeout(() => showOptions(data.options), 300);
-            }, 1400);
+            if (session.city) {
+                // City already known from homepage geolocation — go straight to insight
+                showTyping(() => showInsightStep(), 1100);
+            } else {
+                // Ask for city first — the Space signal shapes everything downstream
+                showTyping(() => {
+                    botMsg(`<strong>Which city are you in?</strong><br><span class="text-[12px] text-slate-500">This tailors your guidance to local laws and finds the nearest specialist.</span>`);
+                    setTimeout(() => showQualifyOptions(
+                        ['Mumbai', 'Delhi', 'Bengaluru', 'Chennai', 'Hyderabad', 'Pune', 'Kolkata', 'Ahmedabad', 'Jaipur', 'Other city'],
+                        handleCitySelect
+                    ), 300);
+                }, 1100);
+            }
+        }
+
+        // City selected from tiles
+        function handleCitySelect(label) {
+            if (label === 'Other city') {
+                userMsg(label);
+                showTyping(() => {
+                    botMsg('<strong>Which city?</strong>');
+                    showInput('e.g., Lucknow, Surat, Bhopal...');
+                    step = 0.1;
+                }, 500);
+            } else {
+                session.city = label;
+                try { sessionStorage.setItem('eq_city', label); } catch(e) {}
+                userMsg(label);
+                if (typeof eqTrack === 'function') eqTrack('city_selected', { city: label, category: session.category });
+                showTyping(() => showInsightStep(), 700);
+            }
+        }
+
+        // Localized insight + action options (Role signal shaped by Space)
+        function showInsightStep() {
+            const data = insightMap[session.category] || insightMap['General'];
+            // Pre-fill city in contact form so user doesn't re-enter it
+            const cityField = document.getElementById('cap-city');
+            if (cityField && session.city) cityField.value = session.city;
+
+            const cityTag = session.city
+                ? `<span class="inline-flex items-center gap-1 bg-brand-50 text-brand-700 text-[11px] font-bold px-2 py-0.5 rounded-full border border-brand-200 mb-2"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>${DOMPurify.sanitize(session.city)}</span><br>`
+                : '';
+
+            botMsg(`${cityTag}This is a <strong>${session.category}</strong> matter. Here's your first critical insight:<br><br>${data.insight}<br><br><span class="text-sm font-semibold text-slate-500">What do you want to do first?</span>`);
+            setTimeout(() => showOptions(data.options), 300);
         }
 
         // STEP 1: Option chosen → show contact form immediately
@@ -994,6 +1043,21 @@
                             <div class="flex gap-2"><span class="text-green-500">✓</span> Call time: <strong>${slot}</strong></div>
                         </div>
                     </div>
+                    <p class="text-[11px] font-bold text-slate-500 mb-1.5 uppercase tracking-wider">Why you were matched</p>
+                    <div class="flex gap-2 flex-wrap mb-3">
+                        <span class="inline-flex items-center gap-1 text-[11px] font-bold bg-brand-50 text-brand-700 border border-brand-200 px-2.5 py-1 rounded-full">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"/></svg>
+                            Role — ${DOMPurify.sanitize(session.category)}
+                        </span>
+                        <span class="inline-flex items-center gap-1 text-[11px] font-bold bg-brand-50 text-brand-700 border border-brand-200 px-2.5 py-1 rounded-full">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                            Space — ${DOMPurify.sanitize(session.city)}
+                        </span>
+                        <span class="inline-flex items-center gap-1 text-[11px] font-bold bg-brand-50 text-brand-700 border border-brand-200 px-2.5 py-1 rounded-full">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            Time — ${slot}
+                        </span>
+                    </div>
                     <em class="text-[11px] text-slate-400">Save this screen for your reference. You can close this window now.</em>
                 `);
 
@@ -1030,7 +1094,17 @@
             const val = userInput.value.trim();
             if (!val) return;
             hideInput();
-            if (step === 2)      handleTimelineSubmit(val);
+            if (step === 0.1) {
+                // City free-text input
+                session.city = val;
+                try { sessionStorage.setItem('eq_city', val); } catch(e) {}
+                userMsg(val);
+                if (typeof eqTrack === 'function') eqTrack('city_typed', { city: val, category: session.category });
+                step = 0;
+                showTyping(() => showInsightStep(), 700);
+            } else if (step === 2) {
+                handleTimelineSubmit(val);
+            }
         }
 
         // --- Event listeners ---
