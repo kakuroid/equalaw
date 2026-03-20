@@ -679,7 +679,8 @@
                     urgency:             payload.urgency || null,
                     has_documents:       payload.hasDocuments || null,
                     preferred_timeslot:  payload.preferredTime || null,
-                    posthog_distinct_id: phId
+                    posthog_distinct_id: phId,
+                    utm:                 window.eqUtm || {}
                 })
             }).catch(function() {});
         }

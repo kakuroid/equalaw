@@ -1,5 +1,5 @@
 /**
- * Equalaw Analytics Layer v2.0
+ * Equalaw Analytics Layer v2.1
  * ─────────────────────────────────────────────────────────────────────────
  * Single file for all tracking. Replace IDs in CONFIG before going live.
  * Instruments: PostHog · Google Tag Manager · GA4 · Meta Pixel
@@ -11,11 +11,38 @@
  *                funnel_step_timeline, funnel_step_steps_taken,
  *                funnel_step_urgency, funnel_step_documents,
  *                funnel_step_timeslot, case_secured, whatsapp_share_click
+ *  join.html   → advocate_join_load, advocate_step_name, advocate_step_phone,
+ *                advocate_lead_captured, advocate_step_state, advocate_step_enrollment,
+ *                advocate_step_experience, advocate_step_specializations,
+ *                advocate_step_cities, advocate_step_languages,
+ *                advocate_step_fee_type, advocate_application_submitted,
+ *                advocate_share_click
  *  development → dev_log_view
  * ─────────────────────────────────────────────────────────────────────────
  */
 (function () {
   'use strict';
+
+  // ══════════════════════════════════════════════════════════════════════
+  //  UTM CAPTURE — reads current URL params, falls back to sessionStorage
+  //  so UTMs persist across the index → chatbot / join redirects.
+  //  Access anywhere via: window.eqUtm
+  // ══════════════════════════════════════════════════════════════════════
+  window.eqUtm = (function () {
+    var keys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid', 'fbclid'];
+    var p    = new URLSearchParams(window.location.search);
+    var utms = {};
+    keys.forEach(function (k) { if (p.get(k)) utms[k] = p.get(k); });
+    try {
+      if (Object.keys(utms).length) {
+        sessionStorage.setItem('eq_utms', JSON.stringify(utms));
+      } else {
+        var stored = sessionStorage.getItem('eq_utms');
+        if (stored) utms = JSON.parse(stored);
+      }
+    } catch (e) {}
+    return utms;
+  }());
 
   // ══════════════════════════════════════════════════════════════════════
   //  CONFIGURATION — replace IDs before going live
@@ -63,9 +90,12 @@
 
     /* 4 ─ Meta Pixel — map to standard events where possible */
     if (typeof window.fbq === 'function') {
-      if (event === 'lead_captured')     window.fbq('track', 'Lead', params);
-      else if (event === 'case_secured') window.fbq('track', 'CompleteRegistration', params);
-      else if (event === 'chatbot_load') window.fbq('track', 'ViewContent', params);
+      if (event === 'lead_captured' || event === 'advocate_lead_captured')
+                                         window.fbq('track', 'Lead', params);
+      else if (event === 'case_secured' || event === 'advocate_application_submitted')
+                                         window.fbq('track', 'CompleteRegistration', params);
+      else if (event === 'chatbot_load' || event === 'advocate_join_load')
+                                         window.fbq('track', 'ViewContent', params);
       else window.fbq('trackCustom', event, params);
     }
 
