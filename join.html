@@ -34,7 +34,10 @@
         }
     </script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/ui-components.css">
     <script src="/assets/analytics.js"></script>
+    <!-- i18n: Language detection & translation system -->
+    <script src="/assets/i18n.js"></script>
     <!-- Vercel Web Analytics -->
     <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
     <style>
@@ -561,6 +564,52 @@
         });
 
         setTimeout(startFlow, 400);
+    });
+
+    // Language picker UI
+    document.addEventListener('i18n-ready', function() {
+        renderLanguagePicker();
+    });
+
+    function renderLanguagePicker() {
+        const picker = document.createElement('div');
+        picker.id = 'lang-picker';
+        picker.innerHTML = `
+            <button id="lang-toggle" aria-label="Change language" aria-expanded="false">
+                <span id="lang-name">${getLangName()}</span> 🌐
+            </button>
+            <div id="lang-dropdown" class="hidden">
+                ${getSupportedLanguages().map(lang => `
+                    <button data-lang="${lang.code}"
+                            ${lang.code === getCurrentLang() ? 'selected' : ''}
+                            onclick="switchLanguage('${lang.code}')">
+                        ${lang.name} ${lang.code === getCurrentLang() ? '✓' : ''}
+                    </button>
+                `).join('')}
+            </div>
+        `;
+        document.body.appendChild(picker);
+
+        // Toggle dropdown
+        document.getElementById('lang-toggle').addEventListener('click', function(e) {
+            e.stopPropagation();
+            const dropdown = document.getElementById('lang-dropdown');
+            dropdown.classList.toggle('open');
+            this.setAttribute('aria-expanded', dropdown.classList.contains('open'));
+        });
+
+        // Close on click outside
+        document.addEventListener('click', function() {
+            const dropdown = document.getElementById('lang-dropdown');
+            if (dropdown) {
+                dropdown.classList.remove('open');
+                document.getElementById('lang-toggle').setAttribute('aria-expanded', 'false');
+            }
+        });
+    }
+
+    window.addEventListener('language-changed', function() {
+        renderLanguagePicker();
     });
     </script>
 </body>

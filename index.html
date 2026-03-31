@@ -34,8 +34,11 @@
         }
     </script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/ui-components.css">
     <!-- Analytics: GTM · GA4 · Meta Pixel — IDs configured in /assets/analytics.js -->
     <script src="/assets/analytics.js"></script>
+    <!-- i18n: Language detection & translation system -->
+    <script src="/assets/i18n.js"></script>
     <!-- Vercel Web Analytics -->
     <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
     <style>
@@ -174,9 +177,9 @@
             2,400+ Indians got legal guidance this month
         </p>
 
-        <!-- Search bar — the ONE action -->
+        <!-- Search bar — text input + voice button -->
         <div class="w-full max-w-2xl">
-            <label for="legal-query" class="sr-only">Describe your legal situation</label>
+            <label for="legal-query" class="sr-only" id="label-describe-situation">Describe your legal situation</label>
             <form id="inquiry-form"
                   class="glass-card p-2 rounded-2xl md:rounded-full flex flex-col md:flex-row items-center border border-white/60 focus-within:ring-4 focus-within:ring-brand-400/20 focus-within:border-brand-300 transition-all"
                   novalidate>
@@ -191,7 +194,15 @@
                     aria-describedby="query-error query-hint"
                     aria-required="true"
                 />
+                <!-- Voice button — speak your situation -->
+                <button type="button" id="voice-input-btn"
+                        class="voice-btn md:mr-2 md:mt-0 mt-2"
+                        aria-label="Speak your situation"
+                        title="Click to speak your legal situation">
+                    🎤
+                </button>
                 <button type="submit"
+                        id="btn-submit-query"
                         class="w-full md:w-auto mt-2 md:mt-0 bg-brand-600 hover:bg-brand-700 active:scale-[0.98] text-white font-bold py-3.5 px-8 md:px-10 rounded-xl md:rounded-full transition-all flex items-center justify-center gap-2 whitespace-nowrap text-base md:text-lg shadow-lg hover:shadow-brand-500/30">
                     Get Free Guidance
                     <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
@@ -258,7 +269,156 @@
         <a href="/development" class="text-slate-500 hover:text-slate-800 underline underline-offset-2 transition-colors">Dev Log</a>
     </footer>
 
+    <!-- Floating Language Picker -->
+    <div id="lang-picker">
+        <button id="lang-toggle" aria-label="Change language" aria-expanded="false">
+            <span id="lang-name">English</span> 🌐
+        </button>
+        <div id="lang-dropdown" class="hidden">
+            <!-- Populated by i18n.js -->
+        </div>
+    </div>
+
     <script>
+        // Initialize language picker UI
+        document.addEventListener('i18n-ready', function() {
+            renderLanguagePicker();
+            applyTranslationsToDOM();
+        });
+
+        // Render language dropdown options
+        function renderLanguagePicker() {
+            const dropdown = document.getElementById('lang-dropdown');
+            const langs = getSupportedLanguages();
+            const current = getCurrentLang();
+
+            dropdown.innerHTML = langs.map(lang => `
+                <button data-lang="${lang.code}"
+                        ${lang.code === current ? 'selected' : ''}
+                        onclick="switchLanguage('${lang.code}')">
+                    ${lang.name} ${lang.code === current ? '✓' : ''}
+                </button>
+            `).join('');
+
+            // Update toggle button
+            document.getElementById('lang-name').textContent = getLangName();
+
+            // Toggle dropdown open/close
+            document.getElementById('lang-toggle').addEventListener('click', function(e) {
+                e.stopPropagation();
+                dropdown.classList.toggle('open');
+                this.setAttribute('aria-expanded', dropdown.classList.contains('open'));
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function() {
+                dropdown.classList.remove('open');
+                document.getElementById('lang-toggle').setAttribute('aria-expanded', 'false');
+            });
+        }
+
+        // Apply translations to all UI elements
+        function applyTranslationsToDOM() {
+            // Form placeholder
+            document.getElementById('legal-query').placeholder = t('placeholder_query');
+            document.getElementById('label-describe-situation').textContent = t('placeholder_query');
+
+            // Buttons
+            document.getElementById('btn-submit-query').innerHTML = t('btn_get_guidance') + '<svg class="w-5 h-5" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>';
+            document.getElementById('voice-input-btn').title = t('btn_speak_situation');
+
+            // Error messages and hints
+            const hintEl = document.getElementById('query-hint');
+            if (hintEl) hintEl.textContent = 'Type in English or your language — ' + getLangName() + ', and more';
+        }
+
+        // --- Voice Input Handler ---
+        document.getElementById('voice-input-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+            startVoiceInput();
+        });
+
+        function startVoiceInput() {
+            const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+            const lang = getCurrentLang();
+            const langMap = {
+                'en': 'en-US',
+                'hi': 'hi-IN',
+                'ta': 'ta-IN',
+                'te': 'te-IN',
+                'mr': 'mr-IN',
+                'gu': 'gu-IN',
+                'kn': 'kn-IN',
+                'ml': 'ml-IN',
+                'pa': 'pa-IN',
+                'bn': 'bn-IN'
+            };
+
+            recognition.language = langMap[lang] || 'en-US';
+            recognition.interimResults = false;
+            recognition.maxAlternatives = 1;
+
+            const btn = document.getElementById('voice-input-btn');
+            const input = document.getElementById('legal-query');
+
+            btn.classList.add('recording');
+            btn.textContent = '🎤 ' + t('voice_listening');
+            btn.disabled = true;
+
+            recognition.onstart = function() {
+                if (typeof eqTrack === 'function') eqTrack('voice_input_started', { language: lang });
+            };
+
+            recognition.onresult = function(event) {
+                const transcript = event.results[0][0].transcript;
+                input.value = transcript;
+                input.focus();
+
+                if (typeof eqTrack === 'function') {
+                    eqTrack('voice_input_success', {
+                        language: lang,
+                        transcript_length: transcript.length
+                    });
+                }
+
+                // Auto-submit after short delay so user can see their text
+                setTimeout(() => {
+                    document.getElementById('inquiry-form').dispatchEvent(new Event('submit'));
+                }, 300);
+            };
+
+            recognition.onerror = function(event) {
+                console.error('Speech recognition error:', event.error);
+                alert(t('voice_error'));
+
+                if (typeof eqTrack === 'function') {
+                    eqTrack('voice_input_error', {
+                        language: lang,
+                        error: event.error
+                    });
+                }
+            };
+
+            recognition.onend = function() {
+                btn.classList.remove('recording');
+                btn.textContent = '🎤';
+                btn.disabled = false;
+            };
+
+            try {
+                recognition.start();
+            } catch (err) {
+                console.error('Could not start speech recognition:', err);
+                alert(t('voice_unsupported'));
+            }
+        }
+
+        // Listen for language changes and re-apply translations
+        window.addEventListener('language-changed', function() {
+            applyTranslationsToDOM();
+            renderLanguagePicker();
+        });
+
         // --- Multilingual morphing headlines ---
         // Each entry: [displayText, languageCode]
         const headlines = [

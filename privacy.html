@@ -9,7 +9,10 @@
     <link rel="icon" href="/assets/equalaw-logo.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/ui-components.css">
     <script src="/assets/analytics.js"></script>
+    <!-- i18n: Language detection & translation system -->
+    <script src="/assets/i18n.js"></script>
     <!-- Vercel Web Analytics -->
     <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
     <style>
@@ -121,6 +124,30 @@
     &nbsp;·&nbsp; <a href="/">Home</a>
     &nbsp;·&nbsp; <a href="/terms">Terms of Use</a>
 </footer>
+
+<!-- Floating Language Picker -->
+<div id="lang-picker">
+    <button id="lang-toggle" aria-label="Change language">🌐</button>
+    <div id="lang-dropdown" class="hidden"></div>
+</div>
+
+<script>
+    document.addEventListener('i18n-ready', function() {
+        const dropdown = document.getElementById('lang-dropdown');
+        const langs = getSupportedLanguages();
+        dropdown.innerHTML = langs.map(lang => `
+            <button onclick="switchLanguage('${lang.code}')" ${lang.code === getCurrentLang() ? 'selected' : ''}>
+                ${lang.name} ${lang.code === getCurrentLang() ? '✓' : ''}
+            </button>
+        `).join('');
+
+        document.getElementById('lang-toggle').addEventListener('click', function(e) {
+            e.stopPropagation();
+            dropdown.classList.toggle('open');
+        });
+        document.addEventListener('click', () => dropdown.classList.remove('open'));
+    });
+</script>
 
 </body>
 </html>

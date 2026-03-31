@@ -35,8 +35,11 @@
         }
     </script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/ui-components.css">
     <!-- Analytics: GTM · GA4 · Meta Pixel — IDs configured in /assets/analytics.js -->
     <script src="/assets/analytics.js"></script>
+    <!-- i18n: Language detection & translation system -->
+    <script src="/assets/i18n.js"></script>
     <!-- Vercel Web Analytics -->
     <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
     <style>
@@ -329,6 +332,80 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
+
+    <!-- Floating Language Picker -->
+    <div id="lang-picker">
+        <button id="lang-toggle" aria-label="Change language" aria-expanded="false">
+            <span id="lang-name">English</span> 🌐
+        </button>
+        <div id="lang-dropdown" class="hidden">
+            <!-- Populated by i18n.js -->
+        </div>
+    </div>
+
+    <script>
+        // Initialize language picker UI
+        document.addEventListener('i18n-ready', function() {
+            renderLanguagePicker();
+            applyTranslationsToDOM();
+        });
+
+        // Render language dropdown
+        function renderLanguagePicker() {
+            const dropdown = document.getElementById('lang-dropdown');
+            const langs = getSupportedLanguages();
+            const current = getCurrentLang();
+
+            dropdown.innerHTML = langs.map(lang => `
+                <button data-lang="${lang.code}"
+                        ${lang.code === current ? 'selected' : ''}
+                        onclick="switchLanguage('${lang.code}')">
+                    ${lang.name} ${lang.code === current ? '✓' : ''}
+                </button>
+            `).join('');
+
+            // Update toggle button
+            document.getElementById('lang-name').textContent = getLangName();
+
+            // Toggle dropdown
+            document.getElementById('lang-toggle').addEventListener('click', function(e) {
+                e.stopPropagation();
+                dropdown.classList.toggle('open');
+                this.setAttribute('aria-expanded', dropdown.classList.contains('open'));
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function() {
+                dropdown.classList.remove('open');
+                document.getElementById('lang-toggle').setAttribute('aria-expanded', 'false');
+            });
+        }
+
+        // Apply translations to form elements
+        function applyTranslationsToDOM() {
+            // Form inputs
+            const inputs = {
+                'name-input': 'placeholder_query', // Reuse for now
+                'tel-input': 'error_phone_invalid',
+                'city-input': 'placeholder_query'
+            };
+
+            // Update header status
+            const statusEl = document.getElementById('header-status');
+            if (statusEl) statusEl.textContent = t('reviewing_situation');
+
+            // Update back button label
+            const backBtn = document.querySelector('a[aria-label*="Start over"]');
+            if (backBtn) backBtn.setAttribute('aria-label', t('btn_start_over'));
+        }
+
+        // Listen for language changes
+        window.addEventListener('language-changed', function() {
+            applyTranslationsToDOM();
+            renderLanguagePicker();
+        });
+    </script>
+
     <script>
     document.addEventListener('DOMContentLoaded', () => {
         const urlParams = new URLSearchParams(window.location.search);
