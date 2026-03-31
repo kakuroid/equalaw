@@ -1,30 +1,366 @@
 /**
- * Equalaw UI Components
- * Language suggestion toast, language picker, voice button styles
+ * Equalaw UI Components & Design System
+ * Responsive-first component library with language awareness
+ *
+ * Sections:
+ * 1. Color & Spacing System
+ * 2. Typography System
+ * 3. Button Components (primary, secondary, ghost)
+ * 4. Input Components
+ * 5. Form States (error, success, disabled)
+ * 6. Toast & Notifications
+ * 7. Language Picker (floating)
+ * 8. Voice Button & Recording Feedback
+ * 9. Loading States & Spinners
+ * 10. Responsive Breakpoints
+ * 11. Accessibility & Focus States
  */
 
 /* ============================================
-   Language Suggestion Toast
+   1. COLOR & SPACING SYSTEM
    ============================================ */
 
-.lang-suggestion-toast {
+:root {
+  /* Brand Colors */
+  --color-primary: #007bff;
+  --color-primary-dark: #0061cc;
+  --color-primary-light: #389fff;
+
+  /* Semantic Colors */
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+  --color-info: #3b82f6;
+
+  /* Neutral */
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-gray-50: #f8fafc;
+  --color-gray-100: #f1f5f9;
+  --color-gray-200: #e2e8f0;
+  --color-gray-400: #cbd5e1;
+  --color-gray-600: #64748b;
+  --color-gray-700: #475569;
+  --color-gray-800: #1e293b;
+  --color-gray-900: #0f172a;
+
+  /* Spacing */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-full: 999px;
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-base: 200ms ease;
+  --transition-slow: 300ms ease;
+}
+
+/* ============================================
+   2. TYPOGRAPHY SYSTEM
+   ============================================ */
+
+h1 { font-size: 3.75rem; font-weight: 800; line-height: 1.1; }
+h2 { font-size: 2rem; font-weight: 700; line-height: 1.2; }
+h3 { font-size: 1.5rem; font-weight: 600; line-height: 1.3; }
+h4 { font-size: 1.25rem; font-weight: 600; line-height: 1.4; }
+
+body, button, input, label {
+  font-family: 'Outfit', system-ui, sans-serif;
+}
+
+.text-lg { font-size: 1.125rem; font-weight: 500; }
+.text-base { font-size: 1rem; font-weight: 400; }
+.text-sm { font-size: 0.875rem; font-weight: 500; }
+.text-xs { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+
+.font-bold { font-weight: 700; }
+.font-semibold { font-weight: 600; }
+.font-medium { font-weight: 500; }
+.font-regular { font-weight: 400; }
+
+/* ============================================
+   3. BUTTON COMPONENTS
+   ============================================ */
+
+/* Base button styles */
+button, .btn {
+  font-family: 'Outfit', sans-serif;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  white-space: nowrap;
+  user-select: none;
+}
+
+/* Button Sizes */
+.btn-xs {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+}
+
+.btn-sm {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+}
+
+.btn-md {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+}
+
+.btn-lg {
+  padding: 1rem 2rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  border-radius: var(--radius-lg);
+}
+
+/* Primary Button */
+.btn-primary, .btn-primary:visited {
+  background: var(--color-primary);
+  color: var(--color-white);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+.btn-primary:hover {
+  background: var(--color-primary-dark);
+  box-shadow: 0 6px 16px rgba(0, 123, 255, 0.4);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.2);
+}
+
+/* Secondary Button */
+.btn-secondary, .btn-secondary:visited {
+  background: var(--color-gray-100);
+  color: var(--color-gray-800);
+  border: 1px solid var(--color-gray-200);
+}
+
+.btn-secondary:hover {
+  background: var(--color-gray-200);
+  color: var(--color-gray-900);
+  border-color: var(--color-gray-300);
+  transform: translateY(-1px);
+}
+
+.btn-secondary:active {
+  transform: scale(0.98);
+}
+
+/* Ghost Button (text-only) */
+.btn-ghost, .btn-ghost:visited {
+  background: transparent;
+  color: var(--color-primary);
+  border: none;
+  padding: 0;
+}
+
+.btn-ghost:hover {
+  color: var(--color-primary-dark);
+  text-decoration: underline;
+}
+
+/* Button States */
+.btn:disabled, .btn[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.btn.loading {
+  pointer-events: none;
+  position: relative;
+}
+
+.btn.loading::after {
+  content: '';
+  position: absolute;
+  width: 1em;
+  height: 1em;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spinner 0.6s linear infinite;
+}
+
+@keyframes spinner {
+  to { transform: rotate(360deg); }
+}
+
+/* ============================================
+   4. INPUT COMPONENTS
+   ============================================ */
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="password"],
+input[type="number"],
+textarea,
+select {
+  font-family: 'Outfit', sans-serif;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  transition: all var(--transition-base);
+  background: var(--color-white);
+  color: var(--color-gray-800);
+  min-height: 44px; /* Touch target */
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--color-gray-600);
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+  background: var(--color-white);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23475569' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+}
+
+/* ============================================
+   5. FORM STATES
+   ============================================ */
+
+.form-group {
+  margin-bottom: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+}
+
+.form-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-gray-800);
+  margin-bottom: var(--space-sm);
+}
+
+.form-help {
+  font-size: 0.75rem;
+  color: var(--color-gray-600);
+  margin-top: var(--space-sm);
+  line-height: 1.4;
+}
+
+/* Error State */
+input[aria-invalid="true"],
+textarea[aria-invalid="true"],
+.input-error {
+  border-color: var(--color-error);
+}
+
+input[aria-invalid="true"]:focus,
+textarea[aria-invalid="true"]:focus {
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+.error-text {
+  font-size: 0.75rem;
+  color: var(--color-error);
+  margin-top: var(--space-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Success State */
+.input-success {
+  border-color: var(--color-success);
+}
+
+.input-success::after {
+  content: '✓';
+  position: absolute;
+  right: 1rem;
+  color: var(--color-success);
+  font-weight: 700;
+}
+
+.success-text {
+  font-size: 0.75rem;
+  color: var(--color-success);
+  margin-top: var(--space-sm);
+}
+
+/* ============================================
+   6. TOAST & NOTIFICATIONS
+   ============================================ */
+
+.toast {
   position: fixed;
-  top: 20px;
-  right: 20px;
   z-index: 1000;
-  background: white;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
-  padding: 1rem;
-  max-width: 320px;
+  padding: var(--space-md) var(--space-lg);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  max-width: 400px;
   animation: slideInRight 0.3s ease-out;
 }
 
 @keyframes slideInRight {
   from {
     opacity: 0;
-    transform: translateX(100px);
+    transform: translateX(100%);
   }
   to {
     opacity: 1;
@@ -32,110 +368,99 @@
   }
 }
 
+.toast-success {
+  background: var(--color-success);
+  color: var(--color-white);
+}
+
+.toast-error {
+  background: var(--color-error);
+  color: var(--color-white);
+}
+
+.toast-info {
+  background: var(--color-info);
+  color: var(--color-white);
+}
+
+.toast-warning {
+  background: var(--color-warning);
+  color: var(--color-gray-900);
+}
+
 .toast-content {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  font-family: 'Outfit', sans-serif;
-}
-
-.toast-content > span {
-  font-size: 0.9375rem;
-  color: #1e293b;
-  line-height: 1.5;
-  font-weight: 500;
-}
-
-.toast-buttons {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.toast-buttons button {
   flex: 1;
-  padding: 0.5rem 0.75rem;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-family: 'Outfit', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.4;
 }
 
-.btn-switch {
-  background: #0061cc;
-  color: white;
-}
-
-.btn-switch:hover {
-  background: #004da3;
-  transform: translateY(-1px);
-}
-
-.btn-switch:active {
-  transform: scale(0.98);
-}
-
-.btn-dismiss {
-  background: #f1f5f9;
-  color: #64748b;
-}
-
-.btn-dismiss:hover {
-  background: #e2e8f0;
+.toast-icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
 }
 
 /* ============================================
-   Floating Language Picker
+   7. LANGUAGE PICKER (Floating)
    ============================================ */
 
 #lang-picker {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
+  bottom: var(--space-lg);
+  right: var(--space-lg);
   z-index: 50;
   font-family: 'Outfit', sans-serif;
 }
 
 #lang-toggle {
-  background: white;
-  color: #1e293b;
-  border: 1px solid #e2e8f0;
-  border-radius: 999px;
-  padding: 0.5rem 1rem;
+  background: var(--color-white);
+  color: var(--color-gray-800);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-full);
+  padding: var(--space-sm) var(--space-md);
   font-size: 0.875rem;
   font-weight: 600;
   cursor: pointer;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  transition: all 0.2s ease;
-  font-family: 'Outfit', sans-serif;
+  gap: var(--space-sm);
+  transition: all var(--transition-base);
+  min-height: 44px;
 }
 
 #lang-toggle:hover {
-  background: #f8fafc;
+  background: var(--color-gray-50);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
   transform: translateY(-2px);
+  border-color: var(--color-primary);
 }
 
 #lang-toggle:active {
   transform: translateY(0);
 }
 
+#lang-toggle:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
 #lang-dropdown {
   position: absolute;
   bottom: 100%;
   right: 0;
-  background: white;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
   overflow: hidden;
-  min-width: 140px;
-  margin-bottom: 0.5rem;
+  min-width: 160px;
+  margin-bottom: var(--space-sm);
   display: none;
   animation: slideUp 0.2s ease-out;
 }
@@ -158,56 +483,60 @@
 #lang-dropdown button {
   display: block;
   width: 100%;
-  padding: 0.75rem 1rem;
+  padding: var(--space-md) var(--space-lg);
   text-align: left;
   border: none;
-  background: white;
-  color: #475569;
+  background: var(--color-white);
+  color: var(--color-gray-700);
   font-size: 0.875rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: all var(--transition-fast);
   font-family: 'Outfit', sans-serif;
 }
 
 #lang-dropdown button:hover {
-  background: #f1f5f9;
-  color: #0061cc;
+  background: var(--color-gray-50);
+  color: var(--color-primary);
 }
 
-#lang-dropdown button[selected] {
+#lang-dropdown button[selected],
+#lang-dropdown button.active {
   background: #eff6ff;
-  color: #0061cc;
+  color: var(--color-primary);
   font-weight: 600;
 }
 
-#lang-dropdown button:last-child {
-  border-bottom: none;
+#lang-dropdown button[selected]::after,
+#lang-dropdown button.active::after {
+  content: ' ✓';
+  color: var(--color-success);
 }
 
 /* ============================================
-   Voice Button Styles
+   8. VOICE BUTTON & RECORDING FEEDBACK
    ============================================ */
 
 .voice-btn {
-  background: white;
-  color: #1e293b;
-  border: 1px solid #e2e8f0;
+  background: var(--color-white);
+  color: var(--color-gray-800);
+  border: 1px solid var(--color-gray-200);
   padding: 0.75rem 1rem;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   font-size: 0.9375rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--transition-base);
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--space-sm);
   font-family: 'Outfit', sans-serif;
+  min-height: 44px;
 }
 
 .voice-btn:hover {
-  background: #f8fafc;
-  border-color: #cbd5e1;
+  background: var(--color-gray-50);
+  border-color: var(--color-gray-300);
   transform: translateY(-1px);
 }
 
@@ -215,58 +544,218 @@
   transform: scale(0.98);
 }
 
+.voice-btn:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Recording State */
 .voice-btn.recording {
-  background: #ef4444;
-  color: white;
-  border-color: #dc2626;
+  background: var(--color-primary);
+  color: var(--color-white);
+  border-color: var(--color-primary-dark);
   animation: pulse 1s infinite;
 }
 
 @keyframes pulse {
   0%, 100% {
-    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4);
+    box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.4);
   }
   50% {
-    box-shadow: 0 0 0 8px rgba(239, 68, 68, 0);
+    box-shadow: 0 0 0 8px rgba(0, 123, 255, 0);
   }
 }
 
-.voice-indicator {
-  width: 8px;
-  height: 8px;
+/* Waveform Visualization */
+.voice-waveform {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 24px;
+}
+
+.voice-waveform__bar {
+  width: 3px;
   background: currentColor;
-  border-radius: 50%;
-  animation: blink 1s infinite;
+  border-radius: 2px;
+  animation: wave 0.4s ease-in-out infinite;
 }
 
-@keyframes blink {
-  0%, 49%, 100% {
-    opacity: 1;
-  }
-  50%, 99% {
-    opacity: 0.3;
-  }
+.voice-waveform__bar:nth-child(1) { animation-delay: 0s; }
+.voice-waveform__bar:nth-child(2) { animation-delay: 0.1s; }
+.voice-waveform__bar:nth-child(3) { animation-delay: 0.2s; }
+.voice-waveform__bar:nth-child(4) { animation-delay: 0.3s; }
+.voice-waveform__bar:nth-child(5) { animation-delay: 0.4s; }
+
+@keyframes wave {
+  0%, 100% { height: 6px; }
+  50% { height: 20px; }
 }
 
 /* ============================================
-   Responsive Design
+   9. LOADING STATES & SPINNERS
    ============================================ */
 
-@media (max-width: 640px) {
-  .lang-suggestion-toast {
-    top: 60px;
-    right: 10px;
-    left: 10px;
-    max-width: none;
+.skeleton {
+  background: linear-gradient(90deg, var(--color-gray-100) 0%, var(--color-gray-200) 50%, var(--color-gray-100) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+  border-radius: var(--radius-md);
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--color-gray-200);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ============================================
+   10. BADGES & TAGS
+   ============================================ */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 0.375rem 0.75rem;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.badge-info {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.badge-success {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.badge-error {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.badge-warning {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+/* ============================================
+   11. RESPONSIVE BREAKPOINTS
+   ============================================ */
+
+/* Mobile: < 640px */
+@media (max-width: 639px) {
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.5rem; }
+  h3 { font-size: 1.25rem; }
+
+  .btn-lg { padding: 0.875rem 1.5rem; font-size: 1rem; }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  textarea {
+    font-size: 16px; /* Prevent zoom on iOS */
   }
 
+  /* Floating language picker → full-width on small screens */
   #lang-picker {
-    bottom: 10px;
-    right: 10px;
+    bottom: var(--space-md);
+    right: var(--space-md);
+    left: var(--space-md);
+    width: auto;
   }
 
   #lang-toggle {
-    padding: 0.5rem 0.75rem;
-    font-size: 0.8125rem;
+    width: 100%;
+    justify-content: center;
   }
+
+  #lang-dropdown {
+    position: fixed;
+    bottom: auto;
+    top: 50%;
+    left: 50%;
+    right: auto;
+    width: 90vw;
+    max-width: 360px;
+    transform: translate(-50%, -50%);
+    margin: 0;
+  }
+
+  /* Toast on mobile: full-width */
+  .toast {
+    left: var(--space-md);
+    right: var(--space-md);
+    bottom: var(--space-md);
+    max-width: none;
+  }
+
+  /* Form inputs: full-width */
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    width: 100%;
+  }
+}
+
+/* Tablet: 640px - 1024px */
+@media (min-width: 640px) and (max-width: 1023px) {
+  h1 { font-size: 2.5rem; }
+
+  .container { max-width: 640px; }
+}
+
+/* Desktop: >= 1024px */
+@media (min-width: 1024px) {
+  /* Default styles already optimized for desktop */
+}
+
+/* ============================================
+   12. ACCESSIBILITY & FOCUS STATES
+   ============================================ */
+
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: more) {
+  button, input, select {
+    border-width: 2px;
+  }
+}
+
+/* Dark mode support (optional future enhancement) */
+@media (prefers-color-scheme: dark) {
+  /* Can add dark theme here later */
 }
