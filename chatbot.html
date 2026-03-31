@@ -141,7 +141,8 @@
 
     <!-- Header -->
     <header class="glass sticky top-0 z-50 px-4 py-3 flex justify-between items-center shrink-0 border-b border-slate-200/60">
-        <div class="flex items-center gap-3">
+        <!-- Logo — clickable to go home -->
+        <a href="/" class="flex items-center gap-3 no-underline hover:opacity-80 transition-opacity" title="Back to Equalaw home">
             <!-- Inline brand icon — no external SVG load -->
             <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-600 to-brand-800 flex items-center justify-center shrink-0 shadow-sm" aria-hidden="true">
                 <svg width="22" height="22" viewBox="0 0 100 100">
@@ -165,7 +166,7 @@
                     <span id="header-status" class="text-[9px] uppercase tracking-widest font-bold text-slate-400" aria-live="polite">Reviewing your situation</span>
                 </div>
             </div>
-        </div>
+        </a>
 
         <div class="flex items-center gap-3">
             <!-- Progress stepper — desktop -->
@@ -344,17 +345,8 @@
     </div>
 
     <script>
-        // Check URL parameter for language (passed from landing page)
-        // This MUST run before i18n-ready to apply correct language
-        (function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const langParam = urlParams.get('lang');
-            if (langParam && ['en', 'hi', 'ta', 'te', 'mr', 'gu', 'kn', 'ml', 'pa', 'bn'].includes(langParam)) {
-                localStorage.setItem('eq_lang', langParam);
-            }
-        })();
-
         // Initialize language picker UI
+        // (i18n.js already handles URL param + localStorage)
         document.addEventListener('i18n-ready', function() {
             renderLanguagePicker();
             applyTranslationsToDOM();

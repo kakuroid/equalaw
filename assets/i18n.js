@@ -258,12 +258,28 @@
   // Auto-initialize when DOM is ready
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function () {
+      // Check for URL lang param FIRST (overrides localStorage)
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlLang = urlParams.get('lang');
+      if (urlLang && SUPPORTED_LANGS.includes(urlLang)) {
+        localStorage.setItem('eq_lang', urlLang);
+        console.log('[i18n] URL param found: ?lang=' + urlLang);
+      }
+
       window.initI18n().then(() => {
         window.showLanguageSuggestionIfNeeded();
       });
     });
   } else {
-    // DOM already loaded
+    // DOM already loaded (e.g., redirected page)
+    // Check URL param FIRST
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlLang = urlParams.get('lang');
+    if (urlLang && SUPPORTED_LANGS.includes(urlLang)) {
+      localStorage.setItem('eq_lang', urlLang);
+      console.log('[i18n] URL param found: ?lang=' + urlLang);
+    }
+
     window.initI18n().then(() => {
       window.showLanguageSuggestionIfNeeded();
     });

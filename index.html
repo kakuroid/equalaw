@@ -333,9 +333,24 @@
         }
 
         // --- Voice Input Handler ---
+        let currentRecognition = null;
+        let recordingTimeout = null;
+
         document.getElementById('voice-input-btn').addEventListener('click', function(e) {
             e.preventDefault();
-            startVoiceInput();
+            // If already recording, stop it
+            if (currentRecognition) {
+                stopVoiceInput();
+            } else {
+                startVoiceInput();
+            }
+        });
+
+        // ESC key to stop recording
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && currentRecognition) {
+                stopVoiceInput();
+            }
         });
 
         function startVoiceInput() {
@@ -361,9 +376,17 @@
             const btn = document.getElementById('voice-input-btn');
             const input = document.getElementById('legal-query');
 
+            currentRecognition = recognition;
             btn.classList.add('recording');
-            btn.textContent = '🗣️ ' + t('voice_listening');
-            btn.disabled = true;
+            btn.textContent = '🗣️ ' + t('voice_listening') + ' (ESC to stop)';
+            btn.disabled = false; // Allow clicking to stop
+            btn.title = 'Click to stop recording (or press ESC)';
+
+            // Auto-stop after 30 seconds
+            recordingTimeout = setTimeout(() => {
+                console.log('[voice] 30-second timeout reached, stopping recording');
+                stopVoiceInput();
+            }, 30000);
 
             recognition.onstart = function() {
                 if (typeof eqTrack === 'function') eqTrack('voice_input_started', { language: lang });
@@ -400,9 +423,7 @@
             };
 
             recognition.onend = function() {
-                btn.classList.remove('recording');
-                btn.textContent = '🗣️';
-                btn.disabled = false;
+                resetVoiceButton();
             };
 
             try {
@@ -410,7 +431,33 @@
             } catch (err) {
                 console.error('Could not start speech recognition:', err);
                 alert(t('voice_unsupported'));
+                resetVoiceButton();
             }
+        }
+
+        function stopVoiceInput() {
+            if (currentRecognition) {
+                try {
+                    currentRecognition.stop();
+                } catch (err) {
+                    console.error('Error stopping recognition:', err);
+                }
+                currentRecognition = null;
+            }
+            if (recordingTimeout) {
+                clearTimeout(recordingTimeout);
+                recordingTimeout = null;
+            }
+            resetVoiceButton();
+        }
+
+        function resetVoiceButton() {
+            const btn = document.getElementById('voice-input-btn');
+            btn.classList.remove('recording');
+            btn.textContent = '🗣️';
+            btn.disabled = false;
+            btn.title = 'Click to speak your situation';
+            currentRecognition = null;
         }
 
         // Listen for language changes and re-apply translations
