@@ -344,6 +344,16 @@
     </div>
 
     <script>
+        // Check URL parameter for language (passed from landing page)
+        // This MUST run before i18n-ready to apply correct language
+        (function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const langParam = urlParams.get('lang');
+            if (langParam && ['en', 'hi', 'ta', 'te', 'mr', 'gu', 'kn', 'ml', 'pa', 'bn'].includes(langParam)) {
+                localStorage.setItem('eq_lang', langParam);
+            }
+        })();
+
         // Initialize language picker UI
         document.addEventListener('i18n-ready', function() {
             renderLanguagePicker();

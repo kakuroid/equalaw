@@ -199,7 +199,7 @@
                         class="voice-btn md:mr-2 md:mt-0 mt-2"
                         aria-label="Speak your situation"
                         title="Click to speak your legal situation">
-                    🎤
+                    🗣️
                 </button>
                 <button type="submit"
                         id="btn-submit-query"
@@ -362,7 +362,7 @@
             const input = document.getElementById('legal-query');
 
             btn.classList.add('recording');
-            btn.textContent = '🎤 ' + t('voice_listening');
+            btn.textContent = '🗣️ ' + t('voice_listening');
             btn.disabled = true;
 
             recognition.onstart = function() {
@@ -401,7 +401,7 @@
 
             recognition.onend = function() {
                 btn.classList.remove('recording');
-                btn.textContent = '🎤';
+                btn.textContent = '🗣️';
                 btn.disabled = false;
             };
 
@@ -475,8 +475,9 @@
                 // Track chip click
                 if (typeof eqTrack === 'function') eqTrack('chip_click', { query: q, chip_label: chip.textContent.trim() });
                 // Auto-submit after a brief moment so user sees it populated
+                const lang = getCurrentLang ? getCurrentLang() : localStorage.getItem('eq_lang') || 'en';
                 setTimeout(() => {
-                    window.location.href = '/chatbot?query=' + encodeURIComponent(q);
+                    window.location.href = '/chatbot?query=' + encodeURIComponent(q) + '&lang=' + lang;
                 }, 150);
             });
         });
@@ -498,7 +499,9 @@
             errorEl.classList.add('hidden');
             input.removeAttribute('aria-invalid');
             if (typeof eqTrack === 'function') eqTrack('query_submit', { query: query });
-            window.location.href = '/chatbot?query=' + encodeURIComponent(query);
+            // Pass language parameter to chatbot
+            const lang = getCurrentLang ? getCurrentLang() : localStorage.getItem('eq_lang') || 'en';
+            window.location.href = '/chatbot?query=' + encodeURIComponent(query) + '&lang=' + lang;
         });
 
         input.addEventListener('input', function() {
