@@ -166,7 +166,7 @@
         <h1 class="sr-only">Free, Instant Legal Guidance at Your Fingertips</h1>
 
         <!-- Subtitle -->
-        <p class="text-base sm:text-lg text-slate-600 mb-3 max-w-2xl leading-relaxed font-medium px-2">
+        <p class="text-base sm:text-lg text-slate-600 mb-3 max-w-2xl leading-relaxed font-medium px-2" data-i18n="app_subtitle">
             Describe your situation and get clear, actionable next steps in seconds.
             <span class="text-slate-800 font-semibold">Free. Instant. Confidential.</span>
         </p>
@@ -174,7 +174,7 @@
         <!-- Social proof counter -->
         <p class="text-xs font-semibold text-brand-600 mb-7 flex items-center gap-1.5">
             <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
-            2,400+ Indians got legal guidance this month
+            <span data-i18n="social_proof">2,400+ Indians got legal guidance this month</span>
         </p>
 
         <!-- Search bar — text input + voice button -->
@@ -188,6 +188,8 @@
                     type="text"
                     name="query"
                     placeholder="Describe your legal situation..."
+                    data-i18n="placeholder_query"
+                    data-i18n-attr="placeholder"
                     class="flex-grow w-full py-4 px-5 md:px-6 rounded-xl md:rounded-l-full outline-none text-slate-800 bg-transparent text-base md:text-lg font-medium placeholder-slate-400"
                     autocomplete="off"
                     minlength="10"
@@ -241,32 +243,32 @@
         <div class="flex flex-wrap items-center justify-center gap-3 mt-7" role="list" aria-label="Service guarantees">
             <span role="listitem" class="text-xs font-semibold text-slate-600 flex items-center gap-1.5 bg-white/70 px-3 py-1.5 rounded-full border border-slate-200">
                 <svg class="w-3.5 h-3.5 text-green-600" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
-                100% Free
+                <span data-i18n="trust_free">100% Free</span>
             </span>
             <span role="listitem" class="text-xs font-semibold text-slate-600 flex items-center gap-1.5 bg-white/70 px-3 py-1.5 rounded-full border border-slate-200">
                 <svg class="w-3.5 h-3.5 text-brand-600" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-                Private & Secure
+                <span data-i18n="trust_secure">Private & Secure</span>
             </span>
             <span role="listitem" class="text-xs font-semibold text-slate-600 flex items-center gap-1.5 bg-white/70 px-3 py-1.5 rounded-full border border-slate-200">
                 <svg class="w-3.5 h-3.5 text-amber-600" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                Instant Results
+                <span data-i18n="trust_instant">Instant Results</span>
             </span>
             <span role="listitem" class="text-xs font-semibold text-slate-600 flex items-center gap-1.5 bg-white/70 px-3 py-1.5 rounded-full border border-slate-200">
                 <svg class="w-3.5 h-3.5 text-green-600" aria-hidden="true" fill="currentColor" viewBox="0 0 24 24"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.12-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/></svg>
-                WhatsApp Support
+                <span data-i18n="trust_whatsapp">WhatsApp Support</span>
             </span>
         </div>
     </main>
 
     <!-- Footer -->
     <footer class="relative z-10 text-center py-4 text-[11px] text-slate-500 font-medium shrink-0 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 px-4">
-        <span>Equalaw is a technology platform, not a law firm. Information provided does not constitute legal advice.</span>
+        <span data-i18n="footer_disclaimer">Equalaw is a technology platform, not a law firm. Information provided does not constitute legal advice.</span>
         <span class="text-slate-300 hidden sm:inline" aria-hidden="true">·</span>
-        <a href="/privacy" class="text-slate-500 hover:text-slate-800 underline underline-offset-2 transition-colors">Privacy Policy</a>
+        <a href="/privacy" class="text-slate-500 hover:text-slate-800 underline underline-offset-2 transition-colors" data-i18n="footer_privacy">Privacy Policy</a>
         <span class="text-slate-300" aria-hidden="true">·</span>
-        <a href="/terms" class="text-slate-500 hover:text-slate-800 underline underline-offset-2 transition-colors">Terms of Use</a>
+        <a href="/terms" class="text-slate-500 hover:text-slate-800 underline underline-offset-2 transition-colors" data-i18n="footer_terms">Terms of Use</a>
         <span class="text-slate-300" aria-hidden="true">·</span>
-        <a href="/development" class="text-slate-500 hover:text-slate-800 underline underline-offset-2 transition-colors">Dev Log</a>
+        <a href="/development" class="text-slate-500 hover:text-slate-800 underline underline-offset-2 transition-colors" data-i18n="footer_dev_log">Dev Log</a>
     </footer>
 
     <!-- Floating Language Picker -->
@@ -319,7 +321,12 @@
 
         // Apply translations to all UI elements
         function applyTranslationsToDOM() {
-            // Form placeholder
+            // Translate all elements with data-i18n attributes
+            if (typeof window.translateDOM === 'function') {
+                window.translateDOM();
+            }
+
+            // Form placeholder (using data-i18n-attr)
             document.getElementById('legal-query').placeholder = t('placeholder_query');
             document.getElementById('label-describe-situation').textContent = t('placeholder_query');
 
@@ -329,7 +336,7 @@
 
             // Error messages and hints
             const hintEl = document.getElementById('query-hint');
-            if (hintEl) hintEl.textContent = 'Type in English or your language — ' + getLangName() + ', and more';
+            if (hintEl) hintEl.textContent = 'Type in ' + getLangName() + ', and more';
         }
 
         // --- Voice Input Handler ---

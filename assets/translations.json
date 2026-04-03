@@ -54,7 +54,22 @@
     "language_change": "Change Language",
     "chat_thinking": "Thinking...",
     "chat_response_placeholder": "Let me review your situation...",
-    "typing_indicator": "typing..."
+    "typing_indicator": "typing...",
+    "voice_start": "🗣️ Speak your situation",
+    "voice_stop": "Stop recording",
+    "voice_recording": "🗣️ Listening... (ESC to stop)",
+    "voice_processing": "Processing your voice...",
+    "voice_success": "Got it! Submitting...",
+    "voice_language_mismatch": "I heard a different language than what you selected. Please speak in {language}.",
+    "form_hint": "Describe your legal situation or click 🗣️ to speak",
+    "status_processing": "Processing...",
+    "status_success": "Success!",
+    "status_error": "Error. Please try again.",
+    "language_selector_label": "Language",
+    "language_auto_detected": "Auto-detected: {language}",
+    "modal_title_error": "Oops!",
+    "modal_title_success": "Success!",
+    "modal_close": "Close"
   },
   "hi": {
     "app_name": "इकुअलॉ",
@@ -106,6 +121,21 @@
     "language_change": "भाषा बदलें",
     "chat_thinking": "सोच रहे हैं...",
     "chat_response_placeholder": "मुझे आपकी स्थिति की समीक्षा करने दें...",
-    "typing_indicator": "टाइप कर रहे हैं..."
+    "typing_indicator": "टाइप कर रहे हैं...",
+    "voice_start": "🗣️ अपनी स्थिति बताएं",
+    "voice_stop": "रिकॉर्डिंग बंद करें",
+    "voice_recording": "🗣️ सुन रहे हैं... (बंद करने के लिए ESC दबाएं)",
+    "voice_processing": "आपकी आवाज़ को संसाधित किया जा रहा है...",
+    "voice_success": "समझ गए! जमा किया जा रहा है...",
+    "voice_language_mismatch": "मैंने आपकी चयनित भाषा से एक अलग भाषा सुनी। कृपया {language} में बोलें।",
+    "form_hint": "अपनी कानूनी स्थिति का विवरण दें या 🗣️ पर क्लिक करें",
+    "status_processing": "संसाधित किया जा रहा है...",
+    "status_success": "सफल!",
+    "status_error": "त्रुटि। कृपया पुनः प्रयास करें।",
+    "language_selector_label": "भाषा",
+    "language_auto_detected": "स्वचालित रूप से पहचाना गया: {language}",
+    "modal_title_error": "अरे!",
+    "modal_title_success": "सफल!",
+    "modal_close": "बंद करें"
   }
 }

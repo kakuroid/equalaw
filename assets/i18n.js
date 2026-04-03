@@ -118,7 +118,38 @@
   };
 
   /**
-   * Switch language dynamically
+   * Translate all DOM elements with data-i18n attributes
+   * Supports: innerHTML, placeholder, title, aria-label, value
+   */
+  window.translateDOM = function (lang = currentLang) {
+    const elements = document.querySelectorAll('[data-i18n]');
+
+    elements.forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      const attr = el.getAttribute('data-i18n-attr') || 'innerHTML';
+      const translation = t(key);
+
+      if (attr === 'innerHTML') {
+        el.innerHTML = translation;
+      } else if (attr === 'textContent') {
+        el.textContent = translation;
+      } else if (attr === 'placeholder') {
+        el.placeholder = translation;
+      } else if (attr === 'title') {
+        el.title = translation;
+      } else if (attr === 'aria-label') {
+        el.setAttribute('aria-label', translation);
+      } else if (attr === 'value') {
+        el.value = translation;
+      } else {
+        // Generic attribute setting
+        el.setAttribute(attr, translation);
+      }
+    });
+  };
+
+  /**
+   * Switch language dynamically (no page reload)
    */
   window.switchLanguage = function (lang) {
     if (!SUPPORTED_LANGS.includes(lang)) {
@@ -135,14 +166,14 @@
       document.title = translations[lang][pageKey];
     }
 
+    // Translate all DOM elements with data-i18n attributes
+    window.translateDOM(lang);
+
     // Trigger event for UI to listen and re-render
     window.dispatchEvent(new CustomEvent('language-changed', { detail: { lang } }));
 
-    // Auto-reload to apply all changes (simpler than re-rendering all elements)
-    // Optional: only reload if not during initial load
-    if (document.readyState === 'complete') {
-      location.reload();
-    }
+    // Show success toast
+    showLanguageSwitchConfirmation(lang);
   };
 
   /**
@@ -199,6 +230,27 @@
 
     return detected;
   };
+
+  /**
+   * Show confirmation toast when language is switched
+   */
+  function showLanguageSwitchConfirmation(lang) {
+    const langName = LANG_NAMES[lang] || lang;
+    const toast = document.createElement('div');
+    toast.className = 'toast toast-success';
+    toast.style.top = '20px';
+    toast.innerHTML = `
+      <div class="toast-icon">✓</div>
+      <div class="toast-content">${langName} selected ✓</div>
+    `;
+
+    document.body.appendChild(toast);
+
+    // Auto-dismiss after 2 seconds
+    setTimeout(() => {
+      toast.remove();
+    }, 2000);
+  }
 
   /**
    * Show language suggestion toast (if detected != current)
