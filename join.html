@@ -583,7 +583,7 @@
             <button id="lang-toggle" aria-label="Change language" aria-expanded="false">
                 <span id="lang-name">${getLangName()}</span> 🌐
             </button>
-            <div id="lang-dropdown" class="hidden">
+            <div id="lang-dropdown">
                 ${getSupportedLanguages().map(lang => `
                     <button data-lang="${lang.code}"
                             ${lang.code === getCurrentLang() ? 'selected' : ''}
