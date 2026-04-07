@@ -33,11 +33,18 @@
    */
   async function loadTranslations() {
     try {
+      console.log('[i18n] Fetching /assets/translations.json');
       const response = await fetch('/assets/translations.json');
+      console.log('[i18n] Fetch response status:', response.status);
+      if (!response.ok) {
+        console.error('[i18n] Fetch failed with status:', response.status);
+        return false;
+      }
       translations = await response.json();
+      console.log('[i18n] Translations loaded successfully, keys:', Object.keys(translations).length);
       return true;
     } catch (error) {
-      console.warn('[i18n] Failed to load translations:', error);
+      console.error('[i18n] Failed to load translations:', error.message, error);
       return false;
     }
   }
