@@ -535,7 +535,7 @@
         }
 
         function showSuccess() {
-            updateStepper('step-done', ['step-about', 'step-practice', 'step-pricing']);
+            updateStepper('step-pricing', ['step-about', 'step-practice', 'step-pricing']);
             setStatus('Complete');
             const specs = session.specializations.slice(0, 2).join(', ') + (session.specializations.length > 2 ? ' +' + (session.specializations.length - 2) : '');
             const cities = session.cities.slice(0, 2).join(', ') + (session.cities.length > 2 ? ' +' + (session.cities.length - 2) : '');
