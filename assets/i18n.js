@@ -215,17 +215,21 @@
    * Called on page load
    */
   window.initI18n = async function () {
+    console.log('[i18n] initI18n called');
     // Load translations from JSON
     const loaded = await loadTranslations();
+    console.log('[i18n] Translations loaded:', loaded);
     if (!loaded) {
       console.warn('[i18n] Failed to load translations, using default');
     }
 
     // Detect language silently
     const detected = detectLanguage();
+    console.log('[i18n] Language detected:', detected);
     currentLang = detected;
 
     // Fire event so UI can listen
+    console.log('[i18n] Dispatching i18n-ready event');
     window.dispatchEvent(new CustomEvent('i18n-ready', { detail: { lang: detected } }));
 
     return detected;
@@ -308,8 +312,11 @@
   }
 
   // Auto-initialize when DOM is ready
+  console.log('[i18n] Initialization code running, readyState:', document.readyState);
   if (document.readyState === 'loading') {
+    console.log('[i18n] DOM still loading, waiting for DOMContentLoaded');
     document.addEventListener('DOMContentLoaded', function () {
+      console.log('[i18n] DOMContentLoaded fired, calling initI18n');
       // Check for URL lang param FIRST (overrides localStorage)
       const urlParams = new URLSearchParams(window.location.search);
       const urlLang = urlParams.get('lang');
@@ -319,10 +326,14 @@
       }
 
       window.initI18n().then(() => {
+        console.log('[i18n] initI18n completed');
         window.showLanguageSuggestionIfNeeded();
+      }).catch(err => {
+        console.error('[i18n] initI18n error:', err);
       });
     });
   } else {
+    console.log('[i18n] DOM already loaded, calling initI18n immediately');
     // DOM already loaded (e.g., redirected page)
     // Check URL param FIRST
     const urlParams = new URLSearchParams(window.location.search);
@@ -333,7 +344,10 @@
     }
 
     window.initI18n().then(() => {
+      console.log('[i18n] initI18n completed');
       window.showLanguageSuggestionIfNeeded();
+    }).catch(err => {
+      console.error('[i18n] initI18n error:', err);
     });
   }
 })();

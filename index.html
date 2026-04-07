@@ -283,16 +283,20 @@
 
     <script>
         // Initialize language picker UI
+        console.log('[ui] Registering i18n-ready listener');
         document.addEventListener('i18n-ready', function() {
+            console.log('[ui] i18n-ready event received');
             renderLanguagePicker();
             applyTranslationsToDOM();
         });
 
         // Render language dropdown options
         function renderLanguagePicker() {
+            console.log('[ui] renderLanguagePicker called');
             const dropdown = document.getElementById('lang-dropdown');
             const langs = getSupportedLanguages();
             const current = getCurrentLang();
+            console.log('[ui] Languages:', langs, 'Current:', current);
 
             dropdown.innerHTML = langs.map(lang => `
                 <button data-lang="${lang.code}"
