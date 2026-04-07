@@ -33,18 +33,11 @@
    */
   async function loadTranslations() {
     try {
-      console.log('[i18n] Fetching /assets/translations.json');
       const response = await fetch('/assets/translations.json');
-      console.log('[i18n] Fetch response status:', response.status);
-      if (!response.ok) {
-        console.error('[i18n] Fetch failed with status:', response.status);
-        return false;
-      }
+      if (!response.ok) return false;
       translations = await response.json();
-      console.log('[i18n] Translations loaded successfully, keys:', Object.keys(translations).length);
       return true;
     } catch (error) {
-      console.error('[i18n] Failed to load translations:', error.message, error);
       return false;
     }
   }
@@ -222,23 +215,10 @@
    * Called on page load
    */
   window.initI18n = async function () {
-    console.log('[i18n] initI18n called');
-    // Load translations from JSON
-    const loaded = await loadTranslations();
-    console.log('[i18n] Translations loaded:', loaded);
-    if (!loaded) {
-      console.warn('[i18n] Failed to load translations, using default');
-    }
-
-    // Detect language silently
+    await loadTranslations();
     const detected = detectLanguage();
-    console.log('[i18n] Language detected:', detected);
     currentLang = detected;
-
-    // Fire event so UI can listen
-    console.log('[i18n] Dispatching i18n-ready event');
     window.dispatchEvent(new CustomEvent('i18n-ready', { detail: { lang: detected } }));
-
     return detected;
   };
 
@@ -319,42 +299,18 @@
   }
 
   // Auto-initialize when DOM is ready
-  console.log('[i18n] Initialization code running, readyState:', document.readyState);
-  if (document.readyState === 'loading') {
-    console.log('[i18n] DOM still loading, waiting for DOMContentLoaded');
-    document.addEventListener('DOMContentLoaded', function () {
-      console.log('[i18n] DOMContentLoaded fired, calling initI18n');
-      // Check for URL lang param FIRST (overrides localStorage)
-      const urlParams = new URLSearchParams(window.location.search);
-      const urlLang = urlParams.get('lang');
-      if (urlLang && SUPPORTED_LANGS.includes(urlLang)) {
-        localStorage.setItem('eq_lang', urlLang);
-        console.log('[i18n] URL param found: ?lang=' + urlLang);
-      }
-
-      window.initI18n().then(() => {
-        console.log('[i18n] initI18n completed');
-        window.showLanguageSuggestionIfNeeded();
-      }).catch(err => {
-        console.error('[i18n] initI18n error:', err);
-      });
-    });
-  } else {
-    console.log('[i18n] DOM already loaded, calling initI18n immediately');
-    // DOM already loaded (e.g., redirected page)
-    // Check URL param FIRST
+  function _boot() {
     const urlParams = new URLSearchParams(window.location.search);
     const urlLang = urlParams.get('lang');
     if (urlLang && SUPPORTED_LANGS.includes(urlLang)) {
       localStorage.setItem('eq_lang', urlLang);
-      console.log('[i18n] URL param found: ?lang=' + urlLang);
     }
+    window.initI18n().then(() => window.showLanguageSuggestionIfNeeded());
+  }
 
-    window.initI18n().then(() => {
-      console.log('[i18n] initI18n completed');
-      window.showLanguageSuggestionIfNeeded();
-    }).catch(err => {
-      console.error('[i18n] initI18n error:', err);
-    });
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', _boot);
+  } else {
+    _boot();
   }
 })();

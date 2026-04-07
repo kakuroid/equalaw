@@ -349,66 +349,69 @@
     </div>
 
     <script>
-        // Initialize language picker UI
-        // (i18n.js already handles URL param + localStorage)
-        document.addEventListener('i18n-ready', function() {
-            renderLanguagePicker();
-            applyTranslationsToDOM();
-        });
-
-        // Render language dropdown
+        // ─── Language Picker ───────────────────────────────────────────────
         function renderLanguagePicker() {
+            if (typeof getSupportedLanguages !== 'function') return;
             const dropdown = document.getElementById('lang-dropdown');
+            if (!dropdown) return;
+
             const langs = getSupportedLanguages();
             const current = getCurrentLang();
 
             dropdown.innerHTML = langs.map(lang => `
                 <button data-lang="${lang.code}"
-                        ${lang.code === current ? 'selected' : ''}
+                        ${lang.code === current ? 'class="active"' : ''}
                         onclick="switchLanguage('${lang.code}')">
                     ${lang.name} ${lang.code === current ? '✓' : ''}
                 </button>
             `).join('');
 
-            // Update toggle button
             document.getElementById('lang-name').textContent = getLangName();
-
-            // Toggle dropdown
-            document.getElementById('lang-toggle').addEventListener('click', function(e) {
-                e.stopPropagation();
-                dropdown.classList.toggle('open');
-                this.setAttribute('aria-expanded', dropdown.classList.contains('open'));
-            });
-
-            // Close dropdown when clicking outside
-            document.addEventListener('click', function() {
-                dropdown.classList.remove('open');
-                document.getElementById('lang-toggle').setAttribute('aria-expanded', 'false');
-            });
         }
 
-        // Apply translations to form elements
         function applyTranslationsToDOM() {
-            // Form inputs
-            const inputs = {
-                'name-input': 'placeholder_query', // Reuse for now
-                'tel-input': 'error_phone_invalid',
-                'city-input': 'placeholder_query'
-            };
+            if (typeof t !== 'function') return;
+            if (typeof window.translateDOM === 'function') window.translateDOM();
 
-            // Update header status
             const statusEl = document.getElementById('header-status');
             if (statusEl) statusEl.textContent = t('reviewing_situation');
 
-            // Update back button label
             const backBtn = document.querySelector('a[aria-label*="Start over"]');
             if (backBtn) backBtn.setAttribute('aria-label', t('btn_start_over'));
         }
 
-        // Listen for language changes
-        window.addEventListener('language-changed', function() {
-            applyTranslationsToDOM();
+        function initLangUI() {
             renderLanguagePicker();
+            applyTranslationsToDOM();
+        }
+
+        // Single toggle listener — attached once
+        document.addEventListener('DOMContentLoaded', function () {
+            const toggle = document.getElementById('lang-toggle');
+            const dropdown = document.getElementById('lang-dropdown');
+            if (toggle && dropdown) {
+                toggle.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    dropdown.classList.toggle('open');
+                    toggle.setAttribute('aria-expanded', dropdown.classList.contains('open'));
+                });
+                document.addEventListener('click', function () {
+                    dropdown.classList.remove('open');
+                    toggle.setAttribute('aria-expanded', 'false');
+                });
+            }
+        });
+
+        // Race-condition-safe init
+        if (typeof getSupportedLanguages === 'function') {
+            initLangUI();
+        } else {
+            window.addEventListener('i18n-ready', initLangUI, { once: true });
+        }
+
+        window.addEventListener('language-changed', function () {
+            renderLanguagePicker();
+            applyTranslationsToDOM();
         });
     </script>
 

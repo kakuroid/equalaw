@@ -571,51 +571,63 @@
         setTimeout(startFlow, 400);
     });
 
-    // Language picker UI
-    document.addEventListener('i18n-ready', function() {
-        renderLanguagePicker();
-    });
-
+    // ─── Language Picker ───────────────────────────────────────────────
     function renderLanguagePicker() {
-        const picker = document.createElement('div');
-        picker.id = 'lang-picker';
-        picker.innerHTML = `
-            <button id="lang-toggle" aria-label="Change language" aria-expanded="false">
-                <span id="lang-name">${getLangName()}</span> 🌐
+        if (typeof getSupportedLanguages !== 'function') return;
+        const dropdown = document.getElementById('lang-dropdown');
+        if (!dropdown) return;
+
+        const langs = getSupportedLanguages();
+        const current = getCurrentLang();
+
+        dropdown.innerHTML = langs.map(lang => `
+            <button data-lang="${lang.code}"
+                    ${lang.code === current ? 'class="active"' : ''}
+                    onclick="switchLanguage('${lang.code}')">
+                ${lang.name} ${lang.code === current ? '✓' : ''}
             </button>
-            <div id="lang-dropdown">
-                ${getSupportedLanguages().map(lang => `
-                    <button data-lang="${lang.code}"
-                            ${lang.code === getCurrentLang() ? 'selected' : ''}
-                            onclick="switchLanguage('${lang.code}')">
-                        ${lang.name} ${lang.code === getCurrentLang() ? '✓' : ''}
-                    </button>
-                `).join('')}
-            </div>
-        `;
-        document.body.appendChild(picker);
+        `).join('');
 
-        // Toggle dropdown
-        document.getElementById('lang-toggle').addEventListener('click', function(e) {
-            e.stopPropagation();
-            const dropdown = document.getElementById('lang-dropdown');
-            dropdown.classList.toggle('open');
-            this.setAttribute('aria-expanded', dropdown.classList.contains('open'));
-        });
-
-        // Close on click outside
-        document.addEventListener('click', function() {
-            const dropdown = document.getElementById('lang-dropdown');
-            if (dropdown) {
-                dropdown.classList.remove('open');
-                document.getElementById('lang-toggle').setAttribute('aria-expanded', 'false');
-            }
-        });
+        document.getElementById('lang-name').textContent = getLangName();
     }
 
-    window.addEventListener('language-changed', function() {
-        renderLanguagePicker();
+    function initLangUI() { renderLanguagePicker(); }
+
+    // Single toggle listener — attached once
+    document.addEventListener('DOMContentLoaded', function () {
+        const toggle = document.getElementById('lang-toggle');
+        const dropdown = document.getElementById('lang-dropdown');
+        if (toggle && dropdown) {
+            toggle.addEventListener('click', function (e) {
+                e.stopPropagation();
+                dropdown.classList.toggle('open');
+                toggle.setAttribute('aria-expanded', dropdown.classList.contains('open'));
+            });
+            document.addEventListener('click', function () {
+                dropdown.classList.remove('open');
+                toggle.setAttribute('aria-expanded', 'false');
+            });
+        }
     });
+
+    // Race-condition-safe init
+    if (typeof getSupportedLanguages === 'function') {
+        initLangUI();
+    } else {
+        window.addEventListener('i18n-ready', initLangUI, { once: true });
+    }
+
+    window.addEventListener('language-changed', renderLanguagePicker);
     </script>
+
+    <!-- Floating Language Picker -->
+    <div id="lang-picker">
+        <button id="lang-toggle" aria-label="Change language" aria-expanded="false">
+            <span id="lang-name">English</span> 🌐
+        </button>
+        <div id="lang-dropdown">
+            <!-- Populated by JS -->
+        </div>
+    </div>
 </body>
 </html>

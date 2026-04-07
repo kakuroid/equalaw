@@ -282,102 +282,80 @@
     </div>
 
     <script>
-        // Initialize language picker UI
-        console.log('[ui] Registering i18n-ready listener');
-        document.addEventListener('i18n-ready', function() {
-            console.log('[ui] i18n-ready event received');
+        // ─── Language Picker ───────────────────────────────────────────────
+        // Fix: race condition where i18n-ready fires before this listener
+        // registers. Check if already initialized, otherwise wait for event.
+
+        function renderLanguagePicker() {
+            if (typeof getSupportedLanguages !== 'function') return;
+            const dropdown = document.getElementById('lang-dropdown');
+            if (!dropdown) return;
+
+            const langs = getSupportedLanguages();
+            const current = getCurrentLang();
+
+            dropdown.innerHTML = langs.map(lang => `
+                <button data-lang="${lang.code}"
+                        ${lang.code === current ? 'class="active"' : ''}
+                        onclick="switchLanguage('${lang.code}')">
+                    ${lang.name} ${lang.code === current ? '✓' : ''}
+                </button>
+            `).join('');
+
+            document.getElementById('lang-name').textContent = getLangName();
+        }
+
+        function applyTranslationsToDOM() {
+            if (typeof t !== 'function') return;
+            if (typeof window.translateDOM === 'function') window.translateDOM();
+
+            const queryInput = document.getElementById('legal-query');
+            if (queryInput) queryInput.placeholder = t('placeholder_query');
+
+            const describeLabel = document.getElementById('label-describe-situation');
+            if (describeLabel) describeLabel.textContent = t('placeholder_query');
+
+            const submitBtn = document.getElementById('btn-submit-query');
+            if (submitBtn) submitBtn.innerHTML = t('btn_get_guidance') + '<svg class="w-5 h-5" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>';
+
+            const hintEl = document.getElementById('query-hint');
+            if (hintEl) hintEl.textContent = 'Type in ' + getLangName() + ' or English';
+        }
+
+        function initLangUI() {
+            renderLanguagePicker();
+            applyTranslationsToDOM();
+        }
+
+        // Single toggle listener — attached once, never duplicated
+        document.addEventListener('DOMContentLoaded', function () {
+            const toggle = document.getElementById('lang-toggle');
+            const dropdown = document.getElementById('lang-dropdown');
+            if (toggle && dropdown) {
+                toggle.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    dropdown.classList.toggle('open');
+                    toggle.setAttribute('aria-expanded', dropdown.classList.contains('open'));
+                });
+                document.addEventListener('click', function () {
+                    dropdown.classList.remove('open');
+                    toggle.setAttribute('aria-expanded', 'false');
+                });
+            }
+        });
+
+        // Race-condition-safe init: call now if ready, else wait for event
+        if (typeof getSupportedLanguages === 'function') {
+            initLangUI();
+        } else {
+            window.addEventListener('i18n-ready', initLangUI, { once: true });
+        }
+
+        // Re-render picker on language change
+        window.addEventListener('language-changed', function () {
             renderLanguagePicker();
             applyTranslationsToDOM();
         });
-
-        // Render language dropdown options
-        function renderLanguagePicker() {
-            console.log('[ui] renderLanguagePicker called');
-            try {
-                if (!getSupportedLanguages) {
-                    console.error('[ui] getSupportedLanguages not defined');
-                    return;
-                }
-                if (!getCurrentLang) {
-                    console.error('[ui] getCurrentLang not defined');
-                    return;
-                }
-                const dropdown = document.getElementById('lang-dropdown');
-                if (!dropdown) {
-                    console.error('[ui] lang-dropdown element not found');
-                    return;
-                }
-                const langs = getSupportedLanguages();
-                const current = getCurrentLang();
-                console.log('[ui] Languages:', langs, 'Current:', current);
-
-                dropdown.innerHTML = langs.map(lang => `
-                    <button data-lang="${lang.code}"
-                            ${lang.code === current ? 'selected' : ''}
-                            onclick="switchLanguage('${lang.code}')">
-                        ${lang.name} ${lang.code === current ? '✓' : ''}
-                    </button>
-                `).join('');
-
-                // Update toggle button
-                document.getElementById('lang-name').textContent = getLangName();
-
-                // Toggle dropdown open/close
-                document.getElementById('lang-toggle').addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    dropdown.classList.toggle('open');
-                    this.setAttribute('aria-expanded', dropdown.classList.contains('open'));
-                });
-
-                // Close dropdown when clicking outside
-                document.addEventListener('click', function() {
-                    dropdown.classList.remove('open');
-                    document.getElementById('lang-toggle').setAttribute('aria-expanded', 'false');
-                });
-                console.log('[ui] Language picker rendered successfully');
-            } catch (err) {
-                console.error('[ui] Error in renderLanguagePicker:', err.message, err);
-            }
-        }
-
-        // Apply translations to all UI elements
-        function applyTranslationsToDOM() {
-            console.log('[ui] applyTranslationsToDOM called');
-            try {
-                // Check if t function exists
-                if (typeof t !== 'function') {
-                    console.error('[ui] Translation function t not defined');
-                    return;
-                }
-
-                // Translate all elements with data-i18n attributes
-                if (typeof window.translateDOM === 'function') {
-                    window.translateDOM();
-                }
-
-                // Form placeholder (using data-i18n-attr)
-                const queryInput = document.getElementById('legal-query');
-                if (queryInput) queryInput.placeholder = t('placeholder_query');
-
-                const describeLabel = document.getElementById('label-describe-situation');
-                if (describeLabel) describeLabel.textContent = t('placeholder_query');
-
-                // Buttons
-                const submitBtn = document.getElementById('btn-submit-query');
-                if (submitBtn) submitBtn.innerHTML = t('btn_get_guidance') + '<svg class="w-5 h-5" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>';
-
-                const voiceBtn = document.getElementById('voice-input-btn');
-                if (voiceBtn) voiceBtn.title = t('btn_speak_situation');
-
-                // Error messages and hints
-                const hintEl = document.getElementById('query-hint');
-                if (hintEl && getLangName) hintEl.textContent = 'Type in ' + getLangName() + ', and more';
-
-                console.log('[ui] Translations applied successfully');
-            } catch (err) {
-                console.error('[ui] Error in applyTranslationsToDOM:', err.message, err);
-            }
-        }
 
         // --- Voice Input Handler ---
         let currentRecognition = null;
@@ -506,12 +484,6 @@
             btn.title = 'Click to speak your situation';
             currentRecognition = null;
         }
-
-        // Listen for language changes and re-apply translations
-        window.addEventListener('language-changed', function() {
-            applyTranslationsToDOM();
-            renderLanguagePicker();
-        });
 
         // --- Multilingual morphing headlines ---
         // Each entry: [displayText, languageCode]
