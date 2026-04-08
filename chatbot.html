@@ -433,6 +433,13 @@
         const contactEl   = document.getElementById('contact-capture');
         const contactForm = document.getElementById('contact-form');
 
+        // Safety check: required DOM elements must exist
+        if (!chat || !inputWrap || !userInput || !sendBtn || !contactEl || !contactForm) {
+            console.error('[chatbot] Required DOM elements missing');
+            window.location.href = '/';
+            return;
+        }
+
         // --- Session ---
         const session = {
             query:        DOMPurify.sanitize(rawQuery),
@@ -869,6 +876,7 @@
                     chosen_action:       payload.chosenAction,
                     contact_preference:  payload.contactPref,
                     query:               payload.query,
+                    language:            payload.language,
                     timeline:            payload.timeline || null,
                     steps_taken:         payload.stepsTaken || null,
                     urgency:             payload.urgency || null,
@@ -968,6 +976,7 @@
                 query:         session.query,
                 category:      session.category,
                 chosenAction:  session.chosenOption,
+                language:      session.language,
                 timestamp:     new Date().toISOString(),
                 source:        window.location.href,
                 _subject:      `Equalaw Lead [${session.category}] ${session.userName} — ${session.city}`,
