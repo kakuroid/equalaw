@@ -85,11 +85,7 @@ Target: Bangalore investor demo with fully functional language switching.
    - `handleContactSubmit()` (lines ~905-950) grabs elements without null checks
    - If any form input is missing, could crash
 
-2. **Duplicate Document Click Listeners**
-   - Some parts may still add multiple document click listeners
-   - Causes multiple close-dropdown events firing
-
-3. **Missing Error Boundaries**
+2. **Missing Error Boundaries**
    - If translation key doesn't exist, falls back to key name (not user-friendly)
    - If API call fails, no retry mechanism
 
@@ -140,6 +136,7 @@ Target: Bangalore investor demo with fully functional language switching.
 
 **Current**: Main branch deployed to Vercel
 **Latest Commits**:
+- b803125: Fixed logo consistency (chatbot.html, join.html) + favicon verification
 - d52673a: Fixed race condition + duplicate listeners
 - aa4fd63: Added language to backend payload
 
@@ -147,28 +144,45 @@ Target: Bangalore investor demo with fully functional language switching.
 - Set environment variable: `DEEPGRAM_API_KEY`
 - Verify all assets (translations.json, voice-input.js, config.js) are deployed
 
+**UI/Logo Status**: ✅ All pages consistent
+- index.html: Logo mark + wordmark (landing only)
+- chatbot.html: Logo mark + status indicator (fixed)
+- join.html: Logo mark + status indicator (fixed)
+- terms.html, privacy.html, 404.html: Favicons all correct
+- All pages: favicon = /assets/equalaw-logo.svg
+
 ---
 
 ## NEXT STEPS (Prioritized)
 
-1. **Verify Deepgram Setup**
+1. **Verify Deepgram Setup** ⚠️ CRITICAL
    - Check Vercel env vars: is DEEPGRAM_API_KEY set?
    - Test on live site: speak Hindi, check console for transcript
    - Fix if not working
 
-2. **Full Flow Manual Test**
+2. **Full Flow Manual Test** 🧪 REQUIRED BEFORE DEMO
    - Desktop: index.html → select हिंदी → submit Hindi query → verify chatbot response is in Hindi
    - Mobile: same test on phone (responsive check)
    - Voice: test voice input with Hindi speech
+   - Verify all UI translates correctly
 
-3. **Fix Remaining Null Checks**
+3. **Fix Remaining Null Checks** ⚠️ SAFETY
    - Add safety checks in handleContactSubmit() (lines ~905-950)
    - Prevent crashes on missing form elements
 
-4. **Create Test Plan Document**
+4. **Create Test Plan Document** 📋 INVESTOR PREP
    - Checklist for investor demo
    - What to show: language switching, Hindi query → Hindi response
    - What to demo: voice input, contact form, lead captured with language
+
+## RECENTLY COMPLETED ✅
+
+- Logo consistency across all pages (index.html, chatbot.html, join.html)
+- Favicon verification across all 7 HTML files (all use equalaw-logo.svg)
+- Race condition fix in i18n system (language picker works on page load)
+- Duplicate event listener removal (no accumulating handlers)
+- Language field added to backend payload
+- chatbot.html orphaned HTML cleanup
 
 ---
 
@@ -200,14 +214,22 @@ equalaw/
 
 ## SUCCESS CRITERIA FOR INVESTOR DEMO
 
-✅ User can select हिंदी from language picker  
+### Code Level (Verified)
+✅ User can select हिंदी from language picker (race condition fixed)
 ✅ Form placeholder changes to Hindi  
-✅ User enters Hindi query: "मेरा मकान मालिक चोरी कर गया"  
-✅ Chatbot detects as "Property/Housing" category  
-✅ Chatbot responds with Hindi insight + 3 Hindi action buttons  
-✅ User selects action → contact form appears (in Hindi)  
-✅ User submits contact info → lead captured with language="hi"  
-✅ Voice input works: speak Hindi → get Hindi transcript  
+✅ Chatbot detects both English & Hindi keywords
+✅ Chatbot responds with correct language (insightMap vs insightMapHi)
+✅ Contact form collects language preference  
+✅ Lead captured with language="hi" in backend payload
+✅ Logo consistent across all pages + favicons correct
+✅ No duplicate event listeners accumulating
 
-**What breaks this**: Deepgram not working, race condition in language init, null reference errors
-**What we just fixed**: Race condition ✅, duplicate listeners ✅, language in payload ✅
+### Still Requires Live Testing
+⏳ Full flow: Landing → Hindi select → submit → chatbot → lead capture (end-to-end)
+⏳ Voice input: Speak Hindi → transcript appears (requires DEEPGRAM_API_KEY)
+⏳ Mobile responsiveness on actual devices
+⏳ No console errors on any page
+⏳ Form validation handles edge cases
+
+**Recently Fixed**: Race condition ✅, Duplicate listeners ✅, Language in payload ✅, Logo consistency ✅
+**Blocking Investor Demo**: Deepgram API key setup + end-to-end testing
