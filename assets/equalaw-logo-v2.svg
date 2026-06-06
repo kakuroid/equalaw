@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 92" fill="#0F172A">
+  <title>Equalaw</title>
+  <!-- LEFT SCALE: Pi-shaped column with triangular weight + foundation bar -->
+  <path d="M4 8 H48 V64 H36 V22 H16 V64 H4 Z"/>
+  <path d="M26 28 L18 58 H34 Z"/>
+  <rect x="8" y="72" width="36" height="10"/>
+  <!-- RIGHT SCALE: mirrored -->
+  <path d="M52 8 H96 V64 H84 V22 H64 V64 H52 Z"/>
+  <path d="M74 28 L66 58 H82 Z"/>
+  <rect x="56" y="72" width="36" height="10"/>
+</svg>
