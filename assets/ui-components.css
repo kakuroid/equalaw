@@ -659,6 +659,242 @@ textarea[aria-invalid="true"]:focus {
 }
 
 /* ============================================
+   12. BRAND LOGO & MARK SYSTEM
+   ============================================ */
+
+/* Logo Container Base */
+.logo-container {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  line-height: 1;
+}
+
+/* Primary Logo Mark (Icon) */
+.logo-mark,
+.brand-mark {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  object-fit: contain;
+  object-position: center;
+}
+
+/* Logo Mark Sizes */
+.logo-mark-xs {
+  width: 24px;
+  height: 24px;
+}
+
+.logo-mark-sm {
+  width: 32px;
+  height: 32px;
+}
+
+.logo-mark-md {
+  width: 36px;
+  height: 36px;
+}
+
+.logo-mark-lg {
+  width: 48px;
+  height: 48px;
+}
+
+.logo-mark-xl {
+  width: 64px;
+  height: 64px;
+}
+
+/* Wordmark (Text Logo) */
+.logo-wordmark,
+.brand-wordmark {
+  height: 24px;
+  width: auto;
+  flex-shrink: 0;
+  object-fit: contain;
+  object-position: center left;
+}
+
+.logo-wordmark-sm {
+  height: 20px;
+}
+
+.logo-wordmark-md {
+  height: 24px;
+}
+
+.logo-wordmark-lg {
+  height: 28px;
+}
+
+.logo-wordmark-xl {
+  height: 32px;
+}
+
+/* Horizontal Logo (Mark + Wordmark) */
+.logo-horizontal {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  white-space: nowrap;
+}
+
+.logo-horizontal .logo-mark {
+  width: 34px;
+  height: 34px;
+}
+
+.logo-horizontal .logo-wordmark {
+  height: 24px;
+}
+
+/* Stacked Logo (Mark above Wordmark) */
+.logo-stacked {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  text-align: center;
+}
+
+.logo-stacked .logo-mark {
+  width: 48px;
+  height: 48px;
+}
+
+.logo-stacked .logo-wordmark {
+  height: 28px;
+}
+
+/* Logo Color Variants */
+.logo-mark-dark,
+.logo-wordmark-dark {
+  filter: brightness(0);
+}
+
+.logo-mark-light,
+.logo-wordmark-light {
+  filter: brightness(2) invert(1);
+}
+
+.logo-mark-white,
+.logo-wordmark-white {
+  filter: brightness(0) invert(1);
+}
+
+.logo-mark-primary,
+.logo-wordmark-primary {
+  filter: invert(24%) sepia(100%) saturate(1288%) hue-rotate(202deg) brightness(102%) contrast(104%);
+}
+
+/* Logo Container Variants */
+.brand-logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-lg);
+  padding: var(--space-md);
+  background: transparent;
+  transition: all var(--transition-base);
+}
+
+.brand-logo:hover {
+  background: var(--color-gray-50);
+}
+
+.brand-logo img {
+  display: block;
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+}
+
+.brand-logo.dark {
+  background: var(--color-gray-900);
+  padding: var(--space-md);
+  border-radius: var(--radius-lg);
+}
+
+.brand-logo.dark:hover {
+  background: var(--color-gray-800);
+}
+
+.brand-logo.dark img {
+  filter: brightness(2) invert(1);
+}
+
+/* Favicon Styles */
+link[rel="icon"],
+link[rel="shortcut icon"],
+link[rel="apple-touch-icon"] {
+  width: 32px;
+  height: 32px;
+}
+
+/* SVG Stroke Consistency */
+svg.logo-svg,
+svg.brand-svg {
+  /* All strokes should be 2.5px */
+  /* Enforced at source, not overridden */
+  vector-effect: non-scaling-stroke;
+  display: block;
+}
+
+/* Responsive Logo Sizes */
+@media (max-width: 639px) {
+  .logo-mark {
+    width: 32px;
+    height: 32px;
+  }
+
+  .logo-wordmark {
+    height: 20px;
+  }
+
+  .logo-horizontal .logo-mark {
+    width: 32px;
+    height: 32px;
+  }
+
+  .logo-horizontal .logo-wordmark {
+    height: 20px;
+  }
+
+  .logo-stacked .logo-mark {
+    width: 40px;
+    height: 40px;
+  }
+
+  .logo-stacked .logo-wordmark {
+    height: 24px;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  .logo-mark {
+    width: 33px;
+    height: 33px;
+  }
+
+  .logo-wordmark {
+    height: 22px;
+  }
+}
+
+@media (min-width: 1024px) {
+  /* Desktop default sizes */
+  .logo-mark {
+    width: 34px;
+    height: 34px;
+  }
+
+  .logo-wordmark {
+    height: 24px;
+  }
+}
+
+/* ============================================
    11. RESPONSIVE BREAKPOINTS
    ============================================ */
 
