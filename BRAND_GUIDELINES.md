@@ -157,52 +157,56 @@ These guidelines ensure consistent visual presentation of the Equalaw brand acro
 
 ## 8. Asset Locations
 
-### 8.1 Current Assets
+### 8.1 Current Assets (V2 — Lightweight Clean Vector)
 ```
 /assets/
-├── equalaw-logo.svg          # Logo mark (24×24 optimal, viewBox="0 0 24 24")
-├── equalaw-wordmark.svg      # Logo mark + text (viewBox proportional)
-└── ui-components.css         # Design system styles
+├── equalaw-logo-v2.svg          # Scales of justice mark (pure vector, 2.5px stroke)
+├── equalaw-wordmark-v2.svg      # EQUALAW text with matching stroke
+└── ui-components.css            # Design system styles
 ```
 
 ### 8.2 File Specifications
-- **Format**: SVG with viewBox attribute
-- **Stroke**: 2.5px (absolute, not percentage-based)
-- **Colors**: Black (#000000) as default, white-compatible
-- **Metadata**: Include c2pa manifest for authenticity
+- **Format**: Pure vector SVG with viewBox attribute, no raster images
+- **Stroke**: 2.5px (consistent across all paths, absolute units)
+- **Colors**: Black (#000000) as default, white-compatible with filters
+- **File Size**: ~2KB each (vs. 226KB + 133KB legacy bloat)
+- **Naming**: V2 suffix to bust immutable browser cache headers
 
 ---
 
 ## 9. Usage Examples
 
-### 9.1 Favicon
+### 9.1 Favicon (All Pages)
 ```html
-<link rel="icon" href="/assets/equalaw-logo.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/equalaw-logo-v2.svg" type="image/svg+xml">
 ```
 
-### 9.2 Header Logo
+### 9.2 Header Logo (Recommended)
 ```html
-<img src="/assets/equalaw-logo.svg" alt="" width="34" height="34" 
-     class="logo-mark" aria-hidden="true">
-<img src="/assets/equalaw-wordmark.svg" alt="Equalaw" 
-     class="logo-wordmark" style="height: 24px; width: auto;">
-```
-
-### 9.3 Brand Logo Container
-```html
-<div class="brand-logo">
-  <img src="/assets/equalaw-logo.svg" alt="" width="36" height="36" 
-       aria-hidden="true">
+<div class="logo-horizontal">
+  <img src="/assets/equalaw-logo-v2.svg" alt="" width="34" height="34" 
+       class="logo-mark" aria-hidden="true">
+  <img src="/assets/equalaw-wordmark-v2.svg" alt="Equalaw" 
+       class="logo-wordmark">
 </div>
+```
+
+### 9.3 Navigation Logo
+```html
+<a href="/" class="no-underline hover:opacity-80">
+  <img src="/assets/equalaw-logo-v2.svg" alt="Equalaw" 
+       width="36" height="36" class="logo-mark logo-mark-md">
+</a>
 ```
 
 ---
 
 ## 10. Version History
 
-| Date | Changes | Status |
-|------|---------|--------|
-| 2026-06-06 | Initial brand guidelines v1.0 | Active |
+| Date | Version | Changes |
+|------|---------|---------|
+| 2026-06-06 | v2.0 | New scales mark + redesigned wordmark, lightweight SVG (2.5KB each), cache busting with v2 suffix |
+| 2026-06-06 | v1.0 | Initial brand guidelines (legacy AI-generated logos deprecated) |
 
 ---
 
