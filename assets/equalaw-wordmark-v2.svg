@@ -1,46 +1,18 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 80" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-  <title>Equalaw Wordmark</title>
-
-  <!-- Mini scale mark on left (proportional) -->
-  <g transform="translate(0, 15)">
-    <!-- Left scale pan -->
-    <path d="M 6 8 L 2 20 L 10 20 Z"/>
-    <!-- Left posts -->
-    <rect x="4" y="2" width="1.2" height="6" fill="#000" stroke="none"/>
-    <rect x="8" y="2" width="1.2" height="6" fill="#000" stroke="none"/>
-    <!-- Left crossbar -->
-    <line x1="2" y1="8" x2="10" y2="8"/>
-    <!-- Left base -->
-    <rect x="1" y="21" width="9" height="1.2" fill="#000" stroke="none"/>
-  </g>
-
-  <!-- EQUALAW text (geometric sans-serif, matching stroke) -->
-  <g transform="translate(25, 12)">
-    <!-- E -->
-    <line x1="0" y1="0" x2="0" y2="56"/>
-    <line x1="0" y1="0" x2="18" y2="0"/>
-    <line x1="0" y1="28" x2="16" y2="28"/>
-    <line x1="0" y1="56" x2="18" y2="56"/>
-
-    <!-- Q: O shape + tail -->
-    <circle cx="48" cy="28" r="14"/>
-    <line x1="54" y1="40" x2="64" y2="50"/>
-
-    <!-- U -->
-    <path d="M 80 0 L 80 42 Q 80 56 94 56 Q 108 56 108 42 L 108 0"/>
-
-    <!-- A: Triangle with crossbar -->
-    <path d="M 124 56 L 140 0 L 156 56"/>
-    <line x1="128" y1="34" x2="152" y2="34"/>
-
-    <!-- L -->
-    <path d="M 168 0 L 168 56 L 190 56"/>
-
-    <!-- A: Triangle with crossbar -->
-    <path d="M 206 56 L 222 0 L 238 56"/>
-    <line x1="210" y1="34" x2="234" y2="34"/>
-
-    <!-- W: Two peaks -->
-    <path d="M 250 0 L 260 56 L 275 20 L 290 56 L 300 0"/>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 100" fill="none" stroke="#0F172A" stroke-width="12" stroke-linecap="square" stroke-linejoin="miter">
+  <title>EQUALAW</title>
+  <!-- E -->
+  <path d="M6 6 V94 M6 6 H54 M6 50 H48 M6 94 H54"/>
+  <!-- Q: circle + tail -->
+  <circle cx="113" cy="50" r="38"/>
+  <path d="M133 78 L155 100"/>
+  <!-- U -->
+  <path d="M180 6 V62 a26 26 0 0 0 52 0 V6"/>
+  <!-- A -->
+  <path d="M255 94 L290 6 L325 94 M268 64 H312"/>
+  <!-- L -->
+  <path d="M350 6 V94 H400"/>
+  <!-- A -->
+  <path d="M420 94 L455 6 L490 94 M433 64 H477"/>
+  <!-- W -->
+  <path d="M515 6 L535 94 L560 38 L585 94 L605 6"/>
 </svg>
