@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Equalaw Brand Guidelines - Logo, colors, typography, and design system specifications">
+    <title>Equalaw Brand Guidelines</title>
+    <link rel="icon" href="/assets/equalaw-logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/assets/ui-components.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', system-ui, -apple-system, sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #007bff 0%, #0061cc 100%);
+            color: white;
+            padding: 3rem 1rem;
+            box-shadow: 0 4px 20px rgba(0, 123, 255, 0.15);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .header-logo img {
+            height: 48px;
+            width: auto;
+            filter: brightness(0) invert(1);
+        }
+
+        h1 {
+            font-size: 3.75rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .header-description {
+            font-size: 1.125rem;
+            opacity: 0.95;
+            max-width: 600px;
+        }
+
+        /* Navigation */
+        nav {
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            gap: 2rem;
+            overflow-x: auto;
+        }
+
+        nav a {
+            display: block;
+            padding: 1rem 0;
+            color: #1e293b;
+            text-decoration: none;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            font-weight: 600;
+        }
+
+        nav a:hover {
+            color: #007bff;
+            border-bottom-color: #007bff;
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 1rem;
+        }
+
+        section {
+            background: white;
+            border-radius: 12px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            border: 1px solid #e2e8f0;
+        }
+
+        h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: #007bff;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid #e2e8f0;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #1e293b;
+        }
+
+        h3:first-child {
+            margin-top: 0;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: #475569;
+        }
+
+        /* Logo Section */
+        .logo-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .logo-item {
+            padding: 2rem;
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .logo-item:hover {
+            border-color: #007bff;
+            background: #f0f9ff;
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.1);
+        }
+
+        .logo-item img {
+            height: 120px;
+            margin: 0 auto 1rem;
+            filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.05));
+        }
+
+        .logo-item h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #1e293b;
+        }
+
+        .logo-item p {
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+
+        /* Color Grid */
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .color-item {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .color-swatch {
+            height: 120px;
+            width: 100%;
+            transition: transform 0.2s ease;
+        }
+
+        .color-item:hover .color-swatch {
+            transform: scale(1.05);
+        }
+
+        .color-info {
+            padding: 1rem;
+            background: white;
+        }
+
+        .color-name {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.25rem;
+        }
+
+        .color-code {
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            color: #64748b;
+            user-select: all;
+        }
+
+        .color-usage {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin-top: 0.5rem;
+        }
+
+        /* Typography Section */
+        .typography-showcase {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .type-example {
+            padding: 1.5rem;
+            background: #f8fafc;
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
+        }
+
+        .type-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: #007bff;
+            margin-bottom: 0.5rem;
+        }
+
+        .type-sample {
+            font-family: 'Outfit', sans-serif;
+            margin-bottom: 0.5rem;
+        }
+
+        .type-specs {
+            font-size: 0.875rem;
+            color: #64748b;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* Specification Table */
+        .specs-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .specs-table thead {
+            background: #f8fafc;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .specs-table th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .specs-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            color: #475569;
+        }
+
+        .specs-table tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        /* Do's and Don'ts */
+        .guidelines-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .guideline-card {
+            padding: 2rem;
+            border-radius: 8px;
+            border-left: 4px solid;
+        }
+
+        .do-card {
+            background: #f0fdf4;
+            border-color: #10b981;
+        }
+
+        .do-card h4 {
+            color: #10b981;
+        }
+
+        .dont-card {
+            background: #fef2f2;
+            border-color: #ef4444;
+        }
+
+        .dont-card h4 {
+            color: #ef4444;
+        }
+
+        .guideline-card h4 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .guideline-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .guideline-card li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            color: #475569;
+        }
+
+        .guideline-card li:before {
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .do-card li:before {
+            content: '✓';
+            color: #10b981;
+        }
+
+        .dont-card li:before {
+            content: '✗';
+            color: #ef4444;
+        }
+
+        /* Code Block */
+        .code-block {
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-top: 1rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+
+        /* Icon Grid */
+        .icon-specs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .icon-size {
+            padding: 1rem;
+        }
+
+        .icon-display {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8fafc;
+            border: 2px dashed #e2e8f0;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            min-height: 100px;
+        }
+
+        .icon-display svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .icon-label {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.25rem;
+        }
+
+        .icon-specs-text {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* Spacing Grid */
+        .spacing-demo {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .spacing-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .spacing-box {
+            flex: 1;
+            background: #007bff;
+            border-radius: 4px;
+            color: white;
+            padding: 0.75rem;
+            font-weight: 600;
+            text-align: center;
+            font-size: 0.875rem;
+        }
+
+        .spacing-label {
+            width: 100px;
+            text-align: right;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        /* Footer */
+        footer {
+            background: #1e293b;
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-content p {
+            color: #cbd5e1;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            section {
+                padding: 1.5rem;
+            }
+
+            main {
+                padding: 1.5rem 1rem;
+            }
+
+            .nav-content {
+                gap: 1rem;
+            }
+
+            nav a {
+                font-size: 0.875rem;
+            }
+
+            .logo-showcase {
+                grid-template-columns: 1fr;
+            }
+
+            .color-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+
+            .guidelines-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .specs-table {
+                font-size: 0.85rem;
+            }
+
+            .specs-table th,
+            .specs-table td {
+                padding: 0.75rem 0.5rem;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            header {
+                background: #007bff;
+                color: white;
+            }
+
+            nav {
+                display: none;
+            }
+
+            section {
+                page-break-inside: avoid;
+                box-shadow: none;
+            }
+
+            .code-block {
+                background: #f8fafc;
+                color: #1e293b;
+                border: 1px solid #e2e8f0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="header-logo">
+                <img src="/assets/equalaw-logo.svg" alt="Equalaw">
+            </div>
+            <h1>Brand Guidelines</h1>
+            <p class="header-description">Comprehensive guidelines for consistent visual presentation of the Equalaw brand across all platforms and materials.</p>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-content">
+            <a href="#logo-system">Logo System</a>
+            <a href="#colors">Colors</a>
+            <a href="#typography">Typography</a>
+            <a href="#icons">Icons</a>
+            <a href="#spacing">Spacing & Layout</a>
+            <a href="#guidelines">Guidelines</a>
+            <a href="#assets">Assets</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Logo System Section -->
+        <section id="logo-system">
+            <h2>Logo System</h2>
+
+            <h3>Primary Logo Mark</h3>
+            <p>The Equalaw logo mark is the primary icon used for favicons, app icons, and social media profile pictures. It maintains a consistent stroke width of 2.5px and can be rendered in black or white depending on the background.</p>
+
+            <div class="logo-showcase">
+                <div class="logo-item">
+                    <img src="/assets/equalaw-logo.svg" alt="Logo Mark">
+                    <h4>Logo Mark</h4>
+                    <p>Primary icon for favicons and UI elements</p>
+                </div>
+                <div class="logo-item">
+                    <img src="/assets/equalaw-wordmark.svg" alt="Wordmark">
+                    <h4>Wordmark</h4>
+                    <p>Text + mark combination for headers</p>
+                </div>
+            </div>
+
+            <table class="specs-table">
+                <thead>
+                    <tr>
+                        <th>Aspect</th>
+                        <th>Specification</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Stroke Width</strong></td>
+                        <td>2.5px</td>
+                        <td>Consistent across all variations</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Minimum Size</strong></td>
+                        <td>24px × 24px</td>
+                        <td>Favicon: 32px, UI elements: 32px+</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Clear Space</strong></td>
+                        <td>8px padding</td>
+                        <td>Minimum space around logo</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Format</strong></td>
+                        <td>SVG</td>
+                        <td>Scalable vector format only</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Colors</strong></td>
+                        <td>#000000 or #FFFFFF</td>
+                        <td>Depending on background contrast</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Logo Variations</h3>
+            <p><strong>Horizontal:</strong> Logo mark + wordmark side-by-side (preferred for headers)</p>
+            <p><strong>Stacked:</strong> Logo mark above wordmark (preferred for limited width areas)</p>
+            <p><strong>Mark Only:</strong> Logo mark standalone (favicons, social icons)</p>
+        </section>
+
+        <!-- Colors Section -->
+        <section id="colors">
+            <h2>Color System</h2>
+
+            <h3>Brand Colors</h3>
+            <p>The Equalaw color palette consists of primary brand colors, semantic colors for feedback, and neutral grays for text and backgrounds.</p>
+
+            <div class="color-grid">
+                <div class="color-item">
+                    <div class="color-swatch" style="background-color: #007bff;"></div>
+                    <div class="color-info">
+                        <div class="color-name">Primary Blue</div>
+                        <div class="color-code">#007BFF</div>
+                        <div class="color-usage">CTAs, links, active states</div>
+                    </div>
+                </div>
+                <div class="color-item">
+                    <div class="color-swatch" style="background-color: #0061cc;"></div>
+                    <div class="color-info">
+                        <div class="color-name">Dark Blue</div>
+                        <div class="color-code">#0061CC</div>
+                        <div class="color-usage">Hover, pressed states</div>
+                    </div>
+                </div>
+                <div class="color-item">
+                    <div class="color-swatch" style="background-color: #389fff;"></div>
+                    <div class="color-info">
+                        <div class="color-name">Light Blue</div>
+                        <div class="color-code">#389FFF</div>
+                        <div class="color-usage">Secondary actions, backgrounds</div>
+                    </div>
+                </div>
+                <div class="color-item">
+                    <div class="color-swatch" style="background-color: #10b981;"></div>
+                    <div class="color-info">
+                        <div class="color-name">Success Green</div>
+                        <div class="color-code">#10B981</div>
+                        <div class="color-usage">Success, positive states</div>
+                    </div>
+                </div>
+                <div class="color-item">
+                    <div class="color-swatch" style="background-color: #f59e0b;"></div>
+                    <div class="color-info">
+                        <div class="color-name">Warning Orange</div>
+                        <div class="color-code">#F59E0B</div>
+                        <div class="color-usage">Warnings, cautions</div>
+                    </div>
+                </div>
+                <div class="color-item">
+                    <div class="color-swatch" style="background-color: #ef4444;"></div>
+                    <div class="color-info">
+                        <div class="color-name">Error Red</div>
+                        <div class="color-code">#EF4444</div>
+                        <div class="color-usage">Errors, destructive actions</div>
+                    </div>
+                </div>
+                <div class="color-item">
+                    <div class="color-swatch" style="background-color: #3b82f6;"></div>
+                    <div class="color-info">
+                        <div class="color-name">Info Blue</div>
+                        <div class="color-code">#3B82F6</div>
+                        <div class="color-usage">Information, alerts</div>
+                    </div>
+                </div>
+                <div class="color-item">
+                    <div class="color-swatch" style="background-color: #000000;"></div>
+                    <div class="color-info">
+                        <div class="color-name">Black</div>
+                        <div class="color-code">#000000</div>
+                        <div class="color-usage">Text, primary elements</div>
+                    </div>
+                </div>
+                <div class="color-item">
+                    <div class="color-swatch" style="background-color: #ffffff; border: 1px solid #e2e8f0;"></div>
+                    <div class="color-info">
+                        <div class="color-name">White</div>
+                        <div class="color-code">#FFFFFF</div>
+                        <div class="color-usage">Backgrounds, text on dark</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Typography Section -->
+        <section id="typography">
+            <h2>Typography</h2>
+
+            <h3>Font Family</h3>
+            <p><strong>Primary:</strong> Outfit (sans-serif)</p>
+            <p><strong>Fallback:</strong> system-ui, -apple-system, sans-serif</p>
+
+            <h3>Font Weights & Sizes</h3>
+            <div class="typography-showcase">
+                <div class="type-example">
+                    <div class="type-label">Heading 1</div>
+                    <div class="type-sample" style="font-size: 3.75rem; font-weight: 800; line-height: 1.1;">Brand Mastery</div>
+                    <div class="type-specs">Size: 3.75rem | Weight: 800</div>
+                </div>
+
+                <div class="type-example">
+                    <div class="type-label">Heading 2</div>
+                    <div class="type-sample" style="font-size: 2rem; font-weight: 700;">Guidelines & Specifications</div>
+                    <div class="type-specs">Size: 2rem | Weight: 700</div>
+                </div>
+
+                <div class="type-example">
+                    <div class="type-label">Heading 3</div>
+                    <div class="type-sample" style="font-size: 1.5rem; font-weight: 600;">Design System Overview</div>
+                    <div class="type-specs">Size: 1.5rem | Weight: 600</div>
+                </div>
+
+                <div class="type-example">
+                    <div class="type-label">Body Text</div>
+                    <div class="type-sample" style="font-size: 1rem; font-weight: 400;">This is standard body text used for paragraphs and general content throughout the interface and documentation.</div>
+                    <div class="type-specs">Size: 1rem | Weight: 400 | Line Height: 1.6</div>
+                </div>
+
+                <div class="type-example">
+                    <div class="type-label">Small Text</div>
+                    <div class="type-sample" style="font-size: 0.875rem; font-weight: 500;">Supporting information and secondary details</div>
+                    <div class="type-specs">Size: 0.875rem | Weight: 500</div>
+                </div>
+
+                <div class="type-example">
+                    <div class="type-label">Caption</div>
+                    <div class="type-sample" style="font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">LABELS AND CAPTIONS</div>
+                    <div class="type-specs">Size: 0.75rem | Weight: 600 | Transform: uppercase</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Icons Section -->
+        <section id="icons">
+            <h2>Icon Design</h2>
+
+            <h3>Icon Specifications</h3>
+            <p>All icons follow the same design principles as the Equalaw logo, maintaining visual consistency across the brand.</p>
+
+            <table class="specs-table">
+                <thead>
+                    <tr>
+                        <th>Aspect</th>
+                        <th>Specification</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Stroke Width</strong></td>
+                        <td>2.5px</td>
+                        <td>Consistent with logo system</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Size Grid</strong></td>
+                        <td>24px, 32px, 48px, 64px</td>
+                        <td>Standardized icon dimensions</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Corner Radius</strong></td>
+                        <td>2px</td>
+                        <td>For icon corners</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Clear Space</strong></td>
+                        <td>2px minimum</td>
+                        <td>Inside icon boundary</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Touch Target</strong></td>
+                        <td>44px × 44px</td>
+                        <td>Minimum interactive area</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Icon Sizes</h3>
+            <div class="icon-specs">
+                <div class="icon-size">
+                    <div class="icon-label">24px (Small)</div>
+                    <div class="icon-label" style="font-size: 0.75rem;">xs</div>
+                </div>
+                <div class="icon-size">
+                    <div class="icon-label">32px (Small-Medium)</div>
+                    <div class="icon-label" style="font-size: 0.75rem;">sm</div>
+                </div>
+                <div class="icon-size">
+                    <div class="icon-label">48px (Medium)</div>
+                    <div class="icon-label" style="font-size: 0.75rem;">md</div>
+                </div>
+                <div class="icon-size">
+                    <div class="icon-label">64px (Large)</div>
+                    <div class="icon-label" style="font-size: 0.75rem;">lg</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Spacing Section -->
+        <section id="spacing">
+            <h2>Spacing & Layout</h2>
+
+            <h3>Spacing Scale</h3>
+            <p>Consistent spacing creates visual harmony and improves usability across all designs.</p>
+
+            <div class="spacing-demo">
+                <div class="spacing-row">
+                    <div class="spacing-label">XS (4px)</div>
+                    <div class="spacing-box" style="width: 4px; padding: 0; border-radius: 2px;"></div>
+                </div>
+                <div class="spacing-row">
+                    <div class="spacing-label">SM (8px)</div>
+                    <div class="spacing-box" style="width: 8px; padding: 0; border-radius: 2px;"></div>
+                </div>
+                <div class="spacing-row">
+                    <div class="spacing-label">MD (16px)</div>
+                    <div class="spacing-box" style="width: 16px; padding: 0; border-radius: 2px;"></div>
+                </div>
+                <div class="spacing-row">
+                    <div class="spacing-label">LG (24px)</div>
+                    <div class="spacing-box" style="width: 24px; padding: 0; border-radius: 2px;"></div>
+                </div>
+                <div class="spacing-row">
+                    <div class="spacing-label">XL (32px)</div>
+                    <div class="spacing-box" style="width: 32px; padding: 0; border-radius: 2px;"></div>
+                </div>
+            </div>
+
+            <h3>Border Radius Scale</h3>
+            <table class="specs-table">
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Size</th>
+                        <th>Usage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Small</strong></td>
+                        <td>4px</td>
+                        <td>Inputs, small elements</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Medium</strong></td>
+                        <td>8px</td>
+                        <td>Cards, buttons</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Large</strong></td>
+                        <td>12px</td>
+                        <td>Containers, modals</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Full</strong></td>
+                        <td>999px</td>
+                        <td>Pills, badges, circles</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Responsive Behavior</h3>
+            <table class="specs-table">
+                <thead>
+                    <tr>
+                        <th>Breakpoint</th>
+                        <th>Width</th>
+                        <th>Layout</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Mobile</strong></td>
+                        <td>&lt; 640px</td>
+                        <td>Logo mark only, compact spacing</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Tablet</strong></td>
+                        <td>640px - 1024px</td>
+                        <td>Logo mark + wordmark, normal spacing</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Desktop</strong></td>
+                        <td>&gt; 1024px</td>
+                        <td>Full logo combination, generous spacing</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Dark Mode Support</h3>
+            <p><strong>Logo Mark:</strong> White (#FFFFFF) on dark backgrounds (≥ #1E293B)</p>
+            <p><strong>Wordmark:</strong> White on dark, Black on light</p>
+            <p><strong>Implementation:</strong> Use CSS custom properties for theme switching</p>
+        </section>
+
+        <!-- Guidelines Section -->
+        <section id="guidelines">
+            <h2>Brand Guidelines</h2>
+
+            <div class="guidelines-grid">
+                <div class="guideline-card do-card">
+                    <h4>✓ Do's</h4>
+                    <ul>
+                        <li>Use the logo mark for favicons</li>
+                        <li>Maintain consistent stroke width of 2.5px</li>
+                        <li>Use approved colors only</li>
+                        <li>Maintain minimum clear space</li>
+                        <li>Scale logo proportionally</li>
+                        <li>Use SVG format for all logos</li>
+                        <li>Test on multiple backgrounds</li>
+                    </ul>
+                </div>
+
+                <div class="guideline-card dont-card">
+                    <h4>✗ Don'ts</h4>
+                    <ul>
+                        <li>Don't distort or stretch the logo</li>
+                        <li>Don't change stroke width</li>
+                        <li>Don't add effects without approval</li>
+                        <li>Don't use raster images instead of SVG</li>
+                        <li>Don't place on clashing backgrounds</li>
+                        <li>Don't shrink below 24px × 24px</li>
+                        <li>Don't rotate or flip the logo</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Assets Section -->
+        <section id="assets">
+            <h2>Asset Specifications</h2>
+
+            <h3>Current Assets</h3>
+            <p>All brand assets are located in the <code>/assets/</code> directory and are optimized for web delivery.</p>
+
+            <div class="code-block">
+/assets/
+├── equalaw-logo.svg        # Logo mark/icon
+├── equalaw-wordmark.svg    # Logo + text
+└── ui-components.css       # Design system styles
+            </div>
+
+            <h3>File Specifications</h3>
+            <table class="specs-table">
+                <thead>
+                    <tr>
+                        <th>Aspect</th>
+                        <th>Specification</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Format</strong></td>
+                        <td>SVG</td>
+                        <td>Pure vector with viewBox attribute</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Stroke</strong></td>
+                        <td>2.5px</td>
+                        <td>Consistent across all paths</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Default Color</strong></td>
+                        <td>#000000</td>
+                        <td>Black, compatible with CSS filters</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Scalability</strong></td>
+                        <td>Proportional</td>
+                        <td>Scales with viewBox attribute</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Metadata</strong></td>
+                        <td>C2PA Manifest</td>
+                        <td>Authenticity verification</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>HTML Usage Examples</h3>
+
+            <h4>Favicon (All Pages)</h4>
+            <div class="code-block">&lt;link rel="icon" href="/assets/equalaw-logo.svg" type="image/svg+xml"&gt;</div>
+
+            <h4>Header Logo</h4>
+            <div class="code-block">&lt;div class="logo-horizontal"&gt;
+  &lt;img src="/assets/equalaw-logo.svg" alt=""
+       class="logo-mark" aria-hidden="true"&gt;
+  &lt;img src="/assets/equalaw-wordmark.svg" alt="Equalaw"
+       class="logo-wordmark"&gt;
+&lt;/div&gt;</div>
+
+            <h4>Navigation Logo</h4>
+            <div class="code-block">&lt;a href="/" class="no-underline hover:opacity-80"&gt;
+  &lt;img src="/assets/equalaw-logo.svg" alt="Equalaw"
+       class="logo-mark logo-mark-md"&gt;
+&lt;/a&gt;</div>
+
+            <h4>Stacked Layout</h4>
+            <div class="code-block">&lt;div class="logo-stacked"&gt;
+  &lt;img src="/assets/equalaw-logo.svg" alt=""
+       class="logo-mark" aria-hidden="true"&gt;
+  &lt;img src="/assets/equalaw-wordmark.svg" alt="Equalaw"
+       class="logo-wordmark"&gt;
+&lt;/div&gt;</div>
+        </section>
+
+        <!-- CSS Classes Section -->
+        <section>
+            <h2>CSS Classes Reference</h2>
+
+            <h3>Logo Mark Classes</h3>
+            <table class="specs-table">
+                <thead>
+                    <tr>
+                        <th>Class</th>
+                        <th>Size</th>
+                        <th>Usage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>.logo-mark</code></td>
+                        <td>Default 34px</td>
+                        <td>Standard logo</td>
+                    </tr>
+                    <tr>
+                        <td><code>.logo-mark-xs</code></td>
+                        <td>24px</td>
+                        <td>Small</td>
+                    </tr>
+                    <tr>
+                        <td><code>.logo-mark-sm</code></td>
+                        <td>32px</td>
+                        <td>Small-medium</td>
+                    </tr>
+                    <tr>
+                        <td><code>.logo-mark-md</code></td>
+                        <td>36px</td>
+                        <td>Medium</td>
+                    </tr>
+                    <tr>
+                        <td><code>.logo-mark-lg</code></td>
+                        <td>48px</td>
+                        <td>Large</td>
+                    </tr>
+                    <tr>
+                        <td><code>.logo-mark-xl</code></td>
+                        <td>64px</td>
+                        <td>Extra large</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Wordmark Classes</h3>
+            <table class="specs-table">
+                <thead>
+                    <tr>
+                        <th>Class</th>
+                        <th>Size</th>
+                        <th>Usage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>.logo-wordmark</code></td>
+                        <td>Default 24px height</td>
+                        <td>Standard wordmark</td>
+                    </tr>
+                    <tr>
+                        <td><code>.logo-wordmark-sm</code></td>
+                        <td>20px</td>
+                        <td>Small</td>
+                    </tr>
+                    <tr>
+                        <td><code>.logo-wordmark-md</code></td>
+                        <td>24px</td>
+                        <td>Medium</td>
+                    </tr>
+                    <tr>
+                        <td><code>.logo-wordmark-lg</code></td>
+                        <td>28px</td>
+                        <td>Large</td>
+                    </tr>
+                    <tr>
+                        <td><code>.logo-wordmark-xl</code></td>
+                        <td>32px</td>
+                        <td>Extra large</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Layout Classes</h3>
+            <table class="specs-table">
+                <thead>
+                    <tr>
+                        <th>Class</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>.logo-horizontal</code></td>
+                        <td>Mark + wordmark side-by-side</td>
+                    </tr>
+                    <tr>
+                        <td><code>.logo-stacked</code></td>
+                        <td>Mark above wordmark</td>
+                    </tr>
+                    <tr>
+                        <td><code>.logo-container</code></td>
+                        <td>Basic flex container</td>
+                    </tr>
+                    <tr>
+                        <td><code>.brand-logo</code></td>
+                        <td>Container with hover effects</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Color Variant Classes</h3>
+            <table class="specs-table">
+                <thead>
+                    <tr>
+                        <th>Class</th>
+                        <th>Color</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>.logo-mark-dark</code></td>
+                        <td>Black/dark variant</td>
+                    </tr>
+                    <tr>
+                        <td><code>.logo-mark-light</code></td>
+                        <td>Light/white variant</td>
+                    </tr>
+                    <tr>
+                        <td><code>.logo-mark-white</code></td>
+                        <td>Explicit white</td>
+                    </tr>
+                    <tr>
+                        <td><code>.logo-mark-primary</code></td>
+                        <td>Brand blue (#007BFF)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Version History -->
+        <section>
+            <h2>Version History</h2>
+
+            <table class="specs-table">
+                <thead>
+                    <tr>
+                        <th>Version</th>
+                        <th>Date</th>
+                        <th>Changes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>2.0</strong></td>
+                        <td>2026-06-06</td>
+                        <td>Lightweight SVG assets, updated design system, responsive improvements</td>
+                    </tr>
+                    <tr>
+                        <td><strong>1.0</strong></td>
+                        <td>2026-06-06</td>
+                        <td>Initial brand guidelines</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <p><strong>Equalaw Brand Guidelines</strong></p>
+            <p>For questions about brand implementation, review the BRAND_GUIDELINES.md and BRAND_IMPLEMENTATION.md documents.</p>
+            <p style="margin-top: 1.5rem; font-size: 0.875rem; color: #94a3b8;">Last Updated: 2026-06-06 | Design System v2.0</p>
+        </div>
+    </footer>
+</body>
+</html>
