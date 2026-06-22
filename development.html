@@ -53,13 +53,13 @@
         /* Timeline vertical line */
         .timeline-line {
             position: absolute; left: 19px; top: 0; bottom: 0;
-            width: 2px; background: linear-gradient(to bottom, #e0efff, #badbff 30%, #badbff 70%, transparent);
+            width: 2px; background: linear-gradient(to bottom, var(--color-primary-light-transparent-1), var(--color-primary-light) 30%, var(--color-primary-light) 70%, transparent);
         }
 
         /* Dot pulse animation for "In Progress" items */
         @keyframes dotPulse {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(0,123,255,0.4); }
-            50% { box-shadow: 0 0 0 6px rgba(0,123,255,0); }
+            0%, 100% { box-shadow: 0 0 0 0 var(--color-primary-transparent); }
+            50% { box-shadow: 0 0 0 6px var(--color-primary-transparent-full); }
         }
         .dot-live { animation: dotPulse 2s infinite; }
 
@@ -68,11 +68,11 @@
         .entry.visible { opacity: 1; transform: translateY(0); }
 
         /* Status badges */
-        .badge-shipped  { background:#dcfce7; color:#15803d; }
-        .badge-live     { background:#dbeafe; color:#1d4ed8; }
-        .badge-building { background:#fef9c3; color:#854d0e; }
-        .badge-planned  { background:#f1f5f9; color:#475569; }
-        .badge-insight  { background:#fdf4ff; color:#7e22ce; }
+        .badge-shipped  { background: var(--color-success-light); color: var(--color-success-dark); }
+        .badge-live     { background: var(--color-primary-light); color: var(--color-primary-dark); }
+        .badge-building { background: var(--color-warning-light); color: var(--color-warning-dark); }
+        .badge-planned  { background: var(--color-gray-100); color: var(--color-gray-600); }
+        .badge-insight  { background: var(--color-purple-light); color: var(--color-purple-dark); }
 
         /* Code tag */
         code {
