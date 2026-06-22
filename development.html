@@ -16,24 +16,35 @@
     <link rel="canonical" href="https://www.equalaw.tech/development">
     <meta name="robots" content="noindex, nofollow">
     <link rel="icon" href="/assets/equalaw-logo-v2.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <meta name="theme-color" content="#1C2A3F">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
+        // Equalaw Brand v2.0 — Navy / Gold / Periwinkle · Archivo / Hanken / Spline
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: { sans: ['Outfit', 'system-ui', 'sans-serif'] },
+                    fontFamily: {
+                        sans: ['Hanken Grotesk', 'system-ui', 'sans-serif'],
+                        display: ['Archivo', 'system-ui', 'sans-serif'],
+                        mono: ['Spline Sans Mono', 'ui-monospace', 'monospace'],
+                    },
                     colors: {
                         brand: {
-                            50: '#f0f7ff', 100: '#e0efff', 200: '#badbff',
-                            300: '#7cc0ff', 400: '#389fff', 500: '#007bff',
-                            600: '#0061cc', 700: '#004da3', 800: '#004185', 900: '#00376e',
-                        }
+                            50: '#eef1f6', 100: '#e7e9ee', 200: '#c8cdd6',
+                            300: '#9aa4b4', 400: '#5d6b80', 500: '#33425a',
+                            600: '#1C2A3F', 700: '#16243a', 800: '#11192a', 900: '#0c1220',
+                        },
+                        navy: '#1C2A3F', gold: '#B79C76', peri: '#A4C1F9',
+                        paper: '#F3F1EA', paper2: '#ECE8DD', ink: '#16140f',
                     }
                 }
             }
         }
     </script>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Hanken+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
     <script src="/assets/analytics.js"></script>
     <!-- i18n: Language detection & translation system -->
     <script src="/assets/i18n.js"></script>
@@ -41,7 +52,7 @@
     <!-- Vercel Web Analytics -->
     <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
     <style>
-        body { font-family: 'Outfit', sans-serif; background: #f8fafc; }
+        body { font-family: 'Hanken Grotesk', system-ui, sans-serif; background: #F3F1EA; }
 
         .glass {
             background: rgba(255,255,255,0.75);
@@ -76,13 +87,13 @@
 
         /* Code tag */
         code {
-            font-family: 'Courier New', monospace;
+            font-family: 'Spline Sans Mono', ui-monospace, monospace;
             font-size: 11px;
-            background: #f1f5f9;
-            border: 1px solid #e2e8f0;
+            background: var(--brand-paper-2);
+            border: 1px solid var(--brand-line);
             border-radius: 4px;
             padding: 1px 5px;
-            color: #1e293b;
+            color: var(--brand-navy);
         }
 
         /* Metric pill */
@@ -99,22 +110,12 @@
     <!-- Header -->
     <header class="glass sticky top-0 z-50 border-b border-slate-200/60 px-4 md:px-8 py-4 flex items-center justify-between">
         <a href="/" class="flex items-center gap-3 group">
-            <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-600 to-brand-800 flex items-center justify-center shadow-sm" aria-hidden="true">
-                <svg width="22" height="22" viewBox="0 0 100 100">
-                    <rect x="5" y="5" width="41" height="7" fill="white"/>
-                    <rect x="54" y="5" width="41" height="7" fill="white"/>
-                    <polygon points="5,12 40,12 40,20 33,20 18,68 5,68" fill="white"/>
-                    <polygon points="14,55 24,55 21,33 17,33" fill="rgba(0,97,204,0.8)"/>
-                    <polygon points="60,12 95,12 95,68 82,68 67,20 60,20" fill="white"/>
-                    <polygon points="76,55 86,55 83,33 79,33" fill="rgba(0,97,204,0.8)"/>
-                    <rect x="43" y="12" width="14" height="78" fill="white"/>
-                    <rect x="5" y="85" width="38" height="10" fill="white"/>
-                    <rect x="57" y="85" width="38" height="10" fill="white"/>
-                </svg>
+            <div class="w-9 h-9 rounded-xl bg-navy flex items-center justify-center shadow-sm" aria-hidden="true">
+                <img src="/assets/equalaw-icon-gold.svg" alt="" width="22" height="22">
             </div>
-            <div>
-                <span class="text-sm font-semibold tracking-[0.18em] text-slate-900 uppercase">EQUALAW</span>
-                <span class="text-brand-600 font-bold tracking-normal normal-case text-sm"> · Dev Log</span>
+            <div class="flex items-baseline gap-1.5">
+                <img src="/assets/equalaw-wordmark-v2.svg" alt="Equalaw" class="h-3.5 w-auto">
+                <span class="font-mono text-[11px] tracking-[0.18em] uppercase text-gold">· Dev Log</span>
             </div>
         </a>
         <div class="flex items-center gap-4 text-xs font-semibold text-slate-500">
@@ -189,7 +190,7 @@
                                     <span class="text-slate-700">Two-payload lead architecture: initial capture + enrichment</span>
                                 </div>
                                 <div class="flex items-start gap-2 text-sm">
-                                    <span class="text-blue-400 mt-0.5 font-bold">◉</span>
+                                    <span class="text-gold mt-0.5 font-bold">◉</span>
                                     <span class="text-slate-700">PostHog snippet + session recording activated</span>
                                 </div>
                                 <div class="flex items-start gap-2 text-sm">
