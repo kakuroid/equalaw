@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="160 10 880 880" width="880" height="880">
+<path d="M200 500L500 500L500 650L200 650Z" fill="#B79C76"></path>
+  
+  <path d="M700 500L1000 500L1000 650L700 650Z" fill="#B79C76"></path>
+  
+  <path d="M350 450L350 150L380 150L380 450Z" fill="#B79C76"></path>
+  
+  <path d="M820 450L820 150L850 150L850 450Z" fill="#B79C76"></path>
+  
+  <path d="M550 150L600 450L500 450Z" fill="#B79C76"></path>
+  
+  <path d="M350 450L850 450L850 480L350 480Z" fill="#B79C76"></path>
+  
+  <path d="M400 650L550 650L550 750L400 750Z" fill="#B79C76"></path>
+  
+  <path d="M650 650L800 650L800 750L650 750Z" fill="#B79C76"></path>
+</svg>

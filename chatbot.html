@@ -15,27 +15,39 @@
     <meta name="twitter:title" content="Equalaw | Legal Guidance Assistant">
     <meta name="twitter:description" content="Describe your legal situation and get a clear, structured action plan. Free, instant, and confidential.">
     <link rel="canonical" href="https://www.equalaw.tech/chatbot">
-    <link rel="icon" href="/assets/equalaw-logo-v2.svg" type="image/svg+xml">
+    <link rel="icon" href="/assets/equalaw-logo-v2.svg?v=20260622" type="image/svg+xml">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta name="theme-color" content="#1C2A3F">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
+        // Equalaw Brand v2.0 — Navy / Gold / Periwinkle · Archivo / Hanken / Spline
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: { sans: ['Outfit', 'system-ui', 'sans-serif'] },
+                    fontFamily: {
+                        sans: ['Hanken Grotesk', 'system-ui', 'sans-serif'],
+                        display: ['Archivo', 'system-ui', 'sans-serif'],
+                        mono: ['Spline Sans Mono', 'ui-monospace', 'monospace'],
+                    },
                     colors: {
                         brand: {
-                            50: '#f0f7ff', 100: '#e0efff', 200: '#badbff',
-                            300: '#7cc0ff', 400: '#389fff', 500: '#007bff',
-                            600: '#0061cc', 700: '#004da3', 800: '#004185', 900: '#00376e',
-                        }
+                            50: '#eef1f6', 100: '#e7e9ee', 200: '#c8cdd6',
+                            300: '#9aa4b4', 400: '#5d6b80', 500: '#33425a',
+                            600: '#1C2A3F', 700: '#16243a', 800: '#11192a', 900: '#0c1220',
+                        },
+                        navy: '#1C2A3F', gold: '#B79C76', peri: '#A4C1F9',
+                        paper: '#F3F1EA', paper2: '#ECE8DD', ink: '#16140f',
                     }
                 }
             }
         }
     </script>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/assets/ui-components.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Hanken+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/ui-components.css?v=20260622">
     <!-- Analytics: GTM · GA4 · Meta Pixel — IDs configured in /assets/analytics.js -->
     <script src="/assets/analytics.js"></script>
     <!-- i18n: Language detection & translation system -->
@@ -48,11 +60,11 @@
     <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
     <style>
         body {
-            font-family: 'Outfit', sans-serif;
-            background-color: #f8fafc;
+            font-family: 'Hanken Grotesk', system-ui, sans-serif;
+            background-color: #F3F1EA;
             background-image:
-                radial-gradient(at 0% 0%, rgba(56,159,255,0.04) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(0,123,255,0.04) 0px, transparent 50%);
+                radial-gradient(at 0% 0%, rgba(28,42,63,0.05) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(183,156,118,0.06) 0px, transparent 50%);
         }
 
         ::-webkit-scrollbar { width: 4px; }
@@ -147,8 +159,9 @@
     <header class="glass sticky top-0 z-50 px-4 py-3 flex justify-between items-center shrink-0 border-b border-slate-200/60">
         <!-- Logo — clickable to go home -->
         <div class="flex items-center gap-3">
-            <a href="/" class="no-underline hover:opacity-80 transition-opacity" title="Back to Equalaw home">
-                <img src="/assets/equalaw-logo-v2.svg" alt="Equalaw" width="36" height="36" class="logo-mark logo-mark-md rounded-lg">
+            <a href="/" class="logo-horizontal no-underline hover:opacity-80 transition-opacity" title="Back to Equalaw home">
+                <img src="/assets/equalaw-logo-v2.svg?v=20260622" alt="" width="32" height="32" class="logo-mark" aria-hidden="true">
+                <img src="/assets/equalaw-wordmark-v2.svg?v=20260622" alt="Equalaw" class="logo-wordmark logo-wordmark-sm hidden sm:block">
             </a>
             <div class="flex items-center gap-1.5">
                 <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" aria-hidden="true"></span>
@@ -198,7 +211,7 @@
 
     <!-- Fixed bottom: text input OR contact form -->
     <div class="fixed bottom-0 left-0 right-0 z-40">
-        <div class="bg-gradient-to-t from-slate-50 via-slate-50/95 to-transparent pt-6 px-4 pb-4 md:pb-5">
+        <div class="bg-gradient-to-t from-paper via-paper/95 to-transparent pt-6 px-4 pb-4 md:pb-5">
             <div class="max-w-2xl mx-auto w-full">
 
                 <!-- Text input (name, timeline, location) -->
@@ -652,17 +665,7 @@
         // --- Inline bot avatar SVG ---
         const BOT_AVATAR_SVG = `
             <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center shrink-0 shadow-lg mt-0.5 relative overflow-hidden" aria-hidden="true">
-                <svg width="20" height="20" viewBox="0 0 100 100">
-                    <rect x="5" y="5" width="41" height="7" fill="white"/>
-                    <rect x="54" y="5" width="41" height="7" fill="white"/>
-                    <polygon points="5,12 40,12 40,20 33,20 18,68 5,68" fill="white"/>
-                    <polygon points="14,55 24,55 21,33 17,33" fill="rgba(0,97,204,0.8)"/>
-                    <polygon points="60,12 95,12 95,68 82,68 67,20 60,20" fill="white"/>
-                    <polygon points="76,55 86,55 83,33 79,33" fill="rgba(0,97,204,0.8)"/>
-                    <rect x="43" y="12" width="14" height="78" fill="white"/>
-                    <rect x="5" y="85" width="38" height="10" fill="white"/>
-                    <rect x="57" y="85" width="38" height="10" fill="white"/>
-                </svg>
+                <img src="/assets/equalaw-icon-white.svg" alt="" width="20" height="20">
             </div>`;
 
         const USER_AVATAR_SVG = `

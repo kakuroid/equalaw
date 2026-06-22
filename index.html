@@ -5,36 +5,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Equalaw | Free Legal Guidance</title>
-    <link rel="icon" href="/assets/equalaw-logo-v2.svg" type="image/svg+xml">
+    <link rel="icon" href="/assets/equalaw-logo-v2.svg?v=20260622" type="image/svg+xml">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta name="theme-color" content="#1C2A3F">
     <meta name="description" content="Describe your legal situation and get clear, actionable next steps instantly. Free, private, and available in 11 Indian languages.">
     <meta property="og:title" content="Equalaw | Free Legal Guidance">
     <meta property="og:description" content="Free, instant legal guidance at your fingertips. Describe your situation and get a structured action plan.">
     <meta property="og:url" content="https://www.equalaw.tech">
     <meta property="og:type" content="website">
+    <meta property="og:image" content="https://www.equalaw.tech/assets/og-image.png">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Equalaw | Free Legal Guidance">
     <meta name="twitter:description" content="Free, instant legal guidance at your fingertips. Describe your situation and get a structured action plan.">
+    <meta name="twitter:image" content="https://www.equalaw.tech/assets/og-image.png">
     <link rel="canonical" href="https://www.equalaw.tech/">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
+        // Equalaw Brand v2.0 — Navy / Gold / Periwinkle · Archivo / Hanken / Spline
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: { sans: ['Outfit', 'system-ui', 'sans-serif'] },
+                    fontFamily: {
+                        sans: ['Hanken Grotesk', 'system-ui', 'sans-serif'],
+                        display: ['Archivo', 'system-ui', 'sans-serif'],
+                        mono: ['Spline Sans Mono', 'ui-monospace', 'monospace'],
+                    },
                     colors: {
+                        // Equalaw Navy scale (primary) — 600 = brand navy #1C2A3F
                         brand: {
-                            50: '#f0f7ff', 100: '#e0efff', 200: '#badbff',
-                            300: '#7cc0ff', 400: '#389fff', 500: '#007bff',
-                            600: '#0061cc', 700: '#004da3', 800: '#004185', 900: '#00376e',
-                        }
+                            50: '#eef1f6', 100: '#e7e9ee', 200: '#c8cdd6',
+                            300: '#9aa4b4', 400: '#5d6b80', 500: '#33425a',
+                            600: '#1C2A3F', 700: '#16243a', 800: '#11192a', 900: '#0c1220',
+                        },
+                        navy: '#1C2A3F', gold: '#B79C76', peri: '#A4C1F9',
+                        paper: '#F3F1EA', paper2: '#ECE8DD', ink: '#16140f',
                     }
                 }
             }
         }
     </script>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/assets/ui-components.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Hanken+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/ui-components.css?v=20260622">
     <!-- Analytics: GTM · GA4 · Meta Pixel — IDs configured in /assets/analytics.js -->
     <script src="/assets/analytics.js"></script>
     <!-- i18n: Language detection & translation system -->
@@ -42,7 +57,7 @@
     <!-- Vercel Web Analytics -->
     <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
     <style>
-        body { font-family: 'Outfit', sans-serif; }
+        body { font-family: 'Hanken Grotesk', system-ui, sans-serif; }
 
         /* Morphing text — respects reduced-motion */
         .morph-line { display: inline-block; overflow: hidden; position: relative; }
@@ -97,9 +112,9 @@
             cursor: pointer;
         }
         .query-chip:hover {
-            background: rgba(0, 97, 204, 0.08);
-            border-color: rgba(0, 97, 204, 0.4);
-            color: var(--color-primary-dark);
+            background: rgba(28, 42, 63, 0.06);
+            border-color: rgba(28, 42, 63, 0.35);
+            color: var(--color-primary);
             transform: translateY(-1px);
         }
         .query-chip:focus-visible {
@@ -122,16 +137,16 @@
         }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 antialiased flex flex-col min-h-screen">
+<body class="bg-paper text-ink antialiased flex flex-col min-h-screen">
 
     <!-- Subtle background decorations — hidden from assistive tech -->
     <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
-        <div class="absolute inset-0" style="background: radial-gradient(ellipse at 50% 30%, rgba(0,123,255,0.10) 0%, transparent 70%);"></div>
-        <div class="absolute bottom-0 left-0 right-0 h-1/2" style="background: radial-gradient(ellipse at 50% 100%, rgba(0,123,255,0.05) 0%, transparent 60%);"></div>
-        <div class="absolute top-[15%] left-[10%] opacity-[0.03] floating text-blue-900">
+        <div class="absolute inset-0" style="background: radial-gradient(ellipse at 50% 30%, rgba(28,42,63,0.08) 0%, transparent 70%);"></div>
+        <div class="absolute bottom-0 left-0 right-0 h-1/2" style="background: radial-gradient(ellipse at 50% 100%, rgba(183,156,118,0.07) 0%, transparent 60%);"></div>
+        <div class="absolute top-[15%] left-[10%] opacity-[0.04] floating text-navy">
             <svg class="w-40 h-40" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM3.89 9L12 4.57 20.11 9 12 13.43 3.89 9zM12 16c-2.21 0-4 1.79-4 4h8c0-2.21-1.79-4-4-4z"/></svg>
         </div>
-        <div class="absolute bottom-[20%] right-[8%] opacity-[0.03] floating-delayed text-blue-900">
+        <div class="absolute bottom-[20%] right-[8%] opacity-[0.04] floating-delayed text-navy">
             <svg class="w-48 h-48" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
         </div>
     </div>
@@ -139,8 +154,8 @@
     <!-- Header -->
     <header class="relative z-10 p-4 md:p-6 flex justify-between items-center max-w-5xl w-full mx-auto shrink-0">
         <div class="logo-horizontal">
-            <img src="/assets/equalaw-logo-v2.svg" alt="" width="34" height="34" class="logo-mark" aria-hidden="true">
-            <img src="/assets/equalaw-wordmark-v2.svg" alt="Equalaw" class="logo-wordmark">
+            <img src="/assets/equalaw-logo-v2.svg?v=20260622" alt="" width="34" height="34" class="logo-mark" aria-hidden="true">
+            <img src="/assets/equalaw-wordmark-v2.svg?v=20260622" alt="Equalaw" class="logo-wordmark">
         </div>
         <div class="flex items-center gap-2.5">
             <a href="/join" class="btn btn-secondary btn-sm inline-flex">
@@ -163,7 +178,7 @@
         <!-- Multilingual morphing headline with aria-live -->
         <div class="mb-4" aria-hidden="true">
             <div id="morph-container"
-                 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-tight max-w-4xl mx-auto min-h-[3.5em] sm:min-h-[3em] flex items-center justify-center">
+                 class="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-navy tracking-tight leading-tight max-w-4xl mx-auto min-h-[3.5em] sm:min-h-[3em] flex items-center justify-center">
                 <span id="morph-target" class="morph-line"></span>
             </div>
         </div>

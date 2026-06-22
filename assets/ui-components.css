@@ -21,28 +21,83 @@
    ============================================ */
 
 :root {
-  /* Brand Colors */
-  --color-primary: #007bff;
-  --color-primary-dark: #0061cc;
-  --color-primary-light: #389fff;
+  /* =====================================================================
+     EQUALAW BRAND v2.0 — Identity System
+     Navy anchors · Gold carries the identity · Periwinkle opens it for data
+     One stroke DNA, one colour system. See /brand-guidelines.
+     ===================================================================== */
+
+  /* Core brand palette */
+  --brand-navy:    #1C2A3F;  /* Primary — chrome, surfaces, headers */
+  --brand-gold:    #B79C76;  /* Identity accent — used sparingly */
+  --brand-peri:    #A4C1F9;  /* Support accent — links, data, tints */
+  --brand-paper:   #F3F1EA;  /* Warm off-white ground */
+  --brand-paper-2: #ECE8DD;  /* Secondary paper surface */
+  --brand-ink:     #16140f;  /* Body text on light */
+  --brand-line:    #D7D1C2;  /* Hairlines on paper */
+  --brand-mut:     #7C7565;  /* Muted/secondary text on paper */
+
+  /* Navy tint scale — for surfaces & data */
+  --navy-900: #1C2A3F;
+  --navy-800: #16243a;
+  --navy-700: #33425a;
+  --navy-500: #5d6b80;
+  --navy-300: #9aa4b4;
+  --navy-200: #c8cdd6;
+  --navy-100: #e7e9ee;
+
+  /* Primary (Navy) — mapped onto the legacy --color-primary contract */
+  --color-primary: #1C2A3F;
+  --color-primary-dark: #11192a;
+  --color-primary-light: #5d6b80;
+  --color-primary-transparent: rgba(28, 42, 63, 0.40);
+  --color-primary-transparent-full: rgba(28, 42, 63, 1);
+  --color-primary-shadow: rgba(28, 42, 63, 0.28);
+  --color-primary-shadow-light: rgba(28, 42, 63, 0.14);
+  /* "light/glow" accents now carried by periwinkle so they read on dark navy */
+  --color-primary-light-transparent: rgba(164, 193, 249, 0.55);
+  --color-primary-light-transparent-1: rgba(164, 193, 249, 0.18);
+
+  /* Accent (Gold) — wordmark in feature contexts, key highlights */
+  --color-accent: #B79C76;
+  --color-accent-dark: #9c8260;
+  --color-accent-soft: rgba(183, 156, 118, 0.14);
+
+  /* Periwinkle support */
+  --color-peri: #A4C1F9;
+  --color-peri-dark: #5878b8;
+  --color-peri-soft: rgba(164, 193, 249, 0.16);
+
+  /* Legacy "purple" tokens → re-pointed at periwinkle/navy */
+  --color-purple-light: #A4C1F9;
+  --color-purple-dark: #5d6b80;
 
   /* Semantic Colors */
-  --color-success: #10b981;
-  --color-warning: #f59e0b;
-  --color-error: #ef4444;
-  --color-info: #3b82f6;
+  --color-success: #2f8f5b;
+  --color-success-dark: #1f5d33;
+  --color-success-light: #e3f1e8;
+  --color-warning: #b8841f;
+  --color-warning-dark: #876314;
+  --color-warning-light: #f6ecd4;
+  --color-error: #c0392b;
+  --color-error-dark: #9a3328;
+  --color-error-border: #e6b8b2;
+  --color-error-light: #f7e3e0;
+  --color-error-lighter: #fbf1ef;
+  --color-info: #5878b8;
 
-  /* Neutral */
+  /* Neutral — warm-shifted to sit with paper & navy */
   --color-white: #ffffff;
   --color-black: #000000;
-  --color-gray-50: #f8fafc;
-  --color-gray-100: #f1f5f9;
-  --color-gray-200: #e2e8f0;
-  --color-gray-400: #cbd5e1;
-  --color-gray-600: #64748b;
-  --color-gray-700: #475569;
-  --color-gray-800: #1e293b;
-  --color-gray-900: #0f172a;
+  --color-gray-50: #f5f3ec;
+  --color-gray-100: #ece8dd;
+  --color-gray-200: #ddd7c8;
+  --color-gray-300: #cdc7b7;
+  --color-gray-400: #b3ab97;
+  --color-gray-600: #7c7565;
+  --color-gray-700: #56503f;
+  --color-gray-800: #2b2922;
+  --color-gray-900: #16140f;
 
   /* Spacing */
   --space-xs: 4px;
@@ -67,14 +122,22 @@
    2. TYPOGRAPHY SYSTEM
    ============================================ */
 
-h1 { font-size: 3.75rem; font-weight: 800; line-height: 1.1; }
-h2 { font-size: 2rem; font-weight: 700; line-height: 1.2; }
+body, input, label, textarea, select {
+  font-family: 'Hanken Grotesk', system-ui, sans-serif;
+}
+
+/* Archivo carries display & UI with institutional presence */
+h1, h2, h3, h4, .font-display {
+  font-family: 'Archivo', system-ui, sans-serif;
+  letter-spacing: -0.02em;
+}
+h1 { font-size: 3.75rem; font-weight: 800; line-height: 1.05; }
+h2 { font-size: 2rem; font-weight: 700; line-height: 1.15; }
 h3 { font-size: 1.5rem; font-weight: 600; line-height: 1.3; }
 h4 { font-size: 1.25rem; font-weight: 600; line-height: 1.4; }
 
-body, button, input, label {
-  font-family: 'Outfit', system-ui, sans-serif;
-}
+/* Spline Sans Mono labels the technical, brand-engineering voice */
+.font-mono, .mono { font-family: 'Spline Sans Mono', ui-monospace, monospace; }
 
 .text-lg { font-size: 1.125rem; font-weight: 500; }
 .text-base { font-size: 1rem; font-weight: 400; }
@@ -92,7 +155,8 @@ body, button, input, label {
 
 /* Base button styles */
 button, .btn {
-  font-family: 'Outfit', sans-serif;
+  font-family: 'Archivo', system-ui, sans-serif;
+  letter-spacing: -0.01em;
   border: none;
   cursor: pointer;
   transition: all var(--transition-base);
@@ -134,22 +198,39 @@ button, .btn {
   border-radius: var(--radius-lg);
 }
 
-/* Primary Button */
+/* Primary Button — Navy with AAA-contrast white text */
 .btn-primary, .btn-primary:visited {
   background: var(--color-primary);
   color: var(--color-white);
-  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+  box-shadow: 0 4px 12px rgba(28, 42, 63, 0.28);
 }
 
 .btn-primary:hover {
   background: var(--color-primary-dark);
-  box-shadow: 0 6px 16px rgba(0, 123, 255, 0.4);
+  box-shadow: 0 6px 16px rgba(28, 42, 63, 0.36);
   transform: translateY(-1px);
 }
 
 .btn-primary:active {
   transform: scale(0.98);
-  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.2);
+  box-shadow: 0 2px 8px rgba(28, 42, 63, 0.20);
+}
+
+/* Accent Button — Gold, the identity carrier. Use sparingly for hero CTAs. */
+.btn-accent, .btn-accent:visited {
+  background: var(--color-accent);
+  color: var(--brand-navy);
+  box-shadow: 0 4px 12px rgba(183, 156, 118, 0.30);
+}
+
+.btn-accent:hover {
+  background: var(--color-accent-dark);
+  box-shadow: 0 6px 16px rgba(183, 156, 118, 0.40);
+  transform: translateY(-1px);
+}
+
+.btn-accent:active {
+  transform: scale(0.98);
 }
 
 /* Secondary Button */
@@ -221,7 +302,7 @@ input[type="password"],
 input[type="number"],
 textarea,
 select {
-  font-family: 'Outfit', sans-serif;
+  font-family: 'Hanken Grotesk', system-ui, sans-serif;
   padding: 0.75rem 1rem;
   border: 1px solid var(--color-gray-200);
   border-radius: var(--radius-md);
@@ -246,7 +327,7 @@ textarea:focus,
 select:focus {
   outline: none;
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+  box-shadow: 0 0 0 3px var(--color-primary-shadow-light);
   background: var(--color-white);
 }
 
@@ -414,7 +495,7 @@ textarea[aria-invalid="true"]:focus {
   bottom: var(--space-lg);
   right: var(--space-lg);
   z-index: 50;
-  font-family: 'Outfit', sans-serif;
+  font-family: 'Hanken Grotesk', system-ui, sans-serif;
 }
 
 #lang-toggle {
@@ -492,7 +573,7 @@ textarea[aria-invalid="true"]:focus {
   font-weight: 500;
   cursor: pointer;
   transition: all var(--transition-fast);
-  font-family: 'Outfit', sans-serif;
+  font-family: 'Hanken Grotesk', system-ui, sans-serif;
 }
 
 #lang-dropdown button:hover {
@@ -502,7 +583,7 @@ textarea[aria-invalid="true"]:focus {
 
 #lang-dropdown button[selected],
 #lang-dropdown button.active {
-  background: #eff6ff;
+  background: var(--navy-100);
   color: var(--color-primary);
   font-weight: 600;
 }
@@ -530,7 +611,7 @@ textarea[aria-invalid="true"]:focus {
   display: flex;
   align-items: center;
   gap: var(--space-sm);
-  font-family: 'Outfit', sans-serif;
+  font-family: 'Hanken Grotesk', system-ui, sans-serif;
   min-height: 44px;
 }
 
@@ -559,10 +640,10 @@ textarea[aria-invalid="true"]:focus {
 
 @keyframes pulse {
   0%, 100% {
-    box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.4);
+    box-shadow: 0 0 0 0 rgba(28, 42, 63, 0.4);
   }
   50% {
-    box-shadow: 0 0 0 8px rgba(0, 123, 255, 0);
+    box-shadow: 0 0 0 8px rgba(28, 42, 63, 0);
   }
 }
 
@@ -637,7 +718,7 @@ textarea[aria-invalid="true"]:focus {
 
 .card:hover {
   border-color: var(--color-primary);
-  box-shadow: 0 4px 16px rgba(0, 123, 255, 0.1);
+  box-shadow: 0 4px 16px rgba(28, 42, 63, 0.12);
 }
 
 .card-header {
@@ -690,27 +771,27 @@ textarea[aria-invalid="true"]:focus {
 }
 
 .alert-success {
-  background: #f0fdf4;
+  background: var(--color-success-light);
   border-color: var(--color-success);
-  color: #166534;
+  color: var(--color-success-dark);
 }
 
 .alert-error {
-  background: #fef2f2;
+  background: var(--color-error-light);
   border-color: var(--color-error);
-  color: #991b1b;
+  color: var(--color-error-dark);
 }
 
 .alert-warning {
-  background: #fffbeb;
+  background: var(--color-warning-light);
   border-color: var(--color-warning);
-  color: #92400e;
+  color: var(--color-warning-dark);
 }
 
 .alert-info {
-  background: #eff6ff;
+  background: var(--color-peri-soft);
   border-color: var(--color-info);
-  color: #1e40af;
+  color: var(--brand-navy);
 }
 
 .alert-icon {
@@ -829,23 +910,29 @@ footer.dark .footer-bottom {
 }
 
 .badge-info {
-  background: #dbeafe;
-  color: #1e40af;
+  background: var(--color-peri-soft);
+  color: var(--brand-navy);
 }
 
 .badge-success {
-  background: #dcfce7;
-  color: #15803d;
+  background: var(--color-success-light);
+  color: var(--color-success-dark);
 }
 
 .badge-error {
-  background: #fee2e2;
-  color: #991b1b;
+  background: var(--color-error-light);
+  color: var(--color-error-dark);
 }
 
 .badge-warning {
-  background: #fef3c7;
-  color: #92400e;
+  background: var(--color-warning-light);
+  color: var(--color-warning-dark);
+}
+
+/* Gold identity badge — for brand/feature emphasis */
+.badge-brand {
+  background: var(--color-accent-soft);
+  color: var(--color-accent-dark);
 }
 
 /* ============================================

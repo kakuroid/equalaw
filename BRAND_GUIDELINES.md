@@ -1,222 +1,142 @@
-# Equalaw Brand Guidelines
+# Equalaw Brand Guidelines — Identity System v2.0
 
-## Overview
-These guidelines ensure consistent visual presentation of the Equalaw brand across all platforms, websites, and materials worldwide.
+> Revised June 2026. This edition realigns the identity around one governing
+> decision: the icon and the wordmark share a single **stroke DNA** (1:11.3
+> stroke-to-height ratio). Everything downstream — spacing, lockups, colour,
+> type — is built on that unified module.
+>
+> The living, visual version of this document ships on the site at
+> **`/brand-guidelines`** (`brand-guidelines.html`). This Markdown file is the
+> engineering quick-reference; the design system itself lives in
+> **`/assets/ui-components.css`** (`:root` tokens).
 
 ---
 
 ## 1. Logo System
 
-### 1.1 Primary Logo Mark
-- **Asset**: `equalaw-logo.svg`
-- **Usage**: Primary icon mark for favicons, app icons, social media profile pictures
-- **Stroke Width**: 2.5px (consistent across all variations)
-- **Color**: Black (#000000) or White (#FFFFFF) depending on background
-- **Minimum Size**: 24px × 24px for favicon, 32px × 32px for UI elements
-- **Clear Space**: Minimum 8px padding around logo
+Two parts, one idea. The **icon** is a typographic construction — two identical
+letterforms mirrored across a central axis, hanging in perfect balance (a
+scale-pan / column / the letter **A** of equ**a**l · l**a**w). The **wordmark**
+is its monoline voice in full. Strictly sharp, mitred joins throughout.
+
+### 1.1 Icon Mark
+- **Assets**: `equalaw-icon-{navy,gold,white,black}.svg`, `equalaw-icon.svg` (currentColor), `equalaw-logo-v2.svg` (navy, legacy filename)
+- **Usage**: favicons, app icons, avatars, compact/square formats
+- **Stroke ratio**: 1 : 11.3 (canonical)
+- **Minimum size**: 24 px (digital floor), 8 mm (print)
+- **Clear space**: 3u on every side (u = one stroke width)
 
 ### 1.2 Wordmark
-- **Asset**: `equalaw-wordmark.svg`
-- **Usage**: Primary text + mark combination for headers, hero sections
-- **Stroke Width**: 2.5px (consistent across all variations)
-- **Color**: Black (#000000) on light backgrounds, White (#FFFFFF) on dark backgrounds
-- **Minimum Size**: 120px width for readable text
+- **Assets**: `equalaw-wordmark-{navy,gold,white,black}.svg`, `equalaw-wordmark-v2.svg` (navy, legacy filename)
+- **Usage**: headers, splash, lockups
+- **Stroke ratio**: 1 : 11.9 (conformed to match the icon family)
+- **Minimum width**: 120 px for legible text
+- **Case**: Uppercase, evenly tracked
 
-### 1.3 Logo Variations
-- **Horizontal**: Logo mark + wordmark side-by-side (preferred for headers)
-- **Stacked**: Logo mark above wordmark (preferred for limited width areas)
-- **Mark Only**: Logo mark standalone (favicons, social icons)
+### 1.3 Lockups (keyed to wordmark cap-height H)
+- **Vertical**: icon 2.0 × H, centred above wordmark, gap 0.45 × icon height
+- **Horizontal**: icon 1.45 × H, optically centred, gap 0.55 × H
 
 ---
 
-## 2. Color System
+## 2. Colour System
 
-### 2.1 Brand Colors
-- **Primary Blue**: #007BFF
-  - Used for: CTAs, links, active states
-  - Accessibility: WCAG AA on white
-  
-- **Primary Dark Blue**: #0061CC
-  - Used for: Hover states, pressed states
-  - Accessibility: WCAG AAA on white
+A deep legal **navy** anchors the system; an antique **gold** carries the
+identity; a soft **periwinkle** opens it up for screens and data. Grounded by
+true black and a warm **paper** neutral.
 
-- **Light Blue**: #389FFF
-  - Used for: Secondary actions, backgrounds
-  - Accessibility: WCAG AA on white
+### 2.1 Core Brand
+| Token | Hex | Role |
+|-------|-----|------|
+| Equalaw Navy | `#1C2A3F` | **Primary.** App chrome, surfaces, headers, the anchoring dark. Carries body text on light. |
+| Equalaw Gold | `#B79C76` | **Identity accent.** Wordmark in feature contexts, active states, key highlights. **Used sparingly.** |
+| Periwinkle | `#A4C1F9` | **Support accent.** Links, tints, data, lighter emphasis against navy. |
+| Black | `#000000` | Deck & splash backgrounds. |
+| Paper | `#F3F1EA` | Warm off-white ground for light layouts. |
 
-### 2.2 Semantic Colors
-- **Success Green**: #10B981
-- **Warning Orange**: #F59E0B
-- **Error Red**: #EF4444
-- **Info Blue**: #3B82F6
+### 2.2 Navy tint scale (surfaces & data)
+`900 #1C2A3F` · `800 #16243A` · `700 #33425A` · `500 #5D6B80` · `300 #9AA4B4` · `200 #C8CDD6` · `100 #E7E9EE`
 
-### 2.3 Neutral Colors
-- **Black**: #000000
-- **White**: #FFFFFF
-- **Gray Scale**: #F8FAFC → #0F172A (light to dark)
+### 2.3 Accessible pairings (WCAG 2.1)
+| Foreground | Background | Ratio | Rating |
+|-----------|-----------|-------|--------|
+| White | Navy | 14.46 : 1 | AAA |
+| Periwinkle | Navy | 7.97 : 1 | AAA |
+| Gold | Black | 8.03 : 1 | AAA |
+| Gold | Navy | 5.53 : 1 | AA |
+| Navy | Paper | 12.79 : 1 | AAA |
+| Gold | Paper | 2.31 : 1 | **FAIL** |
+
+**Rule:** Gold never carries body text and never sits on periwinkle. Keep gold
+on navy, black, or paper (decorative only on paper).
+
+### 2.4 Semantic colours (warm-shifted to sit with the palette)
+Success `#2F8F5B` · Warning `#B8841F` · Error `#C0392B` · Info `#5878B8`
 
 ---
 
 ## 3. Typography
 
-### 3.1 Font Family
-- **Primary**: Outfit (sans-serif)
-- **Fallback**: system-ui, -apple-system, sans-serif
+The marks are geometric monolines, so the type system stays clean and structural.
 
-### 3.2 Font Weights & Sizes
-- **H1**: 3.75rem, 800 weight
-- **H2**: 2rem, 700 weight
-- **H3**: 1.5rem, 600 weight
-- **H4**: 1.25rem, 600 weight
-- **Body**: 1rem, 400 weight
-- **Small**: 0.875rem, 500 weight
-- **Caption**: 0.75rem, 600 weight, uppercase
+| Family | Role | Loaded weights |
+|--------|------|----------------|
+| **Archivo** | Display, headings & UI (institutional presence) | 400–800 |
+| **Hanken Grotesk** | Body & long-form reading (default `sans`) | 400–700 |
+| **Spline Sans Mono** | Labels, eyebrows, technical/spec voice | 400–500 |
 
----
+### Type scale
+- **Display** — Archivo 800, ~56 / -2%
+- **Heading** — Archivo 700, ~32 / -2%
+- **Subhead** — Archivo 600, ~20
+- **Body** — Hanken 400, 16 / 1.6
+- **Label** — Spline Mono 12 / .16em, uppercase
 
-## 4. Icon Design
-
-### 4.1 Icon Specifications
-- **Stroke Width**: 2.5px (consistent with logo)
-- **Size Grid**: 24px, 32px, 48px, 64px
-- **Corner Radius**: 2px for icon corners
-- **Clear Space**: Minimum 2px inside icon boundary
-
-### 4.2 Icon Usage
-- Always use consistent stroke width
-- Maintain clear space around icon marks
-- Use semantic colors for status icons
-- Ensure 44px × 44px touch target minimum
+In code: Tailwind `font-sans` = Hanken, `font-display` = Archivo, `font-mono` =
+Spline. In `ui-components.css`, `h1–h4` and `button/.btn` default to Archivo.
 
 ---
 
-## 5. Spacing & Layout
-
-### 5.1 Spacing Scale
-- **XS**: 4px (small gaps, internal padding)
-- **SM**: 8px (component padding)
-- **MD**: 16px (section padding)
-- **LG**: 24px (major section spacing)
-- **XL**: 32px (full-width margins)
-
-### 5.2 Border Radius
-- **Small**: 4px (inputs, small elements)
-- **Medium**: 8px (cards, buttons)
-- **Large**: 12px (containers, modals)
-- **Full**: 999px (pills, badges)
+## 4. Spacing & Radius
+- **Spacing**: XS 4 · SM 8 · MD 16 · LG 24 · XL 32 (px)
+- **Radius**: sm 4 · md 8 · lg 12 · full 999 (px); app icons use a 23% corner radius
 
 ---
 
-## 6. Implementation Across Platforms
-
-### 6.1 Website (HTML/CSS)
-- **Favicon**: 32×32px SVG, equalaw-logo mark only
-- **Header Logo**: Logo mark (34px) + wordmark (24px height) in header
-- **Social Links**: Logo mark (36px) in dark/light variants
-- **PDF/Documents**: Logo mark with wordmark side-by-side
-
-### 6.2 SVG Optimization
-- All SVGs must use consistent 2.5px stroke width
-- No fill-based geometry (use strokes only where applicable)
-- Optimize using SVGO with preset settings
-- Include viewBox but NOT hardcoded width/height
-
-### 6.3 Responsive Behavior
-- **Mobile (< 640px)**: Logo mark only, compact spacing
-- **Tablet (640px - 1024px)**: Logo mark + wordmark, normal spacing
-- **Desktop (> 1024px)**: Full logo combination, generous spacing
-
-### 6.4 Dark Mode Support
-- Logo Mark: White (#FFFFFF) on dark (>= #1E293B)
-- Wordmark: White (#FFFFFF) on dark, Black (#000000) on light
-- Use CSS custom properties for theme switching
+## 5. Application
+- **Favicon**: `equalaw-logo-v2.svg` (navy) + `favicon-32.png` fallback
+- **Apple touch icon**: `apple-touch-icon.png` — gold mark on a navy tile (180×180)
+- **PWA**: `site.webmanifest`, theme-color `#1C2A3F`, `icon-512.png` (any/maskable)
+- **Social/OG**: `assets/og-image.png` — gold wordmark on black
+- **App headers (light)**: navy icon + navy wordmark
+- **Dark headers / splash**: gold (or white) icon + wordmark
 
 ---
 
-## 7. Do's & Don'ts
-
-### Do's ✓
-- Use the logo mark for favicons
-- Maintain consistent stroke width of 2.5px
-- Use approved colors only
-- Maintain minimum clear space
-- Scale logo proportionally
-- Use SVG format for all logos
-- Test on multiple backgrounds
-
-### Don'ts ✗
-- Don't distort or stretch the logo
-- Don't change stroke width
-- Don't add effects (shadows, glows) without approval
-- Don't use raster images instead of SVG
-- Don't place on clashing backgrounds without contrast
-- Don't shrink below 24px × 24px
-- Don't rotate or flip the logo
+## 6. Misuse — never
+Stretch/condense · rotate/tilt · low-contrast placement · shadows/glows/gradients/outlines · off-palette fills · re-deriving stroke or height (breaks 1:11.3). When in doubt, reach for an approved asset in `/assets` rather than redrawing.
 
 ---
 
-## 8. Asset Locations
-
-### 8.1 Current Assets (V2 — Lightweight Clean Vector)
+## 7. Asset Locations
 ```
 /assets/
-├── equalaw-logo-v2.svg          # Scales of justice mark (pure vector, 2.5px stroke)
-├── equalaw-wordmark-v2.svg      # EQUALAW text with matching stroke
-└── ui-components.css            # Design system styles
-```
-
-### 8.2 File Specifications
-- **Format**: Pure vector SVG with viewBox attribute, no raster images
-- **Stroke**: 2.5px (consistent across all paths, absolute units)
-- **Colors**: Black (#000000) as default, white-compatible with filters
-- **File Size**: ~2KB each (vs. 226KB + 133KB legacy bloat)
-- **Naming**: V2 suffix to bust immutable browser cache headers
-
----
-
-## 9. Usage Examples
-
-### 9.1 Favicon (All Pages)
-```html
-<link rel="icon" href="/assets/equalaw-logo-v2.svg" type="image/svg+xml">
-```
-
-### 9.2 Header Logo (Recommended)
-```html
-<div class="logo-horizontal">
-  <img src="/assets/equalaw-logo-v2.svg" alt="" width="34" height="34" 
-       class="logo-mark" aria-hidden="true">
-  <img src="/assets/equalaw-wordmark-v2.svg" alt="Equalaw" 
-       class="logo-wordmark">
-</div>
-```
-
-### 9.3 Navigation Logo
-```html
-<a href="/" class="no-underline hover:opacity-80">
-  <img src="/assets/equalaw-logo-v2.svg" alt="Equalaw" 
-       width="36" height="36" class="logo-mark logo-mark-md">
-</a>
+├── equalaw-icon-{navy,gold,white,black}.svg   # mark, recoloured variants
+├── equalaw-icon.svg                            # mark, currentColor
+├── equalaw-wordmark-{navy,gold,white,black}.svg
+├── equalaw-logo-v2.svg / equalaw-wordmark-v2.svg  # navy, legacy filenames (in use)
+├── favicon-{16,32,48,180}.png · icon-512.png   # navy mark / navy-tile rasters
+├── og-image.png                                # 1200×630 social share
+└── ui-components.css                           # design-system tokens & components
+/apple-touch-icon.png                           # 180×180, gold mark on navy
+/site.webmanifest                               # PWA manifest
+/brand-guidelines.html                          # living visual guidelines (/brand-guidelines)
 ```
 
 ---
 
-## 10. Version History
-
+## 8. Version History
 | Date | Version | Changes |
 |------|---------|---------|
-| 2026-06-06 | v2.0 | New scales mark + redesigned wordmark, lightweight SVG (2.5KB each), cache busting with v2 suffix |
-| 2026-06-06 | v1.0 | Initial brand guidelines (legacy AI-generated logos deprecated) |
-
----
-
-## 11. Contact & Approvals
-
-For brand guideline questions or asset requests:
-- **Design System Owner**: Design Team
-- **Brand Manager**: Equalaw Leadership
-- **Last Updated**: 2026-06-06
-
----
-
-**Important**: All usage of the Equalaw brand mark and wordmark must comply with these guidelines. Violations may require remediation.
+| 2026-06-22 | v2.0 | Stroke-unified identity (1:11.3). New Navy/Gold/Periwinkle palette; Archivo/Hanken/Spline type system; conformed icon + wordmark; full asset, favicon, PWA & OG set; design system retokenised. |
+| 2026-06-06 | v1.x | Scales mark + monoline wordmark, blue (#007BFF) palette, Outfit type (deprecated). |
