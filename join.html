@@ -75,7 +75,7 @@
         }
         .typing-dot {
             animation: typingPulse 1.4s infinite ease-in-out both;
-            background-color: #3b82f6;
+            background-color: var(--color-primary-light);
         }
         .typing-dot:nth-child(1) { animation-delay: -0.32s; }
         .typing-dot:nth-child(2) { animation-delay: -0.16s; }
@@ -88,15 +88,15 @@
         }
         .tile-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 12px -4px rgba(0,123,255,0.15);
+            box-shadow: 0 6px 12px -4px var(--color-primary-shadow);
         }
         .progress-step { transition: all 0.4s ease; }
         .progress-step.active .step-dot {
-            background: #007bff;
-            box-shadow: 0 0 0 4px rgba(0,123,255,0.15);
+            background: var(--color-primary);
+            box-shadow: 0 0 0 4px var(--color-primary-shadow-light);
             transform: scale(1.15);
         }
-        .progress-step.done .step-dot { background: #10b981; }
+        .progress-step.done .step-dot { background: var(--color-success); }
         .progress-step.done .step-check { display: block !important; }
         .wa-btn {
             background: #25D366;
@@ -155,14 +155,14 @@
                 <div id="input-wrapper" class="hidden glass rounded-2xl p-2 shadow-2xl border border-white/60 ring-1 ring-slate-900/5">
                     <div class="flex gap-2">
                         <textarea id="user-input" rows="1" placeholder="Type your answer..." class="flex-1 bg-transparent border-none outline-none resize-none px-4 py-3 text-slate-700 text-[15px] leading-relaxed font-medium placeholder:text-slate-400"></textarea>
-                        <button id="send-btn" class="bg-brand-600 hover:bg-brand-700 text-white p-3 rounded-xl shrink-0 transition-all shadow-lg flex items-center justify-center">
+                        <button id="send-btn" class="btn btn-primary btn-md p-3 flex items-center justify-center">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 12h14M12 5l7 7-7 7"/></svg>
                         </button>
                     </div>
                 </div>
                 <div id="tile-wrapper" class="hidden">
                     <div id="tile-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-2 mb-2 max-h-56 overflow-y-auto pr-1"></div>
-                    <button id="tile-continue" class="hidden w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-3 rounded-xl text-sm shadow-lg transition-all flex items-center justify-center gap-2 mt-1">
+                    <button id="tile-continue" class="btn btn-primary btn-md hidden w-full flex items-center justify-center gap-2 mt-1">
                         <span id="continue-label">Continue</span>
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
                     </button>
