@@ -8,7 +8,9 @@
     { "source": "/privacy",     "destination": "/privacy.html"     },
     { "source": "/terms",       "destination": "/terms.html"       },
     { "source": "/join",        "destination": "/join.html"        },
-    { "source": "/development", "destination": "/development.html" }
+    { "source": "/development", "destination": "/development.html" },
+    { "source": "/chatbot",     "destination": "/chatbot.html"     },
+    { "source": "/chat",        "destination": "/chat.html"        }
   ],
   "cleanUrls": true,
   "trailingSlash": false,
@@ -30,7 +32,7 @@
       ]
     },
     {
-      "source": "/(chatbot|development)",
+      "source": "/(chat|development)",
       "headers": [
         { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
       ]
