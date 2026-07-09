@@ -1,615 +1,388 @@
 <!DOCTYPE html>
-<!-- v2.0.0 — UX/conversion/accessibility rewrite -->
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Equalaw | Free Legal Guidance</title>
-    <link rel="icon" href="/assets/equalaw-logo-v2.svg?v=20260623" type="image/svg+xml">
-    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png?v=20260623">
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=20260623">
-    <link rel="manifest" href="/site.webmanifest">
-    <meta name="theme-color" content="#1C2A3F">
-    <meta name="description" content="Describe your legal situation and get clear, actionable next steps instantly. Free, private, and available in 11 Indian languages.">
-    <meta property="og:title" content="Equalaw | Free Legal Guidance">
-    <meta property="og:description" content="Free, instant legal guidance at your fingertips. Describe your situation and get a structured action plan.">
-    <meta property="og:url" content="https://www.equalaw.tech">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="https://www.equalaw.tech/assets/og-image.png?v=20260623">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Equalaw | Free Legal Guidance">
-    <meta name="twitter:description" content="Free, instant legal guidance at your fingertips. Describe your situation and get a structured action plan.">
-    <meta name="twitter:image" content="https://www.equalaw.tech/assets/og-image.png?v=20260623">
-    <link rel="canonical" href="https://www.equalaw.tech/">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        // Equalaw Brand v2.0 — Navy / Gold / Periwinkle · Archivo / Hanken / Spline
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Hanken Grotesk', 'system-ui', 'sans-serif'],
-                        display: ['Archivo', 'system-ui', 'sans-serif'],
-                        mono: ['Spline Sans Mono', 'ui-monospace', 'monospace'],
-                    },
-                    colors: {
-                        // Equalaw Navy scale (primary) — 600 = brand navy #1C2A3F
-                        brand: {
-                            50: '#eef1f6', 100: '#e7e9ee', 200: '#c8cdd6',
-                            300: '#9aa4b4', 400: '#5d6b80', 500: '#33425a',
-                            600: '#1C2A3F', 700: '#16243a', 800: '#11192a', 900: '#0c1220',
-                        },
-                        navy: '#1C2A3F', gold: '#B79C76', peri: '#A4C1F9',
-                        paper: '#F3F1EA', paper2: '#ECE8DD', ink: '#16140f',
-                    }
-                }
-            }
-        }
-    </script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Hanken+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/assets/ui-components.css?v=20260623">
-    <!-- Analytics: GTM · GA4 · Meta Pixel — IDs configured in /assets/analytics.js -->
-    <script src="/assets/analytics.js"></script>
-    <!-- i18n: Language detection & translation system -->
-    <script src="/assets/i18n.js"></script>
-    <!-- Vercel Web Analytics -->
-    <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
-    <style>
-        body { font-family: 'Hanken Grotesk', system-ui, sans-serif; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Equalaw — the map of the idea. Law that applies to you is an address, not a mystery. Explore the thesis, the engine, and the four product models.">
+<meta property="og:title" content="Equalaw — The Map of the Idea">
+<meta property="og:description" content="India's access-to-justice platform. Explore the thesis, the engine, and the four product models.">
+<meta property="og:url" content="https://www.equalaw.tech/">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://www.equalaw.tech/assets/og-image.png?v=20260623">
+<meta name="theme-color" content="#1C2A3F">
+<link rel="canonical" href="https://www.equalaw.tech/">
+<link rel="icon" href="/assets/equalaw-icon-navy.svg?v=20260623" type="image/svg+xml">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png?v=20260623">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=20260623">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Hanken+Grotesk:wght@400;500;600&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>Equalaw — The Map of the Idea</title>
+<style>
+  :root{
+    --bg:#0C0E12; --pane:#141926; --pane-2:#0F131D; --line:#242C3D; --line-soft:#1B2231;
+    --text:#EDE7DA; --mut:#8B92A3; --dim:#5C6375;
+    --gold:#B79C76; --gold-bright:#D4B98E;
+    --peri:#A4C1F9; --sage:#8FBF9F; --brick:#CE8570; --paper:#EDE7DA;
+    --disp:"Archivo",system-ui,-apple-system,"Segoe UI",sans-serif;
+    --text-family:"Hanken Grotesk",system-ui,sans-serif;
+    --mono:"Spline Sans Mono",ui-monospace,"SF Mono","Cascadia Mono",Menlo,Consolas,monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{background:var(--bg);color:var(--text);font-family:var(--disp);overflow:hidden}
 
-        /* Morphing text — respects reduced-motion */
-        .morph-line { display: inline-block; overflow: hidden; position: relative; }
-        .morph-text {
-            display: inline-block; opacity: 0;
-            transform: translateY(100%);
-            animation: morphIn 0.6s ease forwards;
-        }
-        .morph-text.exit { animation: morphOut 0.4s ease forwards; }
+  .app{display:flex;height:100vh;height:100dvh;flex-direction:column}
+  header{display:flex;align-items:center;justify-content:space-between;gap:16px;
+    padding:14px 22px;border-bottom:1px solid var(--line-soft);flex-wrap:wrap}
+  header .brand{display:inline-flex;align-items:center;gap:12px;font-family:var(--disp);font-weight:600;font-size:15px;letter-spacing:.02em;color:var(--text);text-decoration:none}
+  header .brand img.mk{width:26px;height:auto;display:block}
+  header .brand .kicker{display:none;font-family:var(--mono);font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-left:2px}
+  @media(min-width:960px){header .brand .kicker{display:inline}}
+  .tabs{display:flex;gap:6px;align-items:center;margin-left:auto;margin-right:auto}
+  @media(min-width:960px){.tabs{margin-left:24px;margin-right:0}}
+  .tabs a{
+    font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--mut);text-decoration:none;padding:9px 16px;border-radius:999px;
+    border:1px solid transparent;transition:color .15s ease,border-color .15s ease,background .15s ease;
+    white-space:nowrap;
+  }
+  .tabs a:hover{color:var(--text);border-color:var(--line)}
+  .tabs a[aria-current="page"]{color:var(--gold);border-color:var(--line);background:var(--pane-2)}
+  .tabs a.cta{
+    color:var(--bg);background:var(--gold);border-color:var(--gold);
+    font-weight:700;letter-spacing:.14em;
+  }
+  .tabs a.cta:hover{background:var(--gold-bright);border-color:var(--gold-bright);color:var(--bg)}
+  .legend{display:flex;gap:18px;flex-wrap:wrap;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
+  .legend span{display:inline-flex;align-items:center;gap:7px}
+  .legend i{width:8px;height:8px;border-radius:50%;display:inline-block}
+  @media(max-width:960px){.legend{display:none}}
+  @media(max-width:640px){
+    header{padding:10px 14px;gap:8px}
+    .tabs a{padding:6px 10px;font-size:10px;letter-spacing:.12em}
+    header .brand{font-size:14px}
+  }
 
-        @keyframes morphIn {
-            0%   { opacity: 0; transform: translateY(100%); filter: blur(4px); }
-            100% { opacity: 1; transform: translateY(0);    filter: blur(0); }
-        }
-        @keyframes morphOut {
-            0%   { opacity: 1; transform: translateY(0);    filter: blur(0); }
-            100% { opacity: 0; transform: translateY(-100%); filter: blur(4px); }
-        }
+  .main{display:flex;flex:1;min-height:0}
+  .stage{flex:1;position:relative;min-width:0}
+  canvas{display:block;width:100%;height:100%;cursor:grab}
+  canvas.hot{cursor:pointer}
+  canvas.grab{cursor:grabbing}
+  .hint{position:absolute;left:22px;bottom:16px;font-family:var(--mono);font-size:10.5px;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--dim);pointer-events:none}
 
-        /* Disable all animations for users who prefer it */
-        @media (prefers-reduced-motion: reduce) {
-            .morph-text, .morph-text.exit { animation: none; opacity: 1; transform: none; filter: none; }
-            .floating, .floating-delayed { animation: none !important; }
-            .pulse-ring { animation: none !important; }
-            .scanning-glow::after { animation: none !important; }
-        }
+  /* ---- reading pane (the "note") ---- */
+  .pane{width:400px;max-width:44vw;border-left:1px solid var(--line-soft);background:var(--pane);
+    display:flex;flex-direction:column;min-height:0}
+  .pane .crumb{padding:14px 26px 0;font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--mut);display:flex;align-items:center;gap:8px}
+  .pane .crumb i{width:8px;height:8px;border-radius:50%}
+  .pane .scroll{overflow-y:auto;padding:10px 26px 30px;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+  .pane h1{font-size:24px;font-weight:700;letter-spacing:-.02em;line-height:1.15;margin:8px 0 4px;text-wrap:balance}
+  .pane .sub{font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--gold);margin-bottom:14px}
+  .pane p{font-size:14px;line-height:1.65;color:#C9CBD3;margin:0 0 13px;max-width:62ch}
+  .pane p b,.pane p strong{color:var(--text);font-weight:600}
+  .pane .kv{border-top:1px solid var(--line-soft);padding:11px 0}
+  .pane .kv:last-child{border-bottom:1px solid var(--line-soft)}
+  .pane .kv .k{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+  .pane .kv p{margin:5px 0 0;font-size:13.5px}
+  .pane .models{display:flex;flex-direction:column;gap:2px;margin:6px 0 16px}
+  .pane .models button{all:unset;cursor:pointer;display:grid;grid-template-columns:10px 1fr;gap:12px;align-items:baseline;
+    padding:11px 12px;border:1px solid var(--line-soft);background:var(--pane-2);border-radius:6px;margin-bottom:6px}
+  .pane .models button:hover,.pane .models button:focus-visible{border-color:var(--gold);outline:none}
+  .pane .models i{width:8px;height:8px;border-radius:50%;background:var(--gold);position:relative;top:-1px}
+  .pane .models .t{font-size:14px;font-weight:600;color:var(--text)}
+  .pane .models .d{grid-column:2;font-size:12.5px;color:var(--mut);line-height:1.5;margin-top:2px}
+  .pane .foot{margin-top:auto;padding:12px 26px;border-top:1px solid var(--line-soft);
+    font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
 
-        .glass-card {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.08);
-        }
-
-        .floating { animation: float 8s ease-in-out infinite; }
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(3deg); }
-        }
-        .floating-delayed { animation: float 10s ease-in-out infinite; animation-delay: -2s; }
-
-        .pulse-ring { animation: pulseRing 2s ease-out infinite; }
-        @keyframes pulseRing {
-            0%   { transform: scale(1); opacity: 0.6; }
-            100% { transform: scale(3); opacity: 0; }
-        }
-
-        /* Chip hover */
-        .query-chip {
-            transition: all 0.15s ease;
-            cursor: pointer;
-        }
-        .query-chip:hover {
-            background: rgba(28, 42, 63, 0.06);
-            border-color: rgba(28, 42, 63, 0.35);
-            color: var(--color-primary);
-            transform: translateY(-1px);
-        }
-        .query-chip:focus-visible {
-            outline: 2px solid var(--color-primary);
-            outline-offset: 2px;
-        }
-        .query-chip:active { transform: translateY(0); }
-
-        /* Visually hidden but accessible */
-        .sr-only {
-            position: absolute; width: 1px; height: 1px;
-            padding: 0; margin: -1px; overflow: hidden;
-            clip: rect(0,0,0,0); white-space: nowrap; border: 0;
-        }
-
-        /* Allow scroll on very small screens */
-        html, body { min-height: 100%; }
-        @media (min-height: 600px) {
-            html, body { height: 100%; overflow: hidden; }
-        }
-    </style>
+  @media(max-width:820px){
+    .main{flex-direction:column}
+    .pane{width:100%;max-width:none;border-left:none;border-top:1px solid var(--line);height:46%}
+    .stage{height:54%}
+    .hint{display:none}
+  }
+  @media (prefers-reduced-motion: reduce){ .pane .models button{transition:none} }
+</style>
 </head>
-<body class="bg-paper text-ink antialiased flex flex-col min-h-screen">
+<body>
 
-    <!-- Subtle background decorations — hidden from assistive tech -->
-    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
-        <div class="absolute inset-0" style="background: radial-gradient(ellipse at 50% 30%, rgba(28,42,63,0.08) 0%, transparent 70%);"></div>
-        <div class="absolute bottom-0 left-0 right-0 h-1/2" style="background: radial-gradient(ellipse at 50% 100%, rgba(183,156,118,0.07) 0%, transparent 60%);"></div>
-        <div class="absolute top-[15%] left-[10%] opacity-[0.04] floating text-navy">
-            <svg class="w-40 h-40" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM3.89 9L12 4.57 20.11 9 12 13.43 3.89 9zM12 16c-2.21 0-4 1.79-4 4h8c0-2.21-1.79-4-4-4z"/></svg>
-        </div>
-        <div class="absolute bottom-[20%] right-[8%] opacity-[0.04] floating-delayed text-navy">
-            <svg class="w-48 h-48" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
-        </div>
+
+<div class="app">
+<header>
+  <a href="/" class="brand" aria-label="Equalaw home">
+    <img class="mk" src="/assets/equalaw-icon-gold.svg?v=20260623" alt="" aria-hidden="true">
+    <span>EQUALAW</span>
+    <span class="kicker">· the map of the idea</span>
+  </a>
+  <nav class="tabs" aria-label="Primary">
+    <a href="/" aria-current="page">Map</a>
+    <a href="/chatbot" class="cta">Chatbot →</a>
+    <a href="/join">Advocates</a>
+  </nav>
+  <span class="legend">
+    <span><i style="background:var(--peri)"></i>Insight</span>
+    <span><i style="background:var(--sage)"></i>Engine</span>
+    <span><i style="background:var(--gold)"></i>Fork</span>
+    <span><i style="background:var(--brick)"></i>Constraints</span>
+  </span>
+</header>
+<div class="main">
+  <div class="stage">
+    <canvas id="cv" aria-label="Interactive graph of the Equalaw idea. Use the panel list to open each product model."></canvas>
+    <div class="hint">Hover to trace connections · click a node to read it · drag to rearrange</div>
+  </div>
+  <aside class="pane">
+    <div class="crumb" id="crumb"><i style="background:var(--paper)"></i><span>Start here</span></div>
+    <div class="scroll" id="panel"></div>
+    <div class="foot">Single self-contained HTML · no dependencies · embeddable anywhere</div>
+  </aside>
+</div>
+</div>
+
+<script>
+(function(){
+"use strict";
+const C = { peri:"#A4C1F9", sage:"#8FBF9F", gold:"#B79C76", brick:"#CE8570", paper:"#EDE7DA" };
+const CLUSTER = {
+  root:{c:C.paper,name:"The root"},
+  insight:{c:C.peri,name:"The insight"},
+  engine:{c:C.sage,name:"The engine"},
+  fork:{c:C.gold,name:"The fork — undecided"},
+  risk:{c:C.brick,name:"Hard constraints"}
+};
+
+/* ---------- content ---------- */
+const N = [
+{id:"eq",label:"EQUALAW",cl:"root",r:15,ax:.46,ay:.30,t:"Equalaw",s:"equal law · access to justice · India",
+ d:`<p>What I understand you are building: a claim that <b>the law that applies to you is not a mystery — it is an address.</b> If that claim holds, finding your law becomes a lookup, not a consultation, and everything downstream (matching, economics, trust) follows from it.</p>
+    <p>This map is the whole idea in one picture. <b style="color:${C.peri}">Periwinkle</b> is the legal insight that makes it possible. <b style="color:${C.sage}">Sage</b> is the business engine that makes it sustainable. <b style="color:${C.gold}">Gold</b> is the one decision you have not made yet — what kind of company this actually is. <b style="color:${C.brick}">Brick</b> is what reality imposes regardless of your choice.</p>
+    <p>Every spec question I asked earlier lives downstream of the gold fork. That is why you stopped me.</p>`},
+
+/* insight */
+{id:"thesis",label:"LAW = ROLE × SPACE × TIME",cl:"insight",r:12,ax:.20,ay:.16,t:"Law = Role × Space × Time",s:"the thesis · the intellectual property",
+ d:`<p>Any applicable law is a function of three variables: <b>who you are</b> (Role), <b>where you are</b> (Space), <b>when it happened</b> (Time). If that is true, applicable law is <b>computable</b>.</p>
+    <p>This is the actual invention. Not the app, not the marketplace — the claim that India's statutory maze collapses into a three-axis lookup. The prototypes proved it holds for ten real routes, including the hardest kind: a hard legal switchover in time.</p>`},
+{id:"role",label:"ROLE",cl:"insight",r:8,ax:.07,ay:.08,t:"Role — who you are",s:"axis one",
+ d:`<p>Borrower, spouse, tenant, employee, consumer, victim. Your legal identity in the matter opens a specific shelf of statutes: a bounced cheque makes you a <b>borrower</b> under NIA s.138; an unpaid salary makes you an <b>employee</b> under the Payment of Wages Act 1936.</p>`},
+{id:"space",label:"SPACE",cl:"insight",r:8,ax:.16,ay:.04,t:"Space — where you are",s:"axis two",
+ d:`<p>India's law is layered — central acts everywhere, state acts on top. A tenant in Mumbai lives under the <b>Maharashtra Rent Control Act 1999</b>; the same tenant in Delhi does not. Space is why coverage is the expensive part: every state multiplies the corpus work.</p>`},
+{id:"time",label:"TIME",cl:"insight",r:8,ax:.27,ay:.04,t:"Time — when it happened",s:"axis three · the BNS gate",
+ d:`<p>Law changes on hard dates. On <b>1 July 2024</b> the Indian Penal Code gave way to the Bharatiya Nyaya Sanhita: theft before that date is IPC s.378, after it is BNS s.303.</p>
+    <p>This is a <b>fact, not a probability</b> — which is why time must be a hard gate in any architecture, never a similarity score. The prototypes already treat it that way.</p>`},
+{id:"resolver",label:"THE RESOLVER",cl:"insight",r:11,ax:.24,ay:.32,t:"The Resolver",s:"situation in · exact law out",
+ d:`<p>The product's heart. Role × Space × Time selects the statute; one free-text sentence disambiguates within it (divorce → HMA s.13 vs. domestic violence → DV Act 2005). Out comes the <b>exact primary source</b>: act, section, citation, link.</p>
+    <p>The lite prototype resolves <b>10/10 verified routes deterministically</b>. Whatever model you choose at the fork, this is the shared organ.</p>`},
+{id:"gap",label:"THE HONEST GAP",cl:"insight",r:9,ax:.10,ay:.40,t:"The Honest Gap",s:"the trust asset",
+ d:`<p>When no rule matches, the resolver says <b>"not covered"</b> — it never invents law. Every rival built on a raw language model hallucinates statutes eventually; a system that refuses to is the moat.</p>
+    <p>You flagged this as a discipline, not a feature. I read it as <b>non-negotiable in all four models</b> on this map.</p>`},
+{id:"corpus",label:"PRIMARY SOURCES",cl:"insight",r:9,ax:.13,ay:.24,t:"Primary Sources",s:"the raw material",
+ d:`<p>Bare acts from India Code, state gazettes, eventually Supreme Court case law. Today: 11 statutes, 4 verbatim, 7 pending.</p>
+    <p>Whoever owns <b>clean, structured, current statute data</b> owns the hardest part of this space — the corpus is slow, mechanical, and defensible precisely because nobody wants to do it.</p>`},
+
+/* engine */
+{id:"demand",label:"DEMAND · MATTERS",cl:"engine",r:10,ax:.68,ay:.08,t:"Demand — people with matters",s:"one side of the funnel",
+ d:`<p>A person with a legal problem doesn't know what law applies, what it should cost, or who to trust. The resolver is the magnet: <b>answer their first question free and correctly</b>, and demand arrives without ad spend.</p>
+    <p>In the prototypes, a resolved matter — not a click — is the unit of value.</p>`},
+{id:"supply",label:"SUPPLY · ADVOCATES",cl:"engine",r:10,ax:.90,ay:.12,t:"Supply — advocates",s:"the other side",
+ d:`<p>Advocates' scarcest resource is client acquisition — and the Bar Council <b>forbids them from advertising</b>. A platform that routes qualified, pre-resolved matters to the right advocate sells the one thing they cannot legally buy for themselves.</p>`},
+{id:"match",label:"THE MATCH",cl:"engine",r:11,ax:.78,ay:.26,t:"The Match",s:"the real output",
+ d:`<p>Resolved matter meets right advocate — right practice area, right jurisdiction, right court. Everything upstream exists to make this one connection correct.</p>
+    <p>Match quality is what compounds: it drives referrals, which drive the flywheel, which drives the economics.</p>`},
+{id:"cpl",label:"CPL ECONOMICS",cl:"engine",r:9,ax:.92,ay:.36,t:"CPL — the unit economics",s:"cost per lead · both sides",
+ d:`<p>CPL = spend ÷ leads on the demand side; CPA = spend ÷ advocates on supply; blended across both. The prototypes model a blended <b>₹79 falling toward ₹44</b> as the loop compounds (illustrative numbers, honestly flagged as such).</p>
+    <p>A defensible CPL is the business thesis in one number.</p>`},
+{id:"flywheel",label:"REFERRAL FLYWHEEL",cl:"engine",r:9,ax:.80,ay:.44,t:"The Referral Flywheel",s:"the recursion",
+ d:`<p>Better resolution → better matches → satisfied people → referrals → organic demand → lower CPL → more margin to deepen the corpus → better resolution. </p>
+    <p>The loop only spins if the resolver is genuinely right. <b>Quality is the fuel, not marketing.</b> That is what makes the CPL defensible rather than rented.</p>`},
+
+/* fork */
+{id:"fork",label:"WHAT IS EQUALAW?",cl:"fork",r:14,ax:.46,ay:.60,t:"The Fork",s:"the decision under every other decision",
+ d:`<p>Four coherent answers, all built on the same resolver — but they <b>monetize differently, carry different legal risk, and demand different first builds.</b> Pick one as the identity; the others can become layers later. Click each:</p>
+    <div class="models">
+      <button data-go="mA"><i></i><span class="t">A · The Public Utility</span><span class="d">The Wikipedia of applicable law. Free resolver for everyone; trust first, money later.</span></button>
+      <button data-go="mB"><i></i><span class="t">B · The Marketplace</span><span class="d">Resolver in front, advocate matching behind, CPL underneath. The funnel thesis, literally.</span></button>
+      <button data-go="mC"><i></i><span class="t">C · The Infrastructure</span><span class="d">Law-as-data. The resolver as an API sold to builders, insurers, banks, HR platforms.</span></button>
+      <button data-go="mD"><i></i><span class="t">D · The Companion</span><span class="d">A guided legal journey — "what do I do now," documents, timelines, human handoff.</span></button>
     </div>
+    <p>My read: the prototypes lean B, your discipline (honest gap, primary sources) leans A/C, and D is where the deepest value and the deepest liability both live.</p>`},
+{id:"mA",label:"A · PUBLIC UTILITY",cl:"fork",r:10,ax:.16,ay:.76,t:"Model A — The Public Utility",s:"the Wikipedia of applicable law",
+ d:`<p>The resolver, free, for everyone. A civic trust engine: type your situation, get the exact law with the primary source. No accounts, no funnel — reach and authority first.</p>
+    <div class="kv"><span class="k">Who pays</span><p>Nobody at first. Later: grants, CSR, court/legal-aid partnerships — or the models above it, built on its trust.</p></div>
+    <div class="kv"><span class="k">First build</span><p>Corpus + resolver. Nothing else.</p></div>
+    <div class="kv"><span class="k">The risk</span><p>Beloved but unfunded — a public good without a business until a layer is added.</p></div>
+    <div class="kv"><span class="k">Already proven</span><p>The lite prototype <b>is</b> this, working, in one file.</p></div>`},
+{id:"mB",label:"B · MARKETPLACE",cl:"fork",r:10,ax:.38,ay:.86,t:"Model B — The Marketplace",s:"lead-gen for legal services",
+ d:`<p>Two-sided: people with matters on one side, advocates on the other, the resolver qualifying every lead before it costs anyone anything. This is the CPL thesis as literal product.</p>
+    <div class="kv"><span class="k">Who pays</span><p>Advocates — per introduction or subscription. Never a cut of fees (see the BCI node).</p></div>
+    <div class="kv"><span class="k">First build</span><p>Matter intake + a curated advocate bench + matching. The resolver already exists.</p></div>
+    <div class="kv"><span class="k">The risk</span><p>Bar Council rules force careful structuring: a directory/introduction service is defensible, a fee-sharing broker is not.</p></div>
+    <div class="kv"><span class="k">Already proven</span><p>Fork A's two-sided CPL engine and the v2 loop simulator.</p></div>`},
+{id:"mC",label:"C · INFRASTRUCTURE",cl:"fork",r:10,ax:.60,ay:.88,t:"Model C — The Infrastructure",s:"law as data · resolver as API",
+ d:`<p>Sell the resolver to builders: insurers checking claims, banks doing recovery notices, HR platforms, other legal-tech. "Which law applies" as an API call with a citation attached.</p>
+    <div class="kv"><span class="k">Who pays</span><p>Businesses — per call or license. B2B money, no consumer acquisition cost at all.</p></div>
+    <div class="kv"><span class="k">First build</span><p>Structured statute database + versioned API + documentation. The determinism you already insisted on makes it API-shaped by nature.</p></div>
+    <div class="kv"><span class="k">The risk</span><p>Slow enterprise sales, and the moat is corpus depth — exactly the part that is 7/11 unfilled.</p></div>
+    <div class="kv"><span class="k">Already proven</span><p>The resolver's pure-function design and the time-gate discipline.</p></div>`},
+{id:"mD",label:"D · COMPANION",cl:"fork",r:10,ax:.80,ay:.80,t:"Model D — The Companion",s:"the guided legal journey",
+ d:`<p>Not just "which law" but <b>"what do I do now"</b> — notices, documents, timelines, next steps, an AI paralegal that hands off to a human advocate at the right moment.</p>
+    <div class="kv"><span class="k">Who pays</span><p>Consumers (freemium) and advocates (for qualified, prepared handoffs).</p></div>
+    <div class="kv"><span class="k">First build</span><p>Everything: resolver + workflow + document generation + a licensed-review path. The heaviest lift on this map.</p></div>
+    <div class="kv"><span class="k">The risk</span><p>Walks closest to practising law. "Not legal advice" in the footer will not carry it — it needs structural liability design.</p></div>
+    <div class="kv"><span class="k">Already proven</span><p>Only the first step: resolution. The journey after it is unbuilt.</p></div>`},
 
-    <!-- Header -->
-    <header class="relative z-10 p-4 md:p-6 flex justify-between items-center max-w-5xl w-full mx-auto shrink-0">
-        <div class="logo-horizontal">
-            <img src="/assets/equalaw-logo-v2.svg?v=20260623" alt="" width="34" height="34" class="logo-mark" aria-hidden="true">
-            <img src="/assets/equalaw-wordmark-v2.svg?v=20260623" alt="Equalaw" class="logo-wordmark">
-        </div>
-        <div class="flex items-center gap-2.5">
-            <a href="/join" class="btn btn-secondary btn-sm inline-flex">
-                Join as Legal Professional
-            </a>
-            <!-- "Automated guidance" — honest, not "Live" -->
-            <div class="hidden sm:flex items-center gap-2 text-xs font-bold text-slate-400 uppercase tracking-widest" aria-label="Service status: Guidance available">
-                <span class="relative flex h-2 w-2" aria-hidden="true">
-                    <span class="pulse-ring absolute inline-flex h-full w-full rounded-full bg-green-400"></span>
-                    <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                </span>
-                Guidance Available
-            </div>
-        </div>
-    </header>
+/* risk */
+{id:"bci",label:"BCI RULES",cl:"risk",r:9,ax:.62,ay:.68,t:"Bar Council of India rules",s:"the regulatory wall",
+ d:`<p>Advocates may not advertise (BCI Rules, Rule 36) and may not share fees with non-advocates. Any model that monetizes advocate demand must be an <b>introduction/directory service, never a broker taking a cut of fees.</b></p>
+    <p>This single constraint shapes Models B and D more than any technical choice on the map — and it is also the opportunity: a lawful channel to clients is precisely what advocates cannot build for themselves.</p>`},
+{id:"liab",label:"NOT LEGAL ADVICE",cl:"risk",r:9,ax:.90,ay:.62,t:'"Not legal advice"',s:"a disclaimer is not a shield",
+ d:`<p>The honest-gap discipline plus verbatim primary-source citation keeps Models A and C in <b>legal-information</b> territory — showing someone the law is not practising it.</p>
+    <p>Model D crosses toward advice. It needs a licensed-review path and structural separation (the advocate advises; the product prepares), not just a footer.</p>`}
+];
 
-    <!-- Main hero — single purpose: get the query -->
-    <main class="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-4 py-4 md:py-6" id="main-content">
+const L = [
+["eq","thesis"],["eq","fork"],["eq","match"],
+["thesis","role"],["thesis","space"],["thesis","time"],["thesis","resolver"],
+["resolver","gap"],["resolver","corpus"],["resolver","match"],["resolver","demand"],
+["demand","match"],["supply","match"],["match","cpl"],["cpl","flywheel"],["flywheel","demand"],
+["fork","mA"],["fork","mB"],["fork","mC"],["fork","mD"],
+["mA","gap"],["mB","cpl"],["mB","bci"],["mC","corpus"],["mD","liab"],["mD","bci"],["supply","bci"],["mD","demand"]
+];
 
-        <!-- Multilingual morphing headline with aria-live -->
-        <div class="mb-4" aria-hidden="true">
-            <div id="morph-container"
-                 class="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-navy tracking-tight leading-tight max-w-4xl mx-auto min-h-[3.5em] sm:min-h-[3em] flex items-center justify-center">
-                <span id="morph-target" class="morph-line"></span>
-            </div>
-        </div>
-        <!-- Static accessible heading for screen readers -->
-        <h1 class="sr-only">Free, Instant Legal Guidance at Your Fingertips</h1>
+/* ---------- graph ---------- */
+const cv=document.getElementById("cv"),ctx=cv.getContext("2d");
+const panel=document.getElementById("panel"),crumb=document.getElementById("crumb");
+let W=0,H=0,dpr=1;
+const byId={}; N.forEach(n=>{byId[n.id]=n; n.x=0;n.y=0;n.vx=0;n.vy=0;});
+const links=L.map(([a,b])=>({a:byId[a],b:byId[b]}));
+const adj={}; N.forEach(n=>adj[n.id]=new Set([n.id]));
+links.forEach(l=>{adj[l.a.id].add(l.b.id);adj[l.b.id].add(l.a.id);});
 
-        <!-- Subtitle -->
-        <p class="text-base sm:text-lg text-slate-600 mb-3 max-w-2xl leading-relaxed font-medium px-2" data-i18n="app_subtitle">
-            Describe your situation and get clear, actionable next steps in seconds.
-            <span class="text-slate-800 font-semibold">Free. Instant. Confidential.</span>
-        </p>
+function resize(){
+  const r=cv.parentElement.getBoundingClientRect();
+  dpr=Math.min(window.devicePixelRatio||1,2);
+  W=r.width;H=r.height;
+  cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
+}
+function seed(){
+  const m=70;
+  N.forEach(n=>{ n.x=m+n.ax*(W-2*m); n.y=m+n.ay*(H-2*m); n.vx=n.vy=0; });
+}
+function tick(){
+  const m=46;
+  for(const l of links){
+    const dx=l.b.x-l.a.x,dy=l.b.y-l.a.y,d=Math.hypot(dx,dy)||1;
+    const rest=Math.min(W,H)*0.16+l.a.r+l.b.r;
+    const f=(d-rest)*0.004, fx=dx/d*f, fy=dy/d*f;
+    l.a.vx+=fx;l.a.vy+=fy;l.b.vx-=fx;l.b.vy-=fy;
+  }
+  for(let i=0;i<N.length;i++)for(let j=i+1;j<N.length;j++){
+    const a=N[i],b=N[j];
+    let dx=b.x-a.x,dy=b.y-a.y,d2=dx*dx+dy*dy;
+    if(d2<1){dx=(Math.random()-.5);dy=(Math.random()-.5);d2=1;}
+    if(d2<52000){const d=Math.sqrt(d2),f=520/d2,fx=dx/d*f,fy=dy/d*f;
+      a.vx-=fx;a.vy-=fy;b.vx+=fx;b.vy+=fy;}
+  }
+  for(const n of N){
+    const tx=m+n.ax*(W-2*m),ty=m+n.ay*(H-2*m);
+    n.vx+=(tx-n.x)*0.012; n.vy+=(ty-n.y)*0.012;
+    if(n===drag)continue;
+    n.vx*=0.86;n.vy*=0.86;n.x+=n.vx;n.y+=n.vy;
+    n.x=Math.max(m,Math.min(W-m,n.x)); n.y=Math.max(m,Math.min(H-m,n.y));
+  }
+}
+let hover=null,sel=null,drag=null;
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  const focus=hover||sel;
+  for(const l of links){
+    const on=!focus||(adj[focus.id].has(l.a.id)&&adj[focus.id].has(l.b.id)&&(l.a===focus||l.b===focus));
+    ctx.strokeStyle=on&&focus? "rgba(212,185,142,.55)":"rgba(122,132,156,"+(focus?".07":".22")+")";
+    ctx.lineWidth=on&&focus?1.4:1;
+    ctx.beginPath();ctx.moveTo(l.a.x,l.a.y);ctx.lineTo(l.b.x,l.b.y);ctx.stroke();
+  }
+  for(const n of N){
+    const c=CLUSTER[n.cl].c;
+    const on=!focus||adj[focus.id].has(n.id);
+    ctx.globalAlpha=on?1:0.16;
+    ctx.shadowColor=c; ctx.shadowBlur=(n===focus)?26:12;
+    ctx.fillStyle=c;
+    ctx.beginPath();ctx.arc(n.x,n.y,n.r,0,7);ctx.fill();
+    ctx.shadowBlur=0;
+    if(n===sel){ctx.strokeStyle="#D4B98E";ctx.lineWidth=2;
+      ctx.beginPath();ctx.arc(n.x,n.y,n.r+4.5,0,7);ctx.stroke();}
+    ctx.font="600 10px ui-monospace,Menlo,Consolas,monospace";
+    ctx.textAlign="center";
+    ctx.fillStyle=on?"rgba(237,231,218,.92)":"rgba(237,231,218,.3)";
+    const lw=ctx.measureText(n.label).width;
+    ctx.fillStyle="rgba(12,14,18,.72)";
+    ctx.fillRect(n.x-lw/2-4,n.y+n.r+7,lw+8,14);
+    ctx.fillStyle=on?"rgba(237,231,218,.94)":"rgba(237,231,218,.34)";
+    ctx.fillText(n.label,n.x,n.y+n.r+17.5);
+    ctx.globalAlpha=1;
+  }
+}
+const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
+function loop(){tick();draw();requestAnimationFrame(loop);}
 
-        <!-- Social proof counter -->
-        <p class="text-xs font-semibold text-brand-600 mb-5 md:mb-7 flex items-center gap-1.5">
-            <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
-            <span data-i18n="social_proof">2,400+ Indians got legal guidance this month</span>
-        </p>
+/* ---------- panel ---------- */
+function show(n){
+  sel=n;
+  const cl=CLUSTER[n.cl];
+  crumb.innerHTML=`<i style="background:${cl.c}"></i><span>${cl.name}</span>`;
+  panel.innerHTML=`<h1>${n.t}</h1><div class="sub">${n.s}</div>${n.d}`;
+  wire();
+  panel.parentElement.querySelector(".scroll").scrollTop=0;
+}
+function home(){
+  sel=null;
+  crumb.innerHTML=`<i style="background:${C.paper}"></i><span>Start here</span>`;
+  panel.innerHTML=byId.eq.d.replace("<p>What I understand",
+    `<h1>What is actually being built</h1><div class="sub">read me first · then click the gold nodes</div><p>What I understand`);
+  wire();
+}
+function wire(){
+  panel.querySelectorAll("[data-go]").forEach(b=>{
+    b.addEventListener("click",()=>{const n=byId[b.dataset.go]; if(n){show(n);}});
+  });
+}
 
-        <!-- Search bar — text input + voice button -->
-        <div class="w-full max-w-2xl">
-            <label for="legal-query" class="sr-only" id="label-describe-situation">Describe your legal situation</label>
-            <form id="inquiry-form"
-                  class="glass-card p-2 rounded-2xl md:rounded-full flex flex-col md:flex-row items-center border border-white/60 focus-within:ring-4 focus-within:ring-brand-400/20 focus-within:border-brand-300 transition-all"
-                  novalidate>
-                <input
-                    id="legal-query"
-                    type="text"
-                    name="query"
-                    placeholder="Describe your legal situation..."
-                    data-i18n="placeholder_query"
-                    data-i18n-attr="placeholder"
-                    class="flex-grow w-full py-4 px-5 md:px-6 rounded-xl md:rounded-l-full outline-none text-slate-800 bg-transparent text-base md:text-lg font-medium placeholder-slate-400"
-                    autocomplete="off"
-                    minlength="10"
-                    aria-describedby="query-error query-hint"
-                    aria-required="true"
-                />
-                <!-- Voice button — speak your situation -->
-                <button type="button" id="voice-input-btn"
-                        class="voice-btn md:mr-2 md:mt-0 mt-2"
-                        aria-label="Speak your situation"
-                        title="Click to speak your legal situation">
-                    🗣️
-                </button>
-                <button type="submit"
-                        id="btn-submit-query"
-                        class="btn btn-primary btn-md w-full md:w-auto mt-2 md:mt-0">
-                    Get Free Guidance
-                    <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                </button>
-            </form>
+/* ---------- interaction ---------- */
+function pick(x,y){
+  for(let i=N.length-1;i>=0;i--){const n=N[i];
+    if(Math.hypot(x-n.x,y-n.y)<n.r+9)return n;}
+  return null;
+}
+function pos(e){const r=cv.getBoundingClientRect();return[e.clientX-r.left,e.clientY-r.top];}
+let moved=false;
+cv.addEventListener("pointerdown",e=>{
+  const[x,y]=pos(e);const n=pick(x,y);moved=false;
+  if(n){drag=n;cv.setPointerCapture(e.pointerId);cv.classList.add("grab");}
+});
+cv.addEventListener("pointermove",e=>{
+  const[x,y]=pos(e);
+  if(drag){drag.x=x;drag.y=y;drag.vx=drag.vy=0;moved=true;return;}
+  hover=pick(x,y);
+  cv.classList.toggle("hot",!!hover);
+});
+cv.addEventListener("pointerup",e=>{
+  cv.classList.remove("grab");
+  if(drag&&!moved)show(drag);
+  else if(!drag){const[x,y]=pos(e);const n=pick(x,y);if(n)show(n);}
+  drag=null;
+});
+cv.addEventListener("pointerleave",()=>{hover=null;cv.classList.remove("hot");});
 
-            <!-- Input hint -->
-            <p id="query-hint" class="mt-2 text-[11px] text-slate-400 text-center font-medium">
-                Type in English or your language — Hindi, Tamil, Bengali, and more
-            </p>
-            <p id="query-error" class="hidden mt-1 text-xs text-red-600 font-semibold text-center" role="alert">
-                Please describe your situation (at least 10 characters) to continue.
-            </p>
-        </div>
+window.addEventListener("resize",()=>{resize();});
+resize();seed();
+if(reduced){for(let i=0;i<420;i++)tick();}
+else{for(let i=0;i<160;i++)tick();}
+home();
+loop();
+})();
+</script>
 
-        <!-- Example query chips — biggest conversion lever -->
-        <div class="flex flex-wrap justify-center gap-2 mt-4 max-w-2xl px-2" role="group" aria-label="Example legal situations — click to use">
-            <button type="button" class="query-chip text-xs font-semibold text-slate-600 bg-white/70 border border-slate-200 px-3.5 py-2 rounded-full" data-query="My landlord is refusing to return my security deposit">
-                🏠 Landlord won't return deposit
-            </button>
-            <button type="button" class="query-chip text-xs font-semibold text-slate-600 bg-white/70 border border-slate-200 px-3.5 py-2 rounded-full" data-query="My employer has not paid my salary for the last 2 months">
-                💼 Employer not paying salary
-            </button>
-            <button type="button" class="query-chip text-xs font-semibold text-slate-600 bg-white/70 border border-slate-200 px-3.5 py-2 rounded-full" data-query="I was cheated while buying a product online and want a refund">
-                📦 Cheated on an online purchase
-            </button>
-            <button type="button" class="query-chip text-xs font-semibold text-slate-600 bg-white/70 border border-slate-200 px-3.5 py-2 rounded-full hidden sm:inline-flex" data-query="I want to understand my rights in a divorce or separation">
-                ⚖️ Divorce or separation rights
-            </button>
-            <button type="button" class="query-chip text-xs font-semibold text-slate-600 bg-white/70 border border-slate-200 px-3.5 py-2 rounded-full hidden sm:inline-flex" data-query="Someone gave me a cheque that bounced and I want legal action">
-                🏦 Cheque bounce legal action
-            </button>
-        </div>
-
-        <!-- Trust signals — improved contrast -->
-        <div class="flex flex-wrap items-center justify-center gap-3 mt-7" role="list" aria-label="Service guarantees">
-            <span role="listitem" class="text-xs font-semibold text-slate-600 flex items-center gap-1.5 bg-white/70 px-3 py-1.5 rounded-full border border-slate-200">
-                <svg class="w-3.5 h-3.5 text-green-600" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
-                <span data-i18n="trust_free">100% Free</span>
-            </span>
-            <span role="listitem" class="text-xs font-semibold text-slate-600 flex items-center gap-1.5 bg-white/70 px-3 py-1.5 rounded-full border border-slate-200">
-                <svg class="w-3.5 h-3.5 text-brand-600" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-                <span data-i18n="trust_secure">Private & Secure</span>
-            </span>
-            <span role="listitem" class="text-xs font-semibold text-slate-600 flex items-center gap-1.5 bg-white/70 px-3 py-1.5 rounded-full border border-slate-200">
-                <svg class="w-3.5 h-3.5 text-amber-600" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                <span data-i18n="trust_instant">Instant Results</span>
-            </span>
-            <span role="listitem" class="text-xs font-semibold text-slate-600 flex items-center gap-1.5 bg-white/70 px-3 py-1.5 rounded-full border border-slate-200">
-                <svg class="w-3.5 h-3.5 text-green-600" aria-hidden="true" fill="currentColor" viewBox="0 0 24 24"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.12-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/></svg>
-                <span data-i18n="trust_whatsapp">WhatsApp Support</span>
-            </span>
-        </div>
-
-        <div class="mt-5 w-full max-w-2xl">
-            <div class="glass-card rounded-2xl px-4 py-3 border border-slate-200/70 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-left">
-                <div>
-                    <p class="text-sm font-bold text-slate-800">Are you a legal professional?</p>
-                    <p class="text-xs text-slate-500">Join Equalaw and receive pre-qualified legal leads on WhatsApp.</p>
-                </div>
-                <a href="/join" class="btn btn-primary btn-sm inline-flex items-center gap-2">
-                    Join as Advocate
-                    <svg class="w-3.5 h-3.5" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
-                </a>
-            </div>
-        </div>
-    </main>
-
-    <!-- Footer -->
-    <footer class="relative z-10 text-center py-4 text-[11px] text-slate-500 font-medium shrink-0 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 px-4">
-        <span data-i18n="footer_disclaimer">Equalaw is a technology platform, not a law firm. Information provided does not constitute legal advice.</span>
-        <span class="text-slate-300 hidden sm:inline" aria-hidden="true">·</span>
-        <a href="/privacy" class="text-slate-500 hover:text-slate-800 underline underline-offset-2 transition-colors" data-i18n="footer_privacy">Privacy Policy</a>
-        <span class="text-slate-300" aria-hidden="true">·</span>
-        <a href="/terms" class="text-slate-500 hover:text-slate-800 underline underline-offset-2 transition-colors" data-i18n="footer_terms">Terms of Use</a>
-        <span class="text-slate-300" aria-hidden="true">·</span>
-        <a href="/development" class="text-slate-500 hover:text-slate-800 underline underline-offset-2 transition-colors" data-i18n="footer_dev_log">Dev Log</a>
-    </footer>
-
-    <!-- Floating Language Picker -->
-    <div id="lang-picker">
-        <button id="lang-toggle" aria-label="Change language" aria-expanded="false">
-            <span id="lang-name">English</span> 🌐
-        </button>
-        <div id="lang-dropdown">
-            <!-- Populated by i18n.js -->
-        </div>
-    </div>
-
-    <script>
-        // ─── Language Picker ───────────────────────────────────────────────
-        // Fix: race condition where i18n-ready fires before this listener
-        // registers. Check if already initialized, otherwise wait for event.
-
-        function renderLanguagePicker() {
-            if (typeof getSupportedLanguages !== 'function') return;
-            const dropdown = document.getElementById('lang-dropdown');
-            if (!dropdown) return;
-
-            const langs = getSupportedLanguages();
-            const current = getCurrentLang();
-
-            dropdown.innerHTML = langs.map(lang => `
-                <button data-lang="${lang.code}"
-                        ${lang.code === current ? 'class="active"' : ''}
-                        onclick="switchLanguage('${lang.code}')">
-                    ${lang.name} ${lang.code === current ? '✓' : ''}
-                </button>
-            `).join('');
-
-            document.getElementById('lang-name').textContent = getLangName();
-        }
-
-        function applyTranslationsToDOM() {
-            if (typeof t !== 'function') return;
-            if (typeof window.translateDOM === 'function') window.translateDOM();
-
-            const queryInput = document.getElementById('legal-query');
-            if (queryInput) queryInput.placeholder = t('placeholder_query');
-
-            const describeLabel = document.getElementById('label-describe-situation');
-            if (describeLabel) describeLabel.textContent = t('placeholder_query');
-
-            const submitBtn = document.getElementById('btn-submit-query');
-            if (submitBtn) submitBtn.innerHTML = t('btn_get_guidance') + '<svg class="w-5 h-5" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>';
-
-            const hintEl = document.getElementById('query-hint');
-            if (hintEl) hintEl.textContent = 'Type in ' + getLangName() + ' or English';
-        }
-
-        function initLangUI() {
-            renderLanguagePicker();
-            applyTranslationsToDOM();
-        }
-
-        // Single toggle listener — attached once, never duplicated
-        document.addEventListener('DOMContentLoaded', function () {
-            const toggle = document.getElementById('lang-toggle');
-            const dropdown = document.getElementById('lang-dropdown');
-            if (toggle && dropdown) {
-                toggle.addEventListener('click', function (e) {
-                    e.stopPropagation();
-                    dropdown.classList.toggle('open');
-                    toggle.setAttribute('aria-expanded', dropdown.classList.contains('open'));
-                });
-                document.addEventListener('click', function () {
-                    dropdown.classList.remove('open');
-                    toggle.setAttribute('aria-expanded', 'false');
-                });
-            }
-        });
-
-        // Race-condition-safe init: call now if ready, else wait for event
-        if (typeof getSupportedLanguages === 'function') {
-            initLangUI();
-        } else {
-            window.addEventListener('i18n-ready', initLangUI, { once: true });
-        }
-
-        // Re-render picker on language change
-        window.addEventListener('language-changed', function () {
-            renderLanguagePicker();
-            applyTranslationsToDOM();
-        });
-
-        // --- Voice Input Handler ---
-        let currentRecognition = null;
-        let recordingTimeout = null;
-
-        document.getElementById('voice-input-btn').addEventListener('click', function(e) {
-            e.preventDefault();
-            // If already recording, stop it
-            if (currentRecognition) {
-                stopVoiceInput();
-            } else {
-                startVoiceInput();
-            }
-        });
-
-        // ESC key to stop recording
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && currentRecognition) {
-                stopVoiceInput();
-            }
-        });
-
-        function startVoiceInput() {
-            const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-            const lang = getCurrentLang();
-            const langMap = {
-                'en': 'en-US',
-                'hi': 'hi-IN',
-                'ta': 'ta-IN',
-                'te': 'te-IN',
-                'mr': 'mr-IN',
-                'gu': 'gu-IN',
-                'kn': 'kn-IN',
-                'ml': 'ml-IN',
-                'pa': 'pa-IN',
-                'bn': 'bn-IN'
-            };
-
-            recognition.language = langMap[lang] || 'en-US';
-            recognition.interimResults = false;
-            recognition.maxAlternatives = 1;
-
-            const btn = document.getElementById('voice-input-btn');
-            const input = document.getElementById('legal-query');
-
-            currentRecognition = recognition;
-            btn.classList.add('recording');
-            btn.textContent = '🗣️ ' + t('voice_listening') + ' (ESC to stop)';
-            btn.disabled = false; // Allow clicking to stop
-            btn.title = 'Click to stop recording (or press ESC)';
-
-            // Auto-stop after 30 seconds
-            recordingTimeout = setTimeout(() => {
-                console.log('[voice] 30-second timeout reached, stopping recording');
-                stopVoiceInput();
-            }, 30000);
-
-            recognition.onstart = function() {
-                if (typeof eqTrack === 'function') eqTrack('voice_input_started', { language: lang });
-            };
-
-            recognition.onresult = function(event) {
-                const transcript = event.results[0][0].transcript;
-                input.value = transcript;
-                input.focus();
-
-                if (typeof eqTrack === 'function') {
-                    eqTrack('voice_input_success', {
-                        language: lang,
-                        transcript_length: transcript.length
-                    });
-                }
-
-                // Auto-submit after short delay so user can see their text
-                setTimeout(() => {
-                    document.getElementById('inquiry-form').dispatchEvent(new Event('submit'));
-                }, 300);
-            };
-
-            recognition.onerror = function(event) {
-                console.error('Speech recognition error:', event.error);
-                alert(t('voice_error'));
-
-                if (typeof eqTrack === 'function') {
-                    eqTrack('voice_input_error', {
-                        language: lang,
-                        error: event.error
-                    });
-                }
-            };
-
-            recognition.onend = function() {
-                resetVoiceButton();
-            };
-
-            try {
-                recognition.start();
-            } catch (err) {
-                console.error('Could not start speech recognition:', err);
-                alert(t('voice_unsupported'));
-                resetVoiceButton();
-            }
-        }
-
-        function stopVoiceInput() {
-            if (currentRecognition) {
-                try {
-                    currentRecognition.stop();
-                } catch (err) {
-                    console.error('Error stopping recognition:', err);
-                }
-                currentRecognition = null;
-            }
-            if (recordingTimeout) {
-                clearTimeout(recordingTimeout);
-                recordingTimeout = null;
-            }
-            resetVoiceButton();
-        }
-
-        function resetVoiceButton() {
-            const btn = document.getElementById('voice-input-btn');
-            btn.classList.remove('recording');
-            btn.textContent = '🗣️';
-            btn.disabled = false;
-            btn.title = 'Click to speak your situation';
-            currentRecognition = null;
-        }
-
-        // --- Multilingual morphing headlines ---
-        // Each entry: [displayText, languageCode]
-        const headlines = [
-            ["Free, Instant Legal Guidance\nat Your Fingertips", "en"],
-            ["मुफ़्त, तुरंत कानूनी मार्गदर्शन\nआपकी उंगलियों पर", "hi"],
-            ["বিনামূল্যে, তাৎক্ষণিক আইনি পরামর্শ\nআপনার নখদর্পণে", "bn"],
-            ["ఉచిత, తక్షణ న్యాయ సలహా\nమీ చేతివేళ్ల కొనన", "te"],
-            ["मोफत, त्वरित कायदेशीर मार्गदर्शन\nतुमच्या बोटांच्या टोकावर", "mr"],
-            ["இலவச, உடனடி சட்ட ஆலோசனை\nஉங்கள் விரல் நுனியில்", "ta"],
-            ["મફત, તાત્કાલિક કાનૂની માર્ગદર્શન\nતમારી આંગળીના ટેરવે", "gu"],
-            ["ಉಚಿತ, ತ್ವರಿತ ಕಾನೂನು ಮಾರ್ಗದರ್ಶನ\nನಿಮ್ಮ ಬೆರಳ ತುದಿಯಲ್ಲಿ", "kn"],
-            ["സൗജന്യ, തൽക്ഷണ നിയമ ഉപദേശം\nനിങ്ങളുടെ വിരൽത്തുമ്പിൽ", "ml"],
-            ["ਮੁਫ਼ਤ, ਤੁਰੰਤ ਕਾਨੂੰਨੀ ਮਾਰਗਦਰਸ਼ਨ\nਤੁਹਾਡੀਆਂ ਉਂਗਲਾਂ 'ਤੇ", "pa"],
-        ];
-
-        let currentIdx = 0;
-        const target = document.getElementById('morph-target');
-        const htmlEl = document.documentElement;
-        const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-        function setHeadline([text, lang]) {
-            target.innerHTML = text.replace(/\n/g, '<br>');
-            htmlEl.setAttribute('lang', lang);
-            if (!prefersReduced) {
-                target.classList.remove('exit', 'morph-text');
-                void target.offsetWidth;
-                target.classList.add('morph-text');
-            }
-        }
-
-        function cycleHeadline() {
-            if (!prefersReduced) {
-                target.classList.add('exit');
-                target.classList.remove('morph-text');
-                setTimeout(() => {
-                    currentIdx = (currentIdx + 1) % headlines.length;
-                    setHeadline(headlines[currentIdx]);
-                }, 400);
-            } else {
-                currentIdx = (currentIdx + 1) % headlines.length;
-                setHeadline(headlines[currentIdx]);
-            }
-        }
-
-        setHeadline(headlines[0]);
-        setInterval(cycleHeadline, 3500);
-
-        // --- Example query chips ---
-        document.querySelectorAll('.query-chip').forEach(chip => {
-            chip.addEventListener('click', () => {
-                const q = chip.dataset.query;
-                document.getElementById('legal-query').value = q;
-                document.getElementById('legal-query').focus();
-                // Track chip click
-                if (typeof eqTrack === 'function') eqTrack('chip_click', { query: q, chip_label: chip.textContent.trim() });
-                // Auto-submit after a brief moment so user sees it populated
-                const lang = getCurrentLang ? getCurrentLang() : localStorage.getItem('eq_lang') || 'en';
-                setTimeout(() => {
-                    window.location.href = '/chatbot?query=' + encodeURIComponent(q) + '&lang=' + lang;
-                }, 150);
-            });
-        });
-
-        // --- Form submission ---
-        const form = document.getElementById('inquiry-form');
-        const input = document.getElementById('legal-query');
-        const errorEl = document.getElementById('query-error');
-
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const query = input.value.trim();
-            if (!query || query.length < 10) {
-                errorEl.classList.remove('hidden');
-                input.setAttribute('aria-invalid', 'true');
-                input.focus();
-                return;
-            }
-            errorEl.classList.add('hidden');
-            input.removeAttribute('aria-invalid');
-            if (typeof eqTrack === 'function') eqTrack('query_submit', { query: query });
-            // Pass language parameter to chatbot
-            const lang = getCurrentLang ? getCurrentLang() : localStorage.getItem('eq_lang') || 'en';
-            window.location.href = '/chatbot?query=' + encodeURIComponent(query) + '&lang=' + lang;
-        });
-
-        input.addEventListener('input', function() {
-            if (this.value.trim().length >= 10) {
-                errorEl.classList.add('hidden');
-                this.removeAttribute('aria-invalid');
-            }
-        });
-    </script>
 </body>
 </html>
-<!-- deploy 1773252038 -->
