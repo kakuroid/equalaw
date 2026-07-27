@@ -10,7 +10,8 @@
     { "source": "/join",        "destination": "/join.html"        },
     { "source": "/development", "destination": "/development.html" },
     { "source": "/chatbot",     "destination": "/chatbot.html"     },
-    { "source": "/chat",        "destination": "/chat.html"        }
+    { "source": "/chat",        "destination": "/chat.html"        },
+    { "source": "/agent",       "destination": "/agent.html"       }
   ],
   "cleanUrls": true,
   "trailingSlash": false,

@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<!-- Equalaw Agent "Nyaya" — agentic Justice Navigator -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nyaya · Equalaw Justice Navigator</title>
+    <meta name="theme-color" content="#1C2A3F">
+    <link rel="icon" href="/assets/equalaw-logo-v2.svg?v=20260623" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <meta name="description" content="Describe your legal situation in your own words. Nyaya, the Equalaw agent, gives you your rights, the right authority to approach, deadlines, and a ready-to-use drafted document.">
+    <meta property="og:title" content="Nyaya · Equalaw Justice Navigator">
+    <meta property="og:description" content="An agentic legal navigator for Universal Access to Justice. Rights, the right authority, deadlines, and a drafted document — instantly.">
+    <meta property="og:url" content="https://www.equalaw.tech/agent">
+    <meta property="og:type" content="website">
+    <link rel="canonical" href="https://www.equalaw.tech/agent">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: { extend: {
+                fontFamily: {
+                    sans: ['Hanken Grotesk', 'system-ui', 'sans-serif'],
+                    display: ['Archivo', 'system-ui', 'sans-serif'],
+                    mono: ['Spline Sans Mono', 'ui-monospace', 'monospace'],
+                },
+                colors: {
+                    brand: {
+                        50: '#eef1f6', 100: '#e7e9ee', 200: '#c8cdd6',
+                        300: '#9aa4b4', 400: '#5d6b80', 500: '#33425a',
+                        600: '#1C2A3F', 700: '#16243a', 800: '#11192a', 900: '#0c1220',
+                    },
+                    navy: '#1C2A3F', gold: '#B79C76', peri: '#A4C1F9',
+                    paper: '#F3F1EA', paper2: '#ECE8DD', ink: '#16140f',
+                }
+            } }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=Archivo:wght@600;700;800&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/ui-components.css">
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.9/dist/purify.min.js"></script>
+    <script src="/assets/config.js"></script>
+    <script src="/assets/analytics.js"></script>
+    <script src="/assets/i18n.js"></script>
+    <script src="/assets/voice-input.js"></script>
+    <script defer src="https://cdn.vercel-insights.com/v1/script.js"></script>
+    <style>
+        body {
+            font-family: 'Hanken Grotesk', system-ui, sans-serif;
+            background-color: #F3F1EA;
+            background-image:
+                radial-gradient(at 0% 0%, rgba(28,42,63,0.05) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(183,156,118,0.06) 0px, transparent 50%);
+        }
+        h1 { font-family: 'Archivo', system-ui, sans-serif; }
+        .sr-only { position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0; }
+        .thread { scroll-behavior: smooth; }
+        .msg-in { animation: fadeUp .3s ease both; }
+        @keyframes fadeUp { from { opacity:0; transform: translateY(8px);} to {opacity:1; transform:none;} }
+        .typing span { display:inline-block; width:6px; height:6px; border-radius:50%; background:#94a3b8; margin:0 1px; animation: blink 1.2s infinite both; }
+        .typing span:nth-child(2){ animation-delay:.2s; } .typing span:nth-child(3){ animation-delay:.4s; }
+        @keyframes blink { 0%,60%,100%{opacity:.25;} 30%{opacity:1;} }
+        .pack-doc { white-space: pre-wrap; font-family: 'Spline Sans Mono', ui-monospace, Menlo, monospace; font-size: 0.8rem; line-height:1.5; }
+        .pulse-ring { animation: pulseRing 2s ease-out infinite; }
+        @keyframes pulseRing { 0%{transform:scale(1);opacity:.55;} 100%{transform:scale(2.6);opacity:0;} }
+        @media (prefers-reduced-motion: reduce){ .msg-in,.typing span,.pulse-ring{animation:none;} .thread{scroll-behavior:auto;} }
+    </style>
+</head>
+<body class="bg-paper text-slate-800 antialiased flex flex-col min-h-screen">
+
+    <!-- Header -->
+    <header class="relative z-10 border-b border-slate-200 bg-white/80 backdrop-blur sticky top-0">
+        <div class="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
+            <a href="/" class="logo-horizontal no-underline" aria-label="Equalaw home">
+                <img src="/assets/equalaw-logo-v2.svg?v=20260623" alt="" class="logo-mark" aria-hidden="true">
+                <img src="/assets/equalaw-wordmark-v2.svg?v=20260623" alt="Equalaw" class="logo-wordmark logo-wordmark-sm hidden sm:block">
+            </a>
+            <div class="flex items-center gap-2">
+                <span class="hidden sm:inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.18em] font-mono text-navy border border-slate-300 bg-white/60 rounded-full px-3 py-1.5" title="Agentic assistant">
+                    <span class="relative flex h-2 w-2" aria-hidden="true">
+                        <span class="pulse-ring absolute inline-flex h-full w-full rounded-full" style="background:#B79C76"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2" style="background:#B79C76"></span>
+                    </span>
+                    Nyaya Agent
+                </span>
+                <button id="sos-btn" type="button" class="inline-flex items-center gap-1.5 text-[12px] font-extrabold uppercase tracking-wide text-white rounded-full px-3.5 py-1.5 shadow-sm" style="background:#b3261e" aria-haspopup="dialog" aria-label="Emergency help">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    SOS
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- SOS emergency modal -->
+    <div id="sos-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 p-4" role="dialog" aria-modal="true" aria-labelledby="sos-title">
+        <div class="card !p-5 max-w-sm w-full bg-white" role="document">
+            <div class="flex items-start justify-between mb-1">
+                <h2 id="sos-title" class="text-lg font-bold text-slate-900" style="font-family:'Archivo',sans-serif">Emergency help</h2>
+                <button id="sos-close" type="button" class="text-slate-400 hover:text-slate-700 text-xl leading-none px-1" aria-label="Close">×</button>
+            </div>
+            <p class="text-sm text-slate-600 mb-4">If you are in immediate danger, call <a href="tel:112" class="font-bold text-[#b3261e] underline">112</a> now. These are national helplines in India — free to call.</p>
+            <ul class="space-y-2">
+                <li><a href="tel:112" class="flex items-center justify-between rounded-lg border border-slate-200 px-3 py-2.5 hover:border-brand-400 hover:bg-brand-50 transition"><span class="text-sm font-semibold text-slate-800">Police / All emergencies</span><span class="font-mono font-bold text-brand-700">112</span></a></li>
+                <li><a href="tel:181" class="flex items-center justify-between rounded-lg border border-slate-200 px-3 py-2.5 hover:border-brand-400 hover:bg-brand-50 transition"><span class="text-sm font-semibold text-slate-800">Women Helpline</span><span class="font-mono font-bold text-brand-700">181</span></a></li>
+                <li><a href="tel:1098" class="flex items-center justify-between rounded-lg border border-slate-200 px-3 py-2.5 hover:border-brand-400 hover:bg-brand-50 transition"><span class="text-sm font-semibold text-slate-800">Child Helpline</span><span class="font-mono font-bold text-brand-700">1098</span></a></li>
+                <li><a href="tel:1930" class="flex items-center justify-between rounded-lg border border-slate-200 px-3 py-2.5 hover:border-brand-400 hover:bg-brand-50 transition"><span class="text-sm font-semibold text-slate-800">Cyber Fraud (report fast)</span><span class="font-mono font-bold text-brand-700">1930</span></a></li>
+                <li><a href="tel:15100" class="flex items-center justify-between rounded-lg border border-slate-200 px-3 py-2.5 hover:border-brand-400 hover:bg-brand-50 transition"><span class="text-sm font-semibold text-slate-800">Free Legal Aid (NALSA/DLSA)</span><span class="font-mono font-bold text-brand-700">15100</span></a></li>
+            </ul>
+        </div>
+    </div>
+
+    <main class="relative z-10 flex-1 w-full max-w-3xl mx-auto px-4 pb-40" id="main-content">
+
+        <!-- Intro -->
+        <section class="text-center pt-8 pb-4" id="intro">
+            <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight">Tell me what happened.</h1>
+            <p class="text-base md:text-lg text-slate-600 mt-3 max-w-xl mx-auto leading-relaxed">
+                Nyaya is Equalaw's justice navigator. Describe your situation in your own words —
+                any language, voice or text. You'll get your <strong class="text-slate-800">rights</strong>,
+                the <strong class="text-slate-800">right authority</strong> to approach, the
+                <strong class="text-slate-800">deadlines</strong>, and a
+                <strong class="text-slate-800">ready-to-use document</strong>.
+            </p>
+
+            <!-- Starter chips -->
+            <div class="flex flex-wrap gap-2 justify-center mt-5" id="starter-chips">
+                <button class="btn btn-secondary btn-sm starter" data-q="An online store took my money but never delivered my order and won't refund me.">🛒 Online order never delivered</button>
+                <button class="btn btn-secondary btn-sm starter" data-q="A cheque given to me for ₹50,000 has bounced due to insufficient funds.">💸 A cheque bounced on me</button>
+                <button class="btn btn-secondary btn-sm starter" data-q="I lost money to an online UPI scam this morning after clicking a link.">🛡️ I was scammed online</button>
+                <button class="btn btn-secondary btn-sm starter" data-q="My employer has not paid my salary for two months and now says I am fired.">💼 My salary is unpaid</button>
+                <button class="btn btn-secondary btn-sm starter" data-q="I cannot afford a lawyer. How do I get free legal aid?">⚖️ I can't afford a lawyer</button>
+            </div>
+        </section>
+
+        <!-- Conversation thread -->
+        <div id="thread" class="thread flex flex-col gap-4 mt-4" aria-live="polite" aria-label="Conversation"></div>
+    </main>
+
+    <!-- Composer -->
+    <div class="fixed bottom-0 inset-x-0 z-20 bg-gradient-to-t from-paper via-paper to-transparent pt-6">
+        <div class="max-w-3xl mx-auto px-4 pb-4">
+            <form id="inquiry-form"
+                  class="glass-card !p-2 rounded-2xl flex items-end gap-2 border border-white/60 focus-within:ring-4 focus-within:ring-brand-400/20 focus-within:border-brand-300 transition-all">
+                <label for="legal-query" class="sr-only">Describe your legal situation</label>
+                <textarea id="legal-query" name="query" rows="1"
+                    placeholder="Describe your situation…"
+                    data-i18n="placeholder_query" data-i18n-attr="placeholder"
+                    class="flex-grow resize-none max-h-40 py-3 px-4 rounded-xl outline-none text-slate-800 bg-transparent text-base font-medium placeholder-slate-400"
+                    autocomplete="off"></textarea>
+                <button type="button" id="voice-input-btn" class="voice-btn shrink-0" title="Speak your situation" aria-label="Voice input">🎤</button>
+                <button type="submit" id="send-btn" class="btn btn-primary btn-md shrink-0" aria-label="Send">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                </button>
+            </form>
+            <p class="text-center text-[11px] text-slate-400 mt-2 px-2">
+                Equalaw provides legal information and next steps, not legal advice. Free legal aid (DLSA): call <strong>15100</strong>.
+            </p>
+        </div>
+    </div>
+
+    <script>
+    (function () {
+        const thread = document.getElementById('thread');
+        const form = document.getElementById('inquiry-form');
+        const input = document.getElementById('legal-query');
+        const intro = document.getElementById('intro');
+        let history = [];      // [{role, content}]
+        let busy = false;
+
+        // --- helpers -------------------------------------------------------
+        function el(tag, cls, text) {
+            const n = document.createElement(tag);
+            if (cls) n.className = cls;
+            if (text != null) n.textContent = text;
+            return n;
+        }
+        function scrollDown() { window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }); }
+
+        function bubbleUser(text) {
+            const wrap = el('div', 'msg-in flex justify-end');
+            const b = el('div', 'max-w-[85%] bg-brand-600 text-white rounded-2xl rounded-br-md px-4 py-2.5 text-[15px] leading-relaxed shadow-sm');
+            b.textContent = text;
+            wrap.appendChild(b);
+            thread.appendChild(wrap);
+            scrollDown();
+        }
+        function bubbleBot(text) {
+            const wrap = el('div', 'msg-in flex justify-start');
+            const b = el('div', 'max-w-[85%] bg-white border border-slate-200 rounded-2xl rounded-bl-md px-4 py-2.5 text-[15px] leading-relaxed text-slate-700 shadow-sm');
+            b.textContent = text;
+            wrap.appendChild(b);
+            thread.appendChild(wrap);
+            scrollDown();
+        }
+        function showTyping() {
+            const wrap = el('div', 'msg-in flex justify-start');
+            wrap.id = 'typing';
+            const b = el('div', 'bg-white border border-slate-200 rounded-2xl rounded-bl-md px-4 py-3 typing');
+            b.appendChild(el('span')); b.appendChild(el('span')); b.appendChild(el('span'));
+            wrap.appendChild(b);
+            thread.appendChild(wrap);
+            scrollDown();
+        }
+        function hideTyping() { const t = document.getElementById('typing'); if (t) t.remove(); }
+
+        // Visible reasoning trace (plan → call → observe → done) — the key trust
+        // feature: the user can see exactly what the agent did and why.
+        function renderTrace(trace) {
+            if (!Array.isArray(trace) || !trace.length) return;
+            const wrap = el('div', 'msg-in flex justify-start w-full');
+            const box = el('div', 'w-full max-w-[92%] bg-white/70 border border-slate-200 rounded-xl overflow-hidden');
+            const head = el('div', 'flex items-center gap-1.5 px-3 py-2 border-b border-slate-100 text-[10px] font-bold uppercase tracking-[0.16em] text-navy');
+            const ic = document.createElement('span'); ic.setAttribute('aria-hidden', 'true');
+            ic.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.2 4.2l2.8 2.8M17 17l2.8 2.8M1 12h4M19 12h4M4.2 19.8l2.8-2.8M17 7l2.8-2.8"/></svg>';
+            head.appendChild(ic); head.appendChild(el('span', null, 'Agent reasoning'));
+            box.appendChild(head);
+            const colors = {
+                plan: 'bg-peri/30 text-navy', call: 'bg-navy text-white',
+                observe: 'bg-gold/25 text-[#7c6540]', done: 'bg-emerald-100 text-emerald-700'
+            };
+            trace.forEach(function (s) {
+                const row = el('div', 'flex items-start gap-2 px-3 py-1.5 border-b border-slate-50');
+                const b = el('span', 'shrink-0 mt-0.5 text-[9px] font-bold uppercase tracking-wide px-1.5 py-0.5 rounded ' + (colors[s.kind] || 'bg-slate-100 text-slate-600'));
+                b.textContent = s.kind;
+                const txt = el('div', 'text-[12.5px] text-slate-600 leading-snug');
+                txt.appendChild(document.createTextNode(s.label || ''));
+                if (s.detail) { const d = el('div', 'text-[11px] text-slate-400 font-mono mt-0.5'); d.textContent = s.detail; txt.appendChild(d); }
+                row.appendChild(b); row.appendChild(txt); box.appendChild(row);
+            });
+            wrap.appendChild(box); thread.appendChild(wrap); scrollDown();
+        }
+
+        // SOS emergency modal
+        (function initSOS() {
+            const modal = document.getElementById('sos-modal');
+            const open = () => { modal.classList.remove('hidden'); modal.classList.add('flex'); if (typeof eqTrack === 'function') eqTrack('agent_sos_opened', {}); };
+            const close = () => { modal.classList.add('hidden'); modal.classList.remove('flex'); };
+            document.getElementById('sos-btn').addEventListener('click', open);
+            document.getElementById('sos-close').addEventListener('click', close);
+            modal.addEventListener('click', (e) => { if (e.target === modal) close(); });
+            document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+        })();
+
+        function section(parent, label, iconSvg) {
+            const s = el('div', 'mt-4 first:mt-0');
+            const h = el('div', 'flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-brand-600 mb-1');
+            const ic = document.createElement('span'); ic.innerHTML = iconSvg; ic.setAttribute('aria-hidden','true');
+            h.appendChild(ic); h.appendChild(el('span', null, label));
+            s.appendChild(h);
+            parent.appendChild(s);
+            return s;
+        }
+
+        // --- render the Justice Action Pack --------------------------------
+        function renderPack(pack, meta) {
+            const card = el('div', 'msg-in card !p-5 md:!p-6 border-brand-200');
+            const head = el('div', 'flex items-start gap-3 pb-3 border-b border-slate-100');
+            const badge = el('div', 'shrink-0 w-9 h-9 rounded-lg bg-brand-50 flex items-center justify-center text-brand-600');
+            badge.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>';
+            const ht = el('div');
+            ht.appendChild(el('div', 'text-[11px] font-bold uppercase tracking-wider text-slate-400', 'Your Justice Action Pack'));
+            ht.appendChild(el('div', 'text-lg font-bold text-slate-900 leading-tight', pack.title || 'Your action plan'));
+            head.appendChild(badge); head.appendChild(ht);
+            card.appendChild(head);
+
+            if (pack.rights_summary) {
+                const s = section(card, 'Your rights', '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2l7 4v6c0 5-3.5 8-7 10-3.5-2-7-5-7-10V6z"/></svg>');
+                s.appendChild(el('p', 'text-[15px] text-slate-700 leading-relaxed', pack.rights_summary));
+            }
+            if (pack.authority) {
+                const s = section(card, 'Where to go', '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>');
+                s.appendChild(el('p', 'text-[15px] font-semibold text-slate-800', pack.authority.name || ''));
+                if (pack.authority.how_to_reach) {
+                    const p = el('p', 'text-sm text-slate-600 mt-0.5 break-words');
+                    // linkify URLs and helpline numbers safely
+                    const parts = String(pack.authority.how_to_reach).split(/(\s+)/);
+                    parts.forEach(tok => {
+                        if (/^https?:\/\//i.test(tok)) {
+                            const a = el('a', 'text-brand-600 underline'); a.href = tok; a.target = '_blank'; a.rel = 'noopener'; a.textContent = tok;
+                            p.appendChild(a);
+                        } else { p.appendChild(document.createTextNode(tok)); }
+                    });
+                    s.appendChild(p);
+                }
+            }
+            if (pack.deadlines) {
+                const s = section(card, 'Deadlines', '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>');
+                const warn = el('p', 'text-[15px] text-slate-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2', pack.deadlines);
+                s.appendChild(warn);
+            }
+            if (Array.isArray(pack.action_steps) && pack.action_steps.length) {
+                const s = section(card, 'Your next steps', '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>');
+                const ol = el('ol', 'list-decimal ml-5 space-y-1.5 text-[15px] text-slate-700');
+                pack.action_steps.forEach(st => ol.appendChild(el('li', null, st)));
+                s.appendChild(ol);
+            }
+            if (Array.isArray(pack.documents_needed) && pack.documents_needed.length) {
+                const s = section(card, 'Documents to gather', '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>');
+                const ul = el('ul', 'space-y-1 text-[15px] text-slate-700');
+                pack.documents_needed.forEach(d => {
+                    const li = el('li', 'flex gap-2 items-start');
+                    li.appendChild(el('span', 'text-brand-500 mt-0.5', '□'));
+                    li.appendChild(el('span', null, d));
+                    ul.appendChild(li);
+                });
+                s.appendChild(ul);
+            }
+            if (pack.drafted_document && pack.drafted_document.body) {
+                const s = section(card, 'Ready-to-use draft: ' + (pack.drafted_document.title || 'document'), '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>');
+                const box = el('div', 'relative bg-slate-50 border border-slate-200 rounded-lg p-3 mt-1');
+                const pre = el('div', 'pack-doc text-slate-800 max-h-72 overflow-auto'); pre.textContent = pack.drafted_document.body;
+                box.appendChild(pre);
+                const actions = el('div', 'flex gap-2 mt-2');
+                const copyBtn = el('button', 'btn btn-secondary btn-xs', 'Copy'); copyBtn.type = 'button';
+                copyBtn.onclick = () => { navigator.clipboard.writeText(pack.drafted_document.body); copyBtn.textContent = 'Copied ✓'; setTimeout(()=>copyBtn.textContent='Copy',1500); };
+                const dlBtn = el('button', 'btn btn-secondary btn-xs', 'Download'); dlBtn.type = 'button';
+                dlBtn.onclick = () => {
+                    const blob = new Blob([pack.drafted_document.body], { type: 'text/plain' });
+                    const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+                    a.download = (pack.drafted_document.title || 'equalaw-draft').replace(/\s+/g,'-').toLowerCase() + '.txt';
+                    a.click(); URL.revokeObjectURL(a.href);
+                };
+                actions.appendChild(copyBtn); actions.appendChild(dlBtn);
+                box.appendChild(actions);
+                s.appendChild(box);
+            }
+
+            // Specialist hand-off + disclaimer
+            const foot = el('div', 'mt-5 pt-4 border-t border-slate-100');
+            const cta = el('a', 'btn btn-primary btn-md w-full', 'Connect with a legal specialist');
+            cta.href = '/chatbot'; cta.setAttribute('data-eq','pack_specialist_cta');
+            foot.appendChild(cta);
+            if (meta && meta.disclaimer) foot.appendChild(el('p', 'text-[11px] text-slate-400 mt-3 leading-relaxed', meta.disclaimer));
+            if (meta && meta.mode === 'fallback') foot.appendChild(el('p', 'text-[11px] text-slate-300 mt-1', 'Running in offline guidance mode.'));
+            card.appendChild(foot);
+
+            thread.appendChild(card);
+            scrollDown();
+        }
+
+        // --- talk to the agent ---------------------------------------------
+        async function send(text) {
+            if (busy || !text.trim()) return;
+            busy = true;
+            intro.classList.add('hidden');
+            bubbleUser(text);
+            history.push({ role: 'user', content: text });
+            if (typeof eqTrack === 'function') eqTrack('agent_message_sent', { len: text.length });
+            input.value = ''; autoGrow();
+            showTyping();
+
+            try {
+                const lang = (window.getCurrentLang && window.getCurrentLang()) || localStorage.getItem('eq_lang') || 'en';
+                const res = await fetch('/api/agent', {
+                    method: 'POST',
+                    headers: { 'content-type': 'application/json' },
+                    body: JSON.stringify({ messages: history, lang })
+                });
+                const data = await res.json();
+                hideTyping();
+                renderTrace(data.trace);
+
+                if (data.type === 'action_pack' && data.pack) {
+                    bubbleBot(data.pack.rights_summary
+                        ? "Here's your action pack — everything you need to take the next step."
+                        : "Here's your action pack.");
+                    renderPack(data.pack, data);
+                    history.push({ role: 'assistant', content: 'Delivered the Justice Action Pack: ' + (data.pack.title || '') });
+                    if (typeof eqTrack === 'function') eqTrack('agent_action_pack', { domain: data.pack.domain_id, mode: data.mode });
+                } else {
+                    const msg = data.message || 'Could you tell me a little more?';
+                    bubbleBot(msg);
+                    history.push({ role: 'assistant', content: msg });
+                }
+            } catch (err) {
+                hideTyping();
+                bubbleBot("Sorry — I couldn't reach the service just now. Please try again, or call the free legal aid helpline 15100.");
+                console.error(err);
+            } finally {
+                busy = false;
+            }
+        }
+
+        // --- composer behaviour --------------------------------------------
+        function autoGrow() { input.style.height = 'auto'; input.style.height = Math.min(input.scrollHeight, 160) + 'px'; }
+        input.addEventListener('input', autoGrow);
+        input.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); form.dispatchEvent(new Event('submit')); }
+        });
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            send(input.value);
+        });
+        document.querySelectorAll('.starter').forEach(btn => {
+            btn.addEventListener('click', () => { send(btn.dataset.q); });
+        });
+
+        // Prefill from homepage (?query=…) and init voice
+        window.addEventListener('DOMContentLoaded', function () {
+            if (window.initDeepgramVoice) window.initDeepgramVoice();
+            const params = new URLSearchParams(location.search);
+            const q = params.get('query');
+            if (q) { input.value = q; autoGrow(); send(q); }
+        });
+    })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+{
+  "meta": {
+    "jurisdiction": "India",
+    "version": "1.0",
+    "disclaimer": "Equalaw provides legal information and guided next steps, not legal advice. For binding advice, consult a qualified advocate or your nearest District Legal Services Authority (DLSA), which provides free legal aid to eligible citizens."
+  },
+  "domains": [
+    {
+      "id": "consumer",
+      "label": "Consumer dispute (defective product / service / e-commerce)",
+      "keywords": ["refund", "defective", "product", "warranty", "e-commerce", "online order", "delivery", "shopping", "amazon", "flipkart", "service", "overcharged", "fake", "not delivered", "consumer"],
+      "rights_summary": "The Consumer Protection Act, 2019 protects you against defective goods, deficient services, unfair trade practices, and misleading ads. You can seek refund, replacement, compensation, and removal of unfair practices.",
+      "authority": {
+        "name": "District Consumer Disputes Redressal Commission",
+        "escalation": "State Commission (claims over Rs. 1 crore) and National Commission (over Rs. 10 crore)",
+        "online_portal": "https://edaakhil.nic.in",
+        "helpline": "National Consumer Helpline 1915 (or 1800-11-4000)"
+      },
+      "limitation": "File within 2 years from the date the cause of action arises.",
+      "documents": ["Invoice / order confirmation / receipt", "Warranty card if any", "Screenshots of listing, chat, and payment", "Written complaint already sent to the seller and their reply (if any)", "Photos/video of the defect"],
+      "document_type": "consumer_complaint",
+      "template_hint": "A complaint to the District Consumer Commission stating parties, facts, defect/deficiency, relief sought (refund/replacement/compensation), and a verification clause."
+    },
+    {
+      "id": "cheque_bounce",
+      "label": "Cheque bounce / money recovery",
+      "keywords": ["cheque", "check bounce", "dishonour", "dishonoured", "insufficient funds", "138", "money recovery", "loan not returned", "borrowed", "lent money", "repay"],
+      "rights_summary": "Under Section 138 of the Negotiable Instruments Act, 1881, a bounced cheque is a criminal offence. You must first send a written demand notice; if unpaid within 15 days, you can file a criminal complaint. For informal loans, a civil recovery suit is the route.",
+      "authority": {
+        "name": "Judicial Magistrate First Class (for S.138) / Civil Court (for recovery suit)",
+        "escalation": "Sessions Court on appeal",
+        "online_portal": "https://njdg.ecourts.gov.in (case status); filing is done at the local court",
+        "helpline": "Contact your nearest District Legal Services Authority for help drafting and filing"
+      },
+      "limitation": "Send the demand notice within 30 days of the cheque return memo. File the complaint within 30 days after the 15-day payment window expires.",
+      "documents": ["The dishonoured cheque", "Bank return memo ('cheque return' slip)", "Proof of the underlying debt (loan agreement, messages, invoices)", "Copy of the demand notice and postal receipt / acknowledgement"],
+      "document_type": "legal_demand_notice",
+      "template_hint": "A statutory demand notice under S.138 NI Act demanding payment of the cheque amount within 15 days, sent by registered post."
+    },
+    {
+      "id": "cybercrime",
+      "label": "Cybercrime / online fraud",
+      "keywords": ["fraud", "scam", "phishing", "hacked", "otp", "upi", "cyber", "online fraud", "money stolen", "fake call", "sextortion", "blackmail", "identity theft", "social media", "harassment online"],
+      "rights_summary": "Cyber fraud and online offences are covered by the Information Technology Act, 2000 and the Bharatiya Nyaya Sanhita. For financial fraud, reporting within the 'golden hour' greatly increases the chance of freezing and recovering funds.",
+      "authority": {
+        "name": "National Cyber Crime Reporting Portal / local Cyber Crime Police Station",
+        "escalation": "District SP Cyber Cell",
+        "online_portal": "https://cybercrime.gov.in",
+        "helpline": "Cyber Crime Helpline 1930 (report financial fraud immediately)"
+      },
+      "limitation": "Report financial fraud immediately — ideally within 1 hour ('golden hour'). No fixed limitation to file, but act fast.",
+      "documents": ["Transaction IDs, UPI/bank references, and amounts", "Screenshots of the fraudulent messages, calls, or profiles", "Bank statement showing the debit", "Your ID proof", "Any phone numbers / URLs / account numbers of the fraudster"],
+      "document_type": "cyber_complaint",
+      "template_hint": "A cybercrime complaint capturing the timeline, the fraudulent transactions/accounts, and a request to freeze accounts and investigate."
+    },
+    {
+      "id": "employment",
+      "label": "Workplace: unpaid wages / wrongful termination",
+      "keywords": ["salary", "wages not paid", "fired", "terminated", "termination", "boss", "employer", "job", "overtime", "pf", "provident fund", "harassment at work", "layoff", "notice period", "full and final"],
+      "rights_summary": "Workers are protected by the Payment of Wages Act, the Industrial Disputes Act, and the new Labour Codes. You are entitled to timely wages, lawful termination procedure, notice/retrenchment compensation, and a safe workplace.",
+      "authority": {
+        "name": "Office of the Labour Commissioner (state) / Labour Court",
+        "escalation": "Industrial Tribunal",
+        "online_portal": "https://shramsuvidha.gov.in (and your state labour department portal)",
+        "helpline": "Contact your State Labour Department; DLSA can help you file"
+      },
+      "limitation": "Wage claims: generally within 12 months. Industrial disputes: raise promptly; delays weaken the claim.",
+      "documents": ["Appointment letter / employment contract", "Salary slips and bank statements", "Termination or resignation letter", "Any emails / messages about the dispute", "Attendance or work records"],
+      "document_type": "labour_complaint",
+      "template_hint": "A complaint to the Labour Commissioner stating employment details, the wages/termination grievance, and the relief sought."
+    },
+    {
+      "id": "domestic_violence",
+      "label": "Domestic violence / women's protection",
+      "keywords": ["domestic violence", "abuse", "husband", "in-laws", "dowry", "beaten", "harassment", "wife", "protection order", "maintenance", "498a", "cruelty", "shelter"],
+      "rights_summary": "The Protection of Women from Domestic Violence Act, 2005 gives the right to protection orders, residence orders, monetary relief, and custody orders. Cruelty and dowry harassment are also criminal offences. Help is free and confidential.",
+      "authority": {
+        "name": "Protection Officer (district) / Magistrate's Court",
+        "escalation": "Sessions Court",
+        "online_portal": "Approach the District Protection Officer or a registered Service Provider / One Stop Centre",
+        "helpline": "Women Helpline 181 · Police 112 · One Stop Centre (Sakhi)"
+      },
+      "limitation": "No strict limitation for seeking protection — you can apply at any time. Act as soon as it is safe to do so.",
+      "documents": ["Any medical records of injuries", "Photos, messages, or recordings evidencing abuse", "Details of income/assets (for maintenance)", "ID and address proof", "Names and details of witnesses if any"],
+      "document_type": "dv_application",
+      "template_hint": "A Domestic Incident Report / application under the PWDV Act seeking protection, residence, and monetary relief. Handle with sensitivity and a safety-first tone."
+    },
+    {
+      "id": "tenancy",
+      "label": "Landlord / tenant dispute",
+      "keywords": ["rent", "landlord", "tenant", "eviction", "deposit", "security deposit not returned", "vacate", "lease", "rent agreement", "house owner"],
+      "rights_summary": "Tenancies are governed by your State Rent Control / Tenancy Act and the rent agreement. Tenants cannot be evicted without due process, and security deposits must be refunded per the agreement.",
+      "authority": {
+        "name": "Rent Authority / Rent Controller (as per your state's Rent Act)",
+        "escalation": "Rent Tribunal / Civil Court",
+        "online_portal": "Check your state's Rent Authority portal (e.g., Model Tenancy Act states)",
+        "helpline": "DLSA can guide you on your state's procedure"
+      },
+      "limitation": "Money claims (e.g., deposit): generally within 3 years. Act promptly.",
+      "documents": ["Registered rent agreement / lease", "Rent payment receipts or bank records", "Proof of the security deposit paid", "Written communication with the landlord", "Photos of the property condition"],
+      "document_type": "legal_demand_notice",
+      "template_hint": "A demand notice to the landlord/tenant demanding refund of deposit / cure of the breach within a reasonable time before approaching the Rent Authority."
+    },
+    {
+      "id": "rti",
+      "label": "Right to Information (getting records from a public office)",
+      "keywords": ["rti", "right to information", "government record", "pio", "public information", "application status", "no response from office", "government not responding"],
+      "rights_summary": "The Right to Information Act, 2005 lets any citizen ask for information held by a public authority. The Public Information Officer (PIO) must respond within 30 days (48 hours if it concerns life or liberty).",
+      "authority": {
+        "name": "Public Information Officer (PIO) of the concerned department",
+        "escalation": "First Appellate Authority, then the State / Central Information Commission",
+        "online_portal": "https://rtionline.gov.in (for central bodies); states have their own portals",
+        "helpline": "DLSA and many NGOs help draft RTI applications free"
+      },
+      "limitation": "PIO must reply in 30 days. First appeal: within 30 days of the reply/deadline. Second appeal: within 90 days.",
+      "documents": ["Clear list of the information you want", "The name of the department / office", "Rs. 10 application fee (waived for Below Poverty Line applicants)", "Your address for the reply"],
+      "document_type": "rti_application",
+      "template_hint": "An RTI application addressed to the PIO listing specific, answerable questions and citing the applicant's fee status."
+    },
+    {
+      "id": "legal_aid",
+      "label": "Free legal aid eligibility & how to apply",
+      "keywords": ["free lawyer", "legal aid", "cannot afford", "dlsa", "nalsa", "free legal help", "poor", "no money for lawyer", "legal services authority"],
+      "rights_summary": "Under the Legal Services Authorities Act, 1987, free legal aid — including a free lawyer, court fees, and drafting — is a right for eligible people: women, children, SC/ST, persons with disabilities, trafficking/disaster victims, industrial workmen, persons in custody, and anyone with an annual income below the state's prescribed limit.",
+      "authority": {
+        "name": "District Legal Services Authority (DLSA), located in every district court complex",
+        "escalation": "State Legal Services Authority (SLSA) / NALSA",
+        "online_portal": "https://nalsa.gov.in (apply online via the NALSA portal or at the DLSA front office)",
+        "helpline": "NALSA Helpline 15100"
+      },
+      "limitation": "No limitation — you can apply at any time, before or during a case.",
+      "documents": ["Proof of identity (Aadhaar / voter ID)", "Income certificate or ration card (to show eligibility)", "Caste certificate / disability certificate if claiming that ground", "Brief written summary of your legal problem", "Any documents related to your case"],
+      "document_type": "legal_aid_application",
+      "template_hint": "An application to the District Legal Services Authority stating the applicant's eligibility ground, a summary of the legal problem, and a request for free legal aid / a panel advocate."
+    }
+  ],
+  "document_templates": {
+    "consumer_complaint": "BEFORE THE DISTRICT CONSUMER DISPUTES REDRESSAL COMMISSION, {{district}}\n\nComplaint No. ______ of {{year}}\n\nIN THE MATTER OF:\n{{complainant_name}}, R/o {{complainant_address}}                 ... Complainant\n\nVERSUS\n\n{{opposite_party_name}}, {{opposite_party_address}}               ... Opposite Party\n\nCOMPLAINT UNDER SECTION 35 OF THE CONSUMER PROTECTION ACT, 2019\n\nMOST RESPECTFULLY SHOWETH:\n\n1. That the Complainant purchased/availed {{goods_or_service}} from the Opposite Party on {{date}} for a consideration of Rs. {{amount}}, vide invoice/order no. {{reference}}.\n\n2. That {{facts_of_defect_or_deficiency}}.\n\n3. That the Complainant approached the Opposite Party for redressal on {{complaint_date}}, but {{response_of_op}}.\n\n4. That the act of the Opposite Party amounts to {{defect_deficiency_unfair}} within the meaning of the Consumer Protection Act, 2019, causing the Complainant loss, mental agony and harassment.\n\n5. That this Commission has territorial and pecuniary jurisdiction as the cause of action arose at {{place}} and the claim is within the prescribed limit.\n\nPRAYER:\nIt is therefore prayed that this Commission may kindly:\n(a) Direct the Opposite Party to {{primary_relief}};\n(b) Award compensation of Rs. {{compensation}} for deficiency, mental agony and litigation costs;\n(c) Pass any other order deemed fit.\n\nPlace: {{place}}\nDate: {{today}}\n                                                                {{complainant_name}}\n                                                                (Complainant)\n\nVERIFICATION:\nI, {{complainant_name}}, verify that the contents of paras 1 to 5 are true to my knowledge and belief. Verified at {{place}} on {{today}}.",
+    "legal_demand_notice": "LEGAL DEMAND NOTICE\n(By Registered Post A/D)\n\nDate: {{today}}\n\nFrom: {{sender_name}}, {{sender_address}}\nTo:   {{recipient_name}}, {{recipient_address}}\n\nSubject: Demand for payment/action in respect of {{subject_matter}}\n\nSir/Madam,\n\n1. Under instructions and on behalf of my client, I address you as follows.\n\n2. That {{facts}} on {{date}} for an amount/obligation of Rs. {{amount}}.\n\n3. That despite repeated requests, you have failed to {{default}}.\n\n4. You are hereby called upon to {{demand}} within 15 (fifteen) days of receipt of this notice, failing which my client shall be constrained to initiate appropriate civil and/or criminal proceedings against you at your own risk, cost and consequences.\n\n5. This notice is issued without prejudice to my client's other rights and remedies.\n\n                                                                {{sender_name}}",
+    "cyber_complaint": "COMPLAINT TO THE CYBER CRIME CELL / cybercrime.gov.in\n\nDate: {{today}}\nComplainant: {{name}}, {{address}}, Mobile: {{mobile}}\n\n1. Nature of incident: {{incident_type}}.\n\n2. Date & time of incident: {{datetime}}.\n\n3. Detailed description:\n{{description}}\n\n4. Financial loss (if any): Rs. {{amount}}. Transaction details: {{transaction_details}}.\n\n5. Details of the accused (numbers / UPI IDs / accounts / URLs / profiles): {{accused_details}}.\n\n6. Prayer: I request you to register my complaint, take immediate steps to freeze the beneficiary account(s), investigate, and recover the amount. I am ready to provide any further information and evidence.\n\n                                                                {{name}}",
+    "labour_complaint": "TO THE LABOUR COMMISSIONER, {{district}}\n\nDate: {{today}}\nComplainant (Workman): {{name}}, {{address}}\nEmployer: {{employer_name}}, {{employer_address}}\n\nSubject: Complaint regarding {{grievance}}\n\n1. That I was employed as {{designation}} with the above employer from {{join_date}} at a monthly wage of Rs. {{wage}}.\n\n2. That {{facts}}.\n\n3. That the action of the employer is illegal and in violation of applicable labour law.\n\n4. Relief sought: I request your office to {{relief}} and to summon the employer for conciliation.\n\n                                                                {{name}}",
+    "dv_application": "APPLICATION UNDER THE PROTECTION OF WOMEN FROM DOMESTIC VIOLENCE ACT, 2005\n(Through the Protection Officer / before the Magistrate, {{district}})\n\nDate: {{today}}\nAggrieved Person: {{name}}, {{address}}\nRespondent: {{respondent_name}}, relationship: {{relationship}}\n\n1. That the Aggrieved Person has been subjected to {{nature_of_abuse}} by the Respondent.\n\n2. Brief facts (dates and incidents):\n{{facts}}\n\n3. Reliefs sought under the Act:\n(a) A Protection Order restraining the Respondent from committing any act of domestic violence;\n(b) A Residence Order {{residence_relief}};\n(c) Monetary relief / maintenance of Rs. {{maintenance}};\n(d) Any other order this Court deems fit.\n\nNote: You are entitled to free legal aid and the assistance of a Protection Officer. Women Helpline: 181.\n\n                                                                {{name}}",
+    "rti_application": "APPLICATION UNDER THE RIGHT TO INFORMATION ACT, 2005\n\nTo,\nThe Public Information Officer,\n{{department}}, {{office_address}}\n\nDate: {{today}}\n\n1. Name of applicant: {{name}}\n2. Address: {{address}}\n3. Information sought:\n{{questions}}\n\n4. Period to which the information relates: {{period}}.\n5. I am {{bpl_status}} — the prescribed fee of Rs. 10 is {{fee_status}}.\n6. I request the information be provided within 30 days as required by law.\n\n                                                                {{name}}",
+    "legal_aid_application": "APPLICATION FOR FREE LEGAL AID\nTo, The Member Secretary, District Legal Services Authority, {{district}}\n\nDate: {{today}}\n\n1. Name: {{name}}\n2. Address: {{address}}\n3. Ground of eligibility (Section 12, Legal Services Authorities Act, 1987): {{eligibility_ground}}\n4. Annual income: Rs. {{income}} (proof enclosed).\n5. Brief facts of the legal problem for which aid is sought:\n{{facts}}\n\n6. Aid requested: {{aid_requested}} (e.g., a panel advocate, drafting help, court-fee waiver).\n\nI declare the above to be true and request the Authority to provide free legal aid.\n\n                                                                {{name}}\nNALSA Helpline: 15100"
+  }
+}
