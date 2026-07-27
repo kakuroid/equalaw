@@ -165,37 +165,62 @@ function runTool(name, input) {
   return { error: `Unknown tool ${name}` };
 }
 
+// ---- Reasoning-trace helpers ------------------------------------------------
+// The trace is surfaced to the user. NCSC guardrails for agentic legal tools
+// flag "silent failures" as the top risk, so every tool call is made visible.
+function friendlyCall(name, input) {
+  if (name === 'list_domains') return { label: 'Scanning the legal areas I cover', detail: 'list_domains()' };
+  if (name === 'lookup_domain') return { label: 'Checking your rights, the right forum & the rulebook', detail: `lookup_domain('${(input && input.id) || ''}')` };
+  return { label: name, detail: name };
+}
+function summarizeObserve(name, result) {
+  if (name === 'list_domains') return `${Array.isArray(result) ? result.length : 0} legal areas available`;
+  if (name === 'lookup_domain') {
+    if (!result || result.error) return 'No match — will route to DLSA';
+    const lim = (result.limitation || '').split('.')[0].slice(0, 64);
+    return [result.authority && result.authority.name, lim].filter(Boolean).join(' · ');
+  }
+  return 'done';
+}
+
 // ---- Agentic loop -----------------------------------------------------------
 async function runAgent(history) {
   const messages = history.slice();
+  const trace = [];
   for (let turn = 0; turn < MAX_TURNS; turn++) {
     const res = await callAnthropic(messages);
     const blocks = res.content || [];
     const toolUses = blocks.filter((b) => b.type === 'tool_use');
+    const text = blocks.filter((b) => b.type === 'text').map((b) => b.text).join('\n').trim();
 
     // The model finalised the plan.
     const pack = toolUses.find((b) => b.name === 'emit_action_pack');
     if (pack) {
-      return { type: 'action_pack', pack: pack.input };
+      if (text) trace.push({ kind: 'plan', label: text.slice(0, 160) });
+      trace.push({ kind: 'done', label: 'Your action pack is ready' });
+      return { type: 'action_pack', pack: pack.input, trace };
     }
 
     // The model wants to use knowledge-base tools — run them and continue.
     if (toolUses.length > 0) {
+      if (text) trace.push({ kind: 'plan', label: text.slice(0, 160) });
+      else if (trace.length === 0) trace.push({ kind: 'plan', label: 'Understanding your situation and planning the steps' });
       messages.push({ role: 'assistant', content: blocks });
-      const results = toolUses.map((tu) => ({
-        type: 'tool_result',
-        tool_use_id: tu.id,
-        content: JSON.stringify(runTool(tu.name, tu.input)),
-      }));
+      const results = toolUses.map((tu) => {
+        const out = runTool(tu.name, tu.input);
+        const fc = friendlyCall(tu.name, tu.input);
+        trace.push({ kind: 'call', label: fc.label, detail: fc.detail });
+        trace.push({ kind: 'observe', label: summarizeObserve(tu.name, out) });
+        return { type: 'tool_result', tool_use_id: tu.id, content: JSON.stringify(out) };
+      });
       messages.push({ role: 'user', content: results });
       continue;
     }
 
     // Plain text — a clarifying question or a short reply.
-    const text = blocks.filter((b) => b.type === 'text').map((b) => b.text).join('\n').trim();
-    return { type: 'message', message: text || 'Could you tell me a little more about your situation?' };
+    return { type: 'message', message: text || 'Could you tell me a little more about your situation?', trace };
   }
-  return { type: 'message', message: "I need a bit more detail to build your plan. Could you describe what happened, and which state you're in?" };
+  return { type: 'message', message: "I need a bit more detail to build your plan. Could you describe what happened, and which state you're in?", trace };
 }
 
 // ---- Deterministic fallback (no API key) ------------------------------------
@@ -213,6 +238,7 @@ function fallbackPack(userText) {
   if (!d) {
     return {
       type: 'message',
+      trace: [{ kind: 'plan', label: 'Reading your situation to identify the legal area' }],
       message:
         "I couldn't confidently match your situation to a category yet. Please describe what happened in a sentence or two — for example the problem, roughly when it started, and which state you're in.",
     };
@@ -221,6 +247,12 @@ function fallbackPack(userText) {
   return {
     type: 'action_pack',
     fallback: true,
+    trace: [
+      { kind: 'plan', label: 'Reading your situation and identifying the legal area' },
+      { kind: 'call', label: 'Checking your rights, the right forum & the rulebook', detail: `lookup_domain('${d.id}')` },
+      { kind: 'observe', label: [d.authority && d.authority.name, (d.limitation || '').split('.')[0].slice(0, 64)].filter(Boolean).join(' · ') },
+      { kind: 'done', label: 'Your action pack is ready' },
+    ],
     pack: {
       domain_id: d.id,
       title: d.label,

@@ -74,15 +74,39 @@
                 <img src="/assets/equalaw-logo-v2.svg?v=20260623" alt="" class="logo-mark" aria-hidden="true">
                 <img src="/assets/equalaw-wordmark-v2.svg?v=20260623" alt="Equalaw" class="logo-wordmark logo-wordmark-sm hidden sm:block">
             </a>
-            <span class="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.18em] font-mono text-navy border border-slate-300 bg-white/60 rounded-full px-3 py-1.5" title="Agentic assistant">
-                <span class="relative flex h-2 w-2" aria-hidden="true">
-                    <span class="pulse-ring absolute inline-flex h-full w-full rounded-full" style="background:#B79C76"></span>
-                    <span class="relative inline-flex rounded-full h-2 w-2" style="background:#B79C76"></span>
+            <div class="flex items-center gap-2">
+                <span class="hidden sm:inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.18em] font-mono text-navy border border-slate-300 bg-white/60 rounded-full px-3 py-1.5" title="Agentic assistant">
+                    <span class="relative flex h-2 w-2" aria-hidden="true">
+                        <span class="pulse-ring absolute inline-flex h-full w-full rounded-full" style="background:#B79C76"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2" style="background:#B79C76"></span>
+                    </span>
+                    Nyaya Agent
                 </span>
-                Nyaya Agent
-            </span>
+                <button id="sos-btn" type="button" class="inline-flex items-center gap-1.5 text-[12px] font-extrabold uppercase tracking-wide text-white rounded-full px-3.5 py-1.5 shadow-sm" style="background:#b3261e" aria-haspopup="dialog" aria-label="Emergency help">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    SOS
+                </button>
+            </div>
         </div>
     </header>
+
+    <!-- SOS emergency modal -->
+    <div id="sos-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 p-4" role="dialog" aria-modal="true" aria-labelledby="sos-title">
+        <div class="card !p-5 max-w-sm w-full bg-white" role="document">
+            <div class="flex items-start justify-between mb-1">
+                <h2 id="sos-title" class="text-lg font-bold text-slate-900" style="font-family:'Archivo',sans-serif">Emergency help</h2>
+                <button id="sos-close" type="button" class="text-slate-400 hover:text-slate-700 text-xl leading-none px-1" aria-label="Close">×</button>
+            </div>
+            <p class="text-sm text-slate-600 mb-4">If you are in immediate danger, call <a href="tel:112" class="font-bold text-[#b3261e] underline">112</a> now. These are national helplines in India — free to call.</p>
+            <ul class="space-y-2">
+                <li><a href="tel:112" class="flex items-center justify-between rounded-lg border border-slate-200 px-3 py-2.5 hover:border-brand-400 hover:bg-brand-50 transition"><span class="text-sm font-semibold text-slate-800">Police / All emergencies</span><span class="font-mono font-bold text-brand-700">112</span></a></li>
+                <li><a href="tel:181" class="flex items-center justify-between rounded-lg border border-slate-200 px-3 py-2.5 hover:border-brand-400 hover:bg-brand-50 transition"><span class="text-sm font-semibold text-slate-800">Women Helpline</span><span class="font-mono font-bold text-brand-700">181</span></a></li>
+                <li><a href="tel:1098" class="flex items-center justify-between rounded-lg border border-slate-200 px-3 py-2.5 hover:border-brand-400 hover:bg-brand-50 transition"><span class="text-sm font-semibold text-slate-800">Child Helpline</span><span class="font-mono font-bold text-brand-700">1098</span></a></li>
+                <li><a href="tel:1930" class="flex items-center justify-between rounded-lg border border-slate-200 px-3 py-2.5 hover:border-brand-400 hover:bg-brand-50 transition"><span class="text-sm font-semibold text-slate-800">Cyber Fraud (report fast)</span><span class="font-mono font-bold text-brand-700">1930</span></a></li>
+                <li><a href="tel:15100" class="flex items-center justify-between rounded-lg border border-slate-200 px-3 py-2.5 hover:border-brand-400 hover:bg-brand-50 transition"><span class="text-sm font-semibold text-slate-800">Free Legal Aid (NALSA/DLSA)</span><span class="font-mono font-bold text-brand-700">15100</span></a></li>
+            </ul>
+        </div>
+    </div>
 
     <main class="relative z-10 flex-1 w-full max-w-3xl mx-auto px-4 pb-40" id="main-content">
 
@@ -177,6 +201,44 @@
             scrollDown();
         }
         function hideTyping() { const t = document.getElementById('typing'); if (t) t.remove(); }
+
+        // Visible reasoning trace (plan → call → observe → done) — the key trust
+        // feature: the user can see exactly what the agent did and why.
+        function renderTrace(trace) {
+            if (!Array.isArray(trace) || !trace.length) return;
+            const wrap = el('div', 'msg-in flex justify-start w-full');
+            const box = el('div', 'w-full max-w-[92%] bg-white/70 border border-slate-200 rounded-xl overflow-hidden');
+            const head = el('div', 'flex items-center gap-1.5 px-3 py-2 border-b border-slate-100 text-[10px] font-bold uppercase tracking-[0.16em] text-navy');
+            const ic = document.createElement('span'); ic.setAttribute('aria-hidden', 'true');
+            ic.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.2 4.2l2.8 2.8M17 17l2.8 2.8M1 12h4M19 12h4M4.2 19.8l2.8-2.8M17 7l2.8-2.8"/></svg>';
+            head.appendChild(ic); head.appendChild(el('span', null, 'Agent reasoning'));
+            box.appendChild(head);
+            const colors = {
+                plan: 'bg-peri/30 text-navy', call: 'bg-navy text-white',
+                observe: 'bg-gold/25 text-[#7c6540]', done: 'bg-emerald-100 text-emerald-700'
+            };
+            trace.forEach(function (s) {
+                const row = el('div', 'flex items-start gap-2 px-3 py-1.5 border-b border-slate-50');
+                const b = el('span', 'shrink-0 mt-0.5 text-[9px] font-bold uppercase tracking-wide px-1.5 py-0.5 rounded ' + (colors[s.kind] || 'bg-slate-100 text-slate-600'));
+                b.textContent = s.kind;
+                const txt = el('div', 'text-[12.5px] text-slate-600 leading-snug');
+                txt.appendChild(document.createTextNode(s.label || ''));
+                if (s.detail) { const d = el('div', 'text-[11px] text-slate-400 font-mono mt-0.5'); d.textContent = s.detail; txt.appendChild(d); }
+                row.appendChild(b); row.appendChild(txt); box.appendChild(row);
+            });
+            wrap.appendChild(box); thread.appendChild(wrap); scrollDown();
+        }
+
+        // SOS emergency modal
+        (function initSOS() {
+            const modal = document.getElementById('sos-modal');
+            const open = () => { modal.classList.remove('hidden'); modal.classList.add('flex'); if (typeof eqTrack === 'function') eqTrack('agent_sos_opened', {}); };
+            const close = () => { modal.classList.add('hidden'); modal.classList.remove('flex'); };
+            document.getElementById('sos-btn').addEventListener('click', open);
+            document.getElementById('sos-close').addEventListener('click', close);
+            modal.addEventListener('click', (e) => { if (e.target === modal) close(); });
+            document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+        })();
 
         function section(parent, label, iconSvg) {
             const s = el('div', 'mt-4 first:mt-0');
@@ -295,6 +357,7 @@
                 });
                 const data = await res.json();
                 hideTyping();
+                renderTrace(data.trace);
 
                 if (data.type === 'action_pack' && data.pack) {
                     bubbleBot(data.pack.rights_summary
