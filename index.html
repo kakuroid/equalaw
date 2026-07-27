@@ -120,7 +120,7 @@
   <nav class="tabs" aria-label="Primary">
     <a href="/" aria-current="page">Map</a>
     <a href="/chatbot" class="cta">Chatbot →</a>
-    <a href="/join">Advocates</a>
+    <a href="/join">Legal Specialists</a>
   </nav>
   <span class="legend">
     <span><i style="background:var(--peri)"></i>Insight</span>
@@ -186,13 +186,13 @@ const N = [
 {id:"demand",label:"DEMAND · MATTERS",cl:"engine",r:10,ax:.68,ay:.08,t:"Demand — people with matters",s:"one side of the funnel",
  d:`<p>A person with a legal problem doesn't know what law applies, what it should cost, or who to trust. The resolver is the magnet: <b>answer their first question free and correctly</b>, and demand arrives without ad spend.</p>
     <p>In the prototypes, a resolved matter — not a click — is the unit of value.</p>`},
-{id:"supply",label:"SUPPLY · ADVOCATES",cl:"engine",r:10,ax:.90,ay:.12,t:"Supply — advocates",s:"the other side",
- d:`<p>Advocates' scarcest resource is client acquisition — and the Bar Council <b>forbids them from advertising</b>. A platform that routes qualified, pre-resolved matters to the right advocate sells the one thing they cannot legally buy for themselves.</p>`},
+{id:"supply",label:"SUPPLY · LEGAL SPECIALISTS",cl:"engine",r:10,ax:.90,ay:.12,t:"Supply — legal specialists",s:"the other side",
+ d:`<p>Legal Specialists' scarcest resource is client acquisition — and the Bar Council <b>forbids them from advertising</b>. A platform that routes qualified, pre-resolved matters to the right legal specialist sells the one thing they cannot legally buy for themselves.</p>`},
 {id:"match",label:"THE MATCH",cl:"engine",r:11,ax:.78,ay:.26,t:"The Match",s:"the real output",
- d:`<p>Resolved matter meets right advocate — right practice area, right jurisdiction, right court. Everything upstream exists to make this one connection correct.</p>
+ d:`<p>Resolved matter meets right legal specialist — right practice area, right jurisdiction, right court. Everything upstream exists to make this one connection correct.</p>
     <p>Match quality is what compounds: it drives referrals, which drive the flywheel, which drives the economics.</p>`},
 {id:"cpl",label:"CPL ECONOMICS",cl:"engine",r:9,ax:.92,ay:.36,t:"CPL — the unit economics",s:"cost per lead · both sides",
- d:`<p>CPL = spend ÷ leads on the demand side; CPA = spend ÷ advocates on supply; blended across both. The prototypes model a blended <b>₹79 falling toward ₹44</b> as the loop compounds (illustrative numbers, honestly flagged as such).</p>
+ d:`<p>CPL = spend ÷ leads on the demand side; CPA = spend ÷ legal specialists on supply; blended across both. The prototypes model a blended <b>₹79 falling toward ₹44</b> as the loop compounds (illustrative numbers, honestly flagged as such).</p>
     <p>A defensible CPL is the business thesis in one number.</p>`},
 {id:"flywheel",label:"REFERRAL FLYWHEEL",cl:"engine",r:9,ax:.80,ay:.44,t:"The Referral Flywheel",s:"the recursion",
  d:`<p>Better resolution → better matches → satisfied people → referrals → organic demand → lower CPL → more margin to deepen the corpus → better resolution. </p>
@@ -203,7 +203,7 @@ const N = [
  d:`<p>Four coherent answers, all built on the same resolver — but they <b>monetize differently, carry different legal risk, and demand different first builds.</b> Pick one as the identity; the others can become layers later. Click each:</p>
     <div class="models">
       <button data-go="mA"><i></i><span class="t">A · The Public Utility</span><span class="d">The Wikipedia of applicable law. Free resolver for everyone; trust first, money later.</span></button>
-      <button data-go="mB"><i></i><span class="t">B · The Marketplace</span><span class="d">Resolver in front, advocate matching behind, CPL underneath. The funnel thesis, literally.</span></button>
+      <button data-go="mB"><i></i><span class="t">B · The Marketplace</span><span class="d">Resolver in front, legal specialist matching behind, CPL underneath. The funnel thesis, literally.</span></button>
       <button data-go="mC"><i></i><span class="t">C · The Infrastructure</span><span class="d">Law-as-data. The resolver as an API sold to builders, insurers, banks, HR platforms.</span></button>
       <button data-go="mD"><i></i><span class="t">D · The Companion</span><span class="d">A guided legal journey — "what do I do now," documents, timelines, human handoff.</span></button>
     </div>
@@ -215,9 +215,9 @@ const N = [
     <div class="kv"><span class="k">The risk</span><p>Beloved but unfunded — a public good without a business until a layer is added.</p></div>
     <div class="kv"><span class="k">Already proven</span><p>The lite prototype <b>is</b> this, working, in one file.</p></div>`},
 {id:"mB",label:"B · MARKETPLACE",cl:"fork",r:10,ax:.38,ay:.86,t:"Model B — The Marketplace",s:"lead-gen for legal services",
- d:`<p>Two-sided: people with matters on one side, advocates on the other, the resolver qualifying every lead before it costs anyone anything. This is the CPL thesis as literal product.</p>
-    <div class="kv"><span class="k">Who pays</span><p>Advocates — per introduction or subscription. Never a cut of fees (see the BCI node).</p></div>
-    <div class="kv"><span class="k">First build</span><p>Matter intake + a curated advocate bench + matching. The resolver already exists.</p></div>
+ d:`<p>Two-sided: people with matters on one side, legal specialists on the other, the resolver qualifying every lead before it costs anyone anything. This is the CPL thesis as literal product.</p>
+    <div class="kv"><span class="k">Who pays</span><p>Legal Specialists — per introduction or subscription. Never a cut of fees (see the BCI node).</p></div>
+    <div class="kv"><span class="k">First build</span><p>Matter intake + a curated legal specialist bench + matching. The resolver already exists.</p></div>
     <div class="kv"><span class="k">The risk</span><p>Bar Council rules force careful structuring: a directory/introduction service is defensible, a fee-sharing broker is not.</p></div>
     <div class="kv"><span class="k">Already proven</span><p>Fork A's two-sided CPL engine and the v2 loop simulator.</p></div>`},
 {id:"mC",label:"C · INFRASTRUCTURE",cl:"fork",r:10,ax:.60,ay:.88,t:"Model C — The Infrastructure",s:"law as data · resolver as API",
@@ -227,19 +227,19 @@ const N = [
     <div class="kv"><span class="k">The risk</span><p>Slow enterprise sales, and the moat is corpus depth — exactly the part that is 7/11 unfilled.</p></div>
     <div class="kv"><span class="k">Already proven</span><p>The resolver's pure-function design and the time-gate discipline.</p></div>`},
 {id:"mD",label:"D · COMPANION",cl:"fork",r:10,ax:.80,ay:.80,t:"Model D — The Companion",s:"the guided legal journey",
- d:`<p>Not just "which law" but <b>"what do I do now"</b> — notices, documents, timelines, next steps, an AI paralegal that hands off to a human advocate at the right moment.</p>
-    <div class="kv"><span class="k">Who pays</span><p>Consumers (freemium) and advocates (for qualified, prepared handoffs).</p></div>
+ d:`<p>Not just "which law" but <b>"what do I do now"</b> — notices, documents, timelines, next steps, an AI paralegal that hands off to a human legal specialist at the right moment.</p>
+    <div class="kv"><span class="k">Who pays</span><p>Consumers (freemium) and legal specialists (for qualified, prepared handoffs).</p></div>
     <div class="kv"><span class="k">First build</span><p>Everything: resolver + workflow + document generation + a licensed-review path. The heaviest lift on this map.</p></div>
     <div class="kv"><span class="k">The risk</span><p>Walks closest to practising law. "Not legal advice" in the footer will not carry it — it needs structural liability design.</p></div>
     <div class="kv"><span class="k">Already proven</span><p>Only the first step: resolution. The journey after it is unbuilt.</p></div>`},
 
 /* risk */
 {id:"bci",label:"BCI RULES",cl:"risk",r:9,ax:.62,ay:.68,t:"Bar Council of India rules",s:"the regulatory wall",
- d:`<p>Advocates may not advertise (BCI Rules, Rule 36) and may not share fees with non-advocates. Any model that monetizes advocate demand must be an <b>introduction/directory service, never a broker taking a cut of fees.</b></p>
-    <p>This single constraint shapes Models B and D more than any technical choice on the map — and it is also the opportunity: a lawful channel to clients is precisely what advocates cannot build for themselves.</p>`},
+ d:`<p>Legal Specialists may not advertise (BCI Rules, Rule 36) and may not share fees with non-legal specialists. Any model that monetizes legal specialist demand must be an <b>introduction/directory service, never a broker taking a cut of fees.</b></p>
+    <p>This single constraint shapes Models B and D more than any technical choice on the map — and it is also the opportunity: a lawful channel to clients is precisely what legal specialists cannot build for themselves.</p>`},
 {id:"liab",label:"NOT LEGAL ADVICE",cl:"risk",r:9,ax:.90,ay:.62,t:'"Not legal advice"',s:"a disclaimer is not a shield",
  d:`<p>The honest-gap discipline plus verbatim primary-source citation keeps Models A and C in <b>legal-information</b> territory — showing someone the law is not practising it.</p>
-    <p>Model D crosses toward advice. It needs a licensed-review path and structural separation (the advocate advises; the product prepares), not just a footer.</p>`}
+    <p>Model D crosses toward advice. It needs a licensed-review path and structural separation (the legal specialist advises; the product prepares), not just a footer.</p>`}
 ];
 
 const L = [

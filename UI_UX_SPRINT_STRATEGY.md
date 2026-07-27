@@ -41,7 +41,7 @@ Current design has **3 critical issues**:
 - ❌ Mobile: message bubbles too wide, hard to read
 - ❌ Status messages (e.g., "Reviewing your situation") not translated
 
-### Advocate Onboarding (join.html)
+### Legal Specialist Onboarding (join.html)
 **Issues:**
 - ❌ Form labels/placeholders English-only
 - ❌ Validation errors in English

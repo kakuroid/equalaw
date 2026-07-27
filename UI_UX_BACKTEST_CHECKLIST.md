@@ -101,7 +101,7 @@
 
 ---
 
-## C. ADVOCATE ONBOARDING (join.html)
+## C. LEGAL SPECIALIST ONBOARDING (join.html)
 
 ### C1. Form Language Awareness
 - [ ] Page loads with detected language
