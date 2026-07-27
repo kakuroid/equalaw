@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<!-- Advocate onboarding v2.0.0 — conversational flow mirroring chatbot.html -->
+<!-- Legal Specialist onboarding v2.0.0 — conversational flow mirroring chatbot.html -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Join Equalaw | Advocate Onboarding</title>
-    <meta name="description" content="Join Equalaw as a verified advocate and receive pre-qualified legal leads delivered to your WhatsApp. No commission. Ever.">
-    <meta property="og:title" content="Join Equalaw | Advocate Onboarding">
-    <meta property="og:description" content="Join Equalaw as a verified advocate. Receive pre-qualified legal leads on WhatsApp. No commission. Ever.">
+    <title>Join Equalaw | Legal Specialist Onboarding</title>
+    <meta name="description" content="Join Equalaw as a verified legal specialist and receive pre-qualified legal leads delivered to your WhatsApp. No commission. Ever.">
+    <meta property="og:title" content="Join Equalaw | Legal Specialist Onboarding">
+    <meta property="og:description" content="Join Equalaw as a verified legal specialist. Receive pre-qualified legal leads on WhatsApp. No commission. Ever.">
     <meta property="og:url" content="https://www.equalaw.tech/join">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Join Equalaw | Advocate Onboarding">
-    <meta name="twitter:description" content="Join Equalaw as a verified advocate. Receive pre-qualified legal leads on WhatsApp. No commission. Ever.">
+    <meta name="twitter:title" content="Join Equalaw | Legal Specialist Onboarding">
+    <meta name="twitter:description" content="Join Equalaw as a verified legal specialist. Receive pre-qualified legal leads on WhatsApp. No commission. Ever.">
     <link rel="canonical" href="https://www.equalaw.tech/join">
     <link rel="icon" href="/assets/equalaw-logo-v2.svg?v=20260623" type="image/svg+xml">
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png?v=20260623">
@@ -312,7 +312,7 @@
         }
 
         function startFlow() {
-            if (typeof eqTrack === 'function') eqTrack('advocate_join_load', { utm: window.eqUtm || {} });
+            if (typeof eqTrack === 'function') eqTrack('legal_specialist_join_load', { utm: window.eqUtm || {} });
             botMsg('<p class="font-bold text-slate-900 mb-3 text-[15px]">Get pre-qualified leads.<br>Zero commission. Always.</p><div class="space-y-2 mb-3"><div class="flex items-start gap-2.5 text-[13px]"><span class="text-brand-500 font-bold mt-0.5">✓</span><span><strong>Leads sent to your WhatsApp</strong> — matched to your area</span></div><div class="flex items-start gap-2.5 text-[13px]"><span class="text-brand-500 font-bold mt-0.5">✓</span><span><strong>No commission ever</strong> — you keep 100%</span></div><div class="flex items-start gap-2.5 text-[13px]"><span class="text-brand-500 font-bold mt-0.5">✓</span><span><strong>Verified profile</strong> on Equalaw</span></div></div><p class="text-[12px] text-slate-500">Takes about 2 minutes.</p>');
             showTyping(() => {
                 botMsg('<strong>Let\'s start — what\'s your full name?</strong>');
@@ -326,7 +326,7 @@
             session.name = val.split(/\s+/).map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ');
             inputWrap.classList.add('hidden');
             userMsg(val);
-            if (typeof eqTrack === 'function') eqTrack('advocate_step_name', {});
+            if (typeof eqTrack === 'function') eqTrack('legal_specialist_step_name', {});
             step = 1;
             showTyping(() => {
                 botMsg('Hi <strong>' + DOMPurify.sanitize(session.name) + '</strong>! What\'s your <strong>WhatsApp number?</strong><br><span class="text-[12px] text-slate-500">We\'ll send leads here.</span>');
@@ -346,7 +346,7 @@
             session.phone = cleaned;
             userMsg(val.trim());
             inputWrap.classList.add('hidden');
-            if (typeof eqTrack === 'function') eqTrack('advocate_step_phone', {});
+            if (typeof eqTrack === 'function') eqTrack('legal_specialist_step_phone', {});
             step = 2;
             showTyping(() => {
                 botMsg('<strong>And your professional email?</strong>');
@@ -367,7 +367,7 @@
             userMsg(val);
             inputWrap.classList.add('hidden');
             submitEarly();
-            if (typeof eqTrack === 'function') eqTrack('advocate_lead_captured', {});
+            if (typeof eqTrack === 'function') eqTrack('legal_specialist_lead_captured', {});
             step = 3;
             updateStepper('step-practice', ['step-about']);
             setStatus('Building profile');
@@ -389,7 +389,7 @@
             }
             session.bar_state = val;
             userMsg(val);
-            if (typeof eqTrack === 'function') eqTrack('advocate_step_state', { state: val });
+            if (typeof eqTrack === 'function') eqTrack('legal_specialist_step_state', { state: val });
             step = 4;
             showTyping(() => {
                 botMsg('<strong>Bar Council Enrollment Number?</strong>');
@@ -403,7 +403,7 @@
             session.bar_state = val;
             inputWrap.classList.add('hidden');
             userMsg(val);
-            if (typeof eqTrack === 'function') eqTrack('advocate_step_state', { state: val });
+            if (typeof eqTrack === 'function') eqTrack('legal_specialist_step_state', { state: val });
             step = 4;
             showTyping(() => {
                 botMsg('<strong>Bar Council Enrollment Number?</strong>');
@@ -417,7 +417,7 @@
             session.bar_number = val.toUpperCase();
             inputWrap.classList.add('hidden');
             userMsg(val);
-            if (typeof eqTrack === 'function') eqTrack('advocate_step_enrollment', {});
+            if (typeof eqTrack === 'function') eqTrack('legal_specialist_step_enrollment', {});
             step = 5;
             showTyping(() => {
                 botMsg('<strong>How many years practising?</strong>');
@@ -428,7 +428,7 @@
         function handleExperience(val) {
             session.experience = val;
             userMsg(val);
-            if (typeof eqTrack === 'function') eqTrack('advocate_step_experience', {});
+            if (typeof eqTrack === 'function') eqTrack('legal_specialist_step_experience', {});
             step = 6;
             showTyping(() => {
                 botMsg('<strong>Which areas do you practise in?</strong><br><span class="text-[12px] text-slate-500">Select all, then Continue.</span>');
@@ -439,7 +439,7 @@
         function handleSpecializations(vals) {
             session.specializations = vals;
             userMsg(vals.join(' · '));
-            if (typeof eqTrack === 'function') eqTrack('advocate_step_specializations', { count: vals.length });
+            if (typeof eqTrack === 'function') eqTrack('legal_specialist_step_specializations', { count: vals.length });
             step = 7;
             showTyping(() => {
                 botMsg('<strong>Which cities do you serve?</strong><br><span class="text-[12px] text-slate-500">Comma-separated.</span>');
@@ -453,7 +453,7 @@
             session.cities = val.split(',').map(c => c.trim()).filter(Boolean);
             inputWrap.classList.add('hidden');
             userMsg(val);
-            if (typeof eqTrack === 'function') eqTrack('advocate_step_cities', { count: session.cities.length });
+            if (typeof eqTrack === 'function') eqTrack('legal_specialist_step_cities', { count: session.cities.length });
             step = 8;
             showTyping(() => {
                 botMsg('<strong>What languages do you work in?</strong><br><span class="text-[12px] text-slate-500">Select all, then Continue.</span>');
@@ -464,7 +464,7 @@
         function handleLanguages(vals) {
             session.languages = vals;
             userMsg(vals.join(' · '));
-            if (typeof eqTrack === 'function') eqTrack('advocate_step_languages', { count: vals.length });
+            if (typeof eqTrack === 'function') eqTrack('legal_specialist_step_languages', { count: vals.length });
             step = 9;
             updateStepper('step-pricing', ['step-about', 'step-practice']);
             setStatus('Almost done');
@@ -478,7 +478,7 @@
             const isPaid = val !== 'Free consultation';
             session.fee_type = isPaid ? 'paid' : 'free';
             userMsg(val);
-            if (typeof eqTrack === 'function') eqTrack('advocate_step_fee_type', { type: session.fee_type });
+            if (typeof eqTrack === 'function') eqTrack('legal_specialist_step_fee_type', { type: session.fee_type });
             if (isPaid) {
                 step = 9.5;
                 showTyping(() => {
@@ -522,7 +522,7 @@
         function submitFull() {
             const phId = window.posthog?.get_distinct_id?.() || null;
             if (typeof eqIdentify === 'function') {
-                eqIdentify(session.email, { name: session.name, phone: session.phone, type: 'advocate' });
+                eqIdentify(session.email, { name: session.name, phone: session.phone, type: 'legal_specialist' });
             }
             const payload = {
                 name: session.name, email: session.email, phone: session.phone,
@@ -533,7 +533,7 @@
                 pro_bono: false, bio: '', status: 'pending',
                 posthog_distinct_id: phId, utm: window.eqUtm || {}
             };
-            if (typeof eqTrack === 'function') eqTrack('advocate_application_submitted', {
+            if (typeof eqTrack === 'function') eqTrack('legal_specialist_application_submitted', {
                 specializations: session.specializations.length, cities: session.cities.length, fee_type: session.fee_type
             });
             fetch('https://keuristic.com/api/lawyers', {
@@ -553,7 +553,7 @@
                 setTimeout(() => {
                     const card = document.createElement('div');
                     card.className = 'ml-12 chat-bubble';
-                    card.innerHTML = '<div class="glass rounded-2xl p-4 border border-white/70 shadow-sm space-y-2.5"><p class="text-xs font-semibold text-slate-600">Know a colleague to join?</p><a href="https://wa.me/?text=' + encodeURIComponent('I joined Equalaw — get pre-qualified legal leads on WhatsApp, zero commission: https://equalaw.tech/join') + '" target="_blank" rel="noopener" class="wa-btn w-full flex items-center justify-center gap-2.5 text-white font-bold py-3 rounded-xl text-sm" onclick="if(typeof eqTrack=\'function\') eqTrack(\'advocate_share_click\', {})"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.12-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/></svg> Invite Colleague</a><a href="/" class="w-full flex items-center justify-center gap-2 text-brand-600 font-bold py-2.5 rounded-xl text-sm border border-brand-200 hover:bg-brand-50">Back to Equalaw →</a></div>';
+                    card.innerHTML = '<div class="glass rounded-2xl p-4 border border-white/70 shadow-sm space-y-2.5"><p class="text-xs font-semibold text-slate-600">Know a colleague to join?</p><a href="https://wa.me/?text=' + encodeURIComponent('I joined Equalaw — get pre-qualified legal leads on WhatsApp, zero commission: https://equalaw.tech/join') + '" target="_blank" rel="noopener" class="wa-btn w-full flex items-center justify-center gap-2.5 text-white font-bold py-3 rounded-xl text-sm" onclick="if(typeof eqTrack=\'function\') eqTrack(\'legal_specialist_share_click\', {})"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.12-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/></svg> Invite Colleague</a><a href="/" class="w-full flex items-center justify-center gap-2 text-brand-600 font-bold py-2.5 rounded-xl text-sm border border-brand-200 hover:bg-brand-50">Back to Equalaw →</a></div>';
                     chat.appendChild(card);
                     scrollDown();
                 }, 600);

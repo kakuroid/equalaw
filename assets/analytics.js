@@ -11,12 +11,12 @@
  *                funnel_step_timeline, funnel_step_steps_taken,
  *                funnel_step_urgency, funnel_step_documents,
  *                funnel_step_timeslot, case_secured, whatsapp_share_click
- *  join.html   → advocate_join_load, advocate_step_name, advocate_step_phone,
- *                advocate_lead_captured, advocate_step_state, advocate_step_enrollment,
- *                advocate_step_experience, advocate_step_specializations,
- *                advocate_step_cities, advocate_step_languages,
- *                advocate_step_fee_type, advocate_application_submitted,
- *                advocate_share_click
+ *  join.html   → legal_specialist_join_load, legal_specialist_step_name, legal_specialist_step_phone,
+ *                legal_specialist_lead_captured, legal_specialist_step_state, legal_specialist_step_enrollment,
+ *                legal_specialist_step_experience, legal_specialist_step_specializations,
+ *                legal_specialist_step_cities, legal_specialist_step_languages,
+ *                legal_specialist_step_fee_type, legal_specialist_application_submitted,
+ *                legal_specialist_share_click
  *  development → dev_log_view
  * ─────────────────────────────────────────────────────────────────────────
  */
@@ -90,11 +90,11 @@
 
     /* 4 ─ Meta Pixel — map to standard events where possible */
     if (typeof window.fbq === 'function') {
-      if (event === 'lead_captured' || event === 'advocate_lead_captured')
+      if (event === 'lead_captured' || event === 'legal_specialist_lead_captured')
                                          window.fbq('track', 'Lead', params);
-      else if (event === 'case_secured' || event === 'advocate_application_submitted')
+      else if (event === 'case_secured' || event === 'legal_specialist_application_submitted')
                                          window.fbq('track', 'CompleteRegistration', params);
-      else if (event === 'chatbot_load' || event === 'advocate_join_load')
+      else if (event === 'chatbot_load' || event === 'legal_specialist_join_load')
                                          window.fbq('track', 'ViewContent', params);
       else window.fbq('trackCustom', event, params);
     }

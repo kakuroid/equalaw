@@ -127,7 +127,7 @@ Target: Bangalore investor demo with fully functional language switching.
 - [ ] More languages (currently 10 supported in code, but only En + Hi fully tested)
 - [ ] Database: store leads with language preference
 - [ ] Backend API: send responses in captured language preference
-- [ ] Advocate matching by language
+- [ ] Legal Specialist matching by language
 - [ ] Chat history / case management
 
 ---
@@ -192,7 +192,7 @@ Target: Bangalore investor demo with fully functional language switching.
 equalaw/
 ├── index.html              # Landing page (English input)
 ├── chatbot.html            # Chatbot flow + lead capture
-├── join.html               # Advocate signup (separate flow)
+├── join.html               # Legal Specialist signup (separate flow)
 ├── assets/
 │   ├── i18n.js             # Language detection + switching
 │   ├── translations.json   # 65 keys × 10 languages

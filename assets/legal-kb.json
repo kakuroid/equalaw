@@ -2,7 +2,7 @@
   "meta": {
     "jurisdiction": "India",
     "version": "1.0",
-    "disclaimer": "Equalaw provides legal information and guided next steps, not legal advice. For binding advice, consult a qualified advocate or your nearest District Legal Services Authority (DLSA), which provides free legal aid to eligible citizens."
+    "disclaimer": "Equalaw provides legal information and guided next steps, not legal advice. For binding advice, consult a qualified legal specialist or your nearest District Legal Services Authority (DLSA), which provides free legal aid to eligible citizens."
   },
   "domains": [
     {
@@ -131,7 +131,7 @@
       "limitation": "No limitation — you can apply at any time, before or during a case.",
       "documents": ["Proof of identity (Aadhaar / voter ID)", "Income certificate or ration card (to show eligibility)", "Caste certificate / disability certificate if claiming that ground", "Brief written summary of your legal problem", "Any documents related to your case"],
       "document_type": "legal_aid_application",
-      "template_hint": "An application to the District Legal Services Authority stating the applicant's eligibility ground, a summary of the legal problem, and a request for free legal aid / a panel advocate."
+      "template_hint": "An application to the District Legal Services Authority stating the applicant's eligibility ground, a summary of the legal problem, and a request for free legal aid / a panel legal specialist."
     }
   ],
   "document_templates": {
@@ -141,6 +141,6 @@
     "labour_complaint": "TO THE LABOUR COMMISSIONER, {{district}}\n\nDate: {{today}}\nComplainant (Workman): {{name}}, {{address}}\nEmployer: {{employer_name}}, {{employer_address}}\n\nSubject: Complaint regarding {{grievance}}\n\n1. That I was employed as {{designation}} with the above employer from {{join_date}} at a monthly wage of Rs. {{wage}}.\n\n2. That {{facts}}.\n\n3. That the action of the employer is illegal and in violation of applicable labour law.\n\n4. Relief sought: I request your office to {{relief}} and to summon the employer for conciliation.\n\n                                                                {{name}}",
     "dv_application": "APPLICATION UNDER THE PROTECTION OF WOMEN FROM DOMESTIC VIOLENCE ACT, 2005\n(Through the Protection Officer / before the Magistrate, {{district}})\n\nDate: {{today}}\nAggrieved Person: {{name}}, {{address}}\nRespondent: {{respondent_name}}, relationship: {{relationship}}\n\n1. That the Aggrieved Person has been subjected to {{nature_of_abuse}} by the Respondent.\n\n2. Brief facts (dates and incidents):\n{{facts}}\n\n3. Reliefs sought under the Act:\n(a) A Protection Order restraining the Respondent from committing any act of domestic violence;\n(b) A Residence Order {{residence_relief}};\n(c) Monetary relief / maintenance of Rs. {{maintenance}};\n(d) Any other order this Court deems fit.\n\nNote: You are entitled to free legal aid and the assistance of a Protection Officer. Women Helpline: 181.\n\n                                                                {{name}}",
     "rti_application": "APPLICATION UNDER THE RIGHT TO INFORMATION ACT, 2005\n\nTo,\nThe Public Information Officer,\n{{department}}, {{office_address}}\n\nDate: {{today}}\n\n1. Name of applicant: {{name}}\n2. Address: {{address}}\n3. Information sought:\n{{questions}}\n\n4. Period to which the information relates: {{period}}.\n5. I am {{bpl_status}} — the prescribed fee of Rs. 10 is {{fee_status}}.\n6. I request the information be provided within 30 days as required by law.\n\n                                                                {{name}}",
-    "legal_aid_application": "APPLICATION FOR FREE LEGAL AID\nTo, The Member Secretary, District Legal Services Authority, {{district}}\n\nDate: {{today}}\n\n1. Name: {{name}}\n2. Address: {{address}}\n3. Ground of eligibility (Section 12, Legal Services Authorities Act, 1987): {{eligibility_ground}}\n4. Annual income: Rs. {{income}} (proof enclosed).\n5. Brief facts of the legal problem for which aid is sought:\n{{facts}}\n\n6. Aid requested: {{aid_requested}} (e.g., a panel advocate, drafting help, court-fee waiver).\n\nI declare the above to be true and request the Authority to provide free legal aid.\n\n                                                                {{name}}\nNALSA Helpline: 15100"
+    "legal_aid_application": "APPLICATION FOR FREE LEGAL AID\nTo, The Member Secretary, District Legal Services Authority, {{district}}\n\nDate: {{today}}\n\n1. Name: {{name}}\n2. Address: {{address}}\n3. Ground of eligibility (Section 12, Legal Services Authorities Act, 1987): {{eligibility_ground}}\n4. Annual income: Rs. {{income}} (proof enclosed).\n5. Brief facts of the legal problem for which aid is sought:\n{{facts}}\n\n6. Aid requested: {{aid_requested}} (e.g., a panel legal specialist, drafting help, court-fee waiver).\n\nI declare the above to be true and request the Authority to provide free legal aid.\n\n                                                                {{name}}\nNALSA Helpline: 15100"
   }
 }

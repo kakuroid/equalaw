@@ -175,7 +175,7 @@ language_selector_label, language_auto_detected, modal_title_error, modal_title_
 ```
 A. Landing Page → Primary Flow
 B. Chatbot Page → Language Persistence
-C. Advocate Onboarding → Form Language
+C. Legal Specialist Onboarding → Form Language
 D. Component System → CSS Verification
 E. Accessibility → A11y & ARIA
 F. Responsive Design → All Breakpoints
